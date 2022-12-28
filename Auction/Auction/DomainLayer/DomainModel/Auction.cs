@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auction
+namespace Auction.DomainLayer.DomainModel
 {
-    class Program
+    class Auction
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

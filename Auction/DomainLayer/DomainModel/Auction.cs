@@ -7,7 +7,7 @@ namespace Auction.DomainLayer.DomainModel
     using System;
 
     /// <summary>Class used to define an auction.</summary>
-    internal class Auction
+    public class Auction
     {
         /// <summary>Initializes a new instance of the <see cref="Auction" /> class.</summary>
         /// <param name="startTime">The start time.</param>

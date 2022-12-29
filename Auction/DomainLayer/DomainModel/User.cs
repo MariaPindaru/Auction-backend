@@ -12,7 +12,7 @@ namespace Auction.DomainLayer.DomainModel
     /// Enum used to define the user's role.
     ///   <br />
     /// </summary>
-    internal enum Role
+    public enum Role
     {
         /// <summary>The offerer.</summary>
         Offerer,
@@ -22,7 +22,7 @@ namespace Auction.DomainLayer.DomainModel
     }
 
     /// <summary>Class used to define a user.</summary>
-    internal class User
+    public class User
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

@@ -8,7 +8,7 @@ namespace Auction.DomainLayer.DomainModel
     using System.Linq;
 
     /// <summary>Class used to define an auction's price history.</summary>
-    internal class PriceHistory
+    public class PriceHistory
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

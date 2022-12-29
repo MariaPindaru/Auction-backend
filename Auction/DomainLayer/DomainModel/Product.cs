@@ -8,7 +8,7 @@ namespace Auction.DomainLayer.DomainModel
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>Class used to define a poduct.</summary>
-    internal class Product
+    public class Product
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

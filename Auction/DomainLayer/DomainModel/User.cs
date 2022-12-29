@@ -1,4 +1,8 @@
-﻿namespace Auction.DomainLayer.DomainModel
+﻿// <copyright file="User.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
+
+namespace Auction.DomainLayer.DomainModel
 {
     using System;
     using System.Collections.Generic;
@@ -40,10 +44,10 @@
 
         /// <summary>Gets or sets the started auctions.</summary>
         /// <value>The started auctions.</value>
-        public HashSet<Action> StartedAuctions { get; set; }
+        public HashSet<Auction> StartedAuctions { get; set; }
 
         /// <summary>Gets or sets the participant auctions.</summary>
         /// <value>The participant auctions.</value>
-        public HashSet<Action> ParticipantAuctions { get; set; }
+        public HashSet<Auction> ParticipantAuctions { get; set; }
     }
 }

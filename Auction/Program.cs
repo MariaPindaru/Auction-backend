@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Auction.DataLayer;
-
-namespace Auction
+﻿namespace Auction
 {
-    class Program
+    /// <summary>
+    /// Main program.
+    /// </summary>
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-           
         }
     }
 }

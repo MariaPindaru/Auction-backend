@@ -10,6 +10,10 @@ namespace Auction.DomainLayer.DomainModel
     /// <summary>Class used to define an auction's price history.</summary>
     internal class PriceHistory
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        /// <value>The identifier.</value>
+        public int Id { get; set; }
+
         /// <summary>The history</summary>
         private readonly HashSet<double> history;
 

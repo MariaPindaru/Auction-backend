@@ -31,5 +31,29 @@ namespace Auction.DataLayer
         /// The categories.
         /// </value>
         public virtual DbSet<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>
+        /// The users.
+        /// </value>
+        public virtual DbSet<User> Users { get; set; }
+
+        /// <summary>
+        /// Gets or sets the auctions.
+        /// </summary>
+        /// <value>
+        /// The auctions.
+        /// </value>
+        public virtual DbSet<Auction> Auctions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the price histories.
+        /// </summary>
+        /// <value>
+        /// The price histories.
+        /// </value>
+        public virtual DbSet<PriceHistory> PriceHistories { get; set; }
     }
 }

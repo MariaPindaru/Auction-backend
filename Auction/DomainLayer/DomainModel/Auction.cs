@@ -24,6 +24,10 @@ namespace Auction.DomainLayer.DomainModel
             this.PriceHistory = new PriceHistory(initialPrice);
         }
 
+        /// <summary>Gets or sets the identifier.</summary>
+        /// <value>The identifier.</value>
+        public int Id { get; set; }
+
         /// <summary>Gets or sets the offerer.</summary>
         /// <value>The offerer.</value>
         public User Offerer { get; set; }

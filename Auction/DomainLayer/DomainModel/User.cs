@@ -26,6 +26,7 @@ namespace Auction.DomainLayer.DomainModel
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
@@ -36,10 +37,14 @@ namespace Auction.DomainLayer.DomainModel
 
         /// <summary>Gets or sets the role.</summary>
         /// <value>The role.</value>
+        [Required]
+        [Range(0, 1)]
         public Role Role { get; set; }
 
         /// <summary>Gets the score.</summary>
         /// <value>The score.</value>
+        [Required]
+        [Range(0.0f, 100.0f)]
         public float Score { get; }
 
         /// <summary>Gets or sets the started auctions.</summary>

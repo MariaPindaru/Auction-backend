@@ -47,13 +47,5 @@ namespace Auction.DataLayer
         /// The auctions.
         /// </value>
         public virtual DbSet<Auction> Auctions { get; set; }
-
-        /// <summary>
-        /// Gets or sets the price histories.
-        /// </summary>
-        /// <value>
-        /// The price histories.
-        /// </value>
-        public virtual DbSet<PriceHistory> PriceHistories { get; set; }
     }
 }

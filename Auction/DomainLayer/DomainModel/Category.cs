@@ -12,6 +12,7 @@ namespace Auction.DomainLayer.DomainModel
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the name.</summary>

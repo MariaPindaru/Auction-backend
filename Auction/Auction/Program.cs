@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Auction.DataLayer;
 
 namespace Auction
 {
@@ -10,6 +11,7 @@ namespace Auction
     {
         static void Main(string[] args)
         {
+           
         }
     }
 }

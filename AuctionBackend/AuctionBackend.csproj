@@ -159,14 +159,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataLayer\AppContext.cs" />
-    <Compile Include="DataLayer\DAL\BaseRepository.cs" />
-    <Compile Include="DataLayer\DAL\CategoryRepository.cs" />
-    <Compile Include="DataLayer\DAL\Interfaces\ICategoryRepository.cs" />
-    <Compile Include="DataLayer\DAL\Interfaces\IRepository.cs" />
-    <Compile Include="DomainLayer\BL\BaseService.cs" />
-    <Compile Include="DomainLayer\BL\CategoryService.cs" />
-    <Compile Include="DomainLayer\BL\Interfaces\ICategoryService.cs" />
-    <Compile Include="DomainLayer\BL\Interfaces\IService.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Impl\AuctionRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Impl\BaseRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Impl\CategoryRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IAuctionRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IProductRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IUserRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Impl\ProductRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Impl\UserRepository.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\AuctionService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\BaseService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\CategoryService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\ProductService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\UserService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\IAuctionService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\ICategoryService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\IProductService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\IService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\IUserService.cs" />
     <Compile Include="DomainLayer\DomainModel\Auction.cs" />
     <Compile Include="DomainLayer\DomainModel\Bid.cs" />
     <Compile Include="DomainLayer\DomainModel\Category.cs" />

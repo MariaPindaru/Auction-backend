@@ -7,6 +7,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Currency enum.
@@ -44,6 +45,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the offerer.</summary>
@@ -92,13 +94,12 @@ namespace AuctionBackend.DomainLayer.DomainModel
         public bool IsFinished { get; set; }
 
         /// <summary>
-        /// Gets the bid history.
+        /// Gets or sets the bid history.
         /// </summary>
         /// <value>
         /// The bid history.
         /// </value>
-        [Required]
-        private IList<Bid> BidHistory { get; }
+        private IList<Bid> BidHistory { get; set; }
 
         /// <summary>
         /// Adds to bid history.

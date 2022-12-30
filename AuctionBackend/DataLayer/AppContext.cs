@@ -47,5 +47,13 @@ namespace AuctionBackend.DataLayer
         /// The auctions.
         /// </value>
         public virtual DbSet<Auction> Auctions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the bids.
+        /// </summary>
+        /// <value>
+        /// The bids.
+        /// </value>
+        public virtual DbSet<Bid> Bids { get; set; }
     }
 }

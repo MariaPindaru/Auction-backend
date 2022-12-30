@@ -7,6 +7,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Enum used to define the user's role.
@@ -30,13 +31,13 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// </summary>
         public User()
         {
-            this.StartedAuctions = new HashSet<Auction>();
-            this.ParticipantAuctions = new HashSet<Auction>();
+            this.AuctionHistory = new HashSet<Auction>();
         }
 
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
@@ -59,10 +60,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
 
         /// <summary>Gets or sets the started auctions.</summary>
         /// <value>The started auctions.</value>
-        public ICollection<Auction> StartedAuctions { get; set; }
-
-        /// <summary>Gets or sets the participant auctions.</summary>
-        /// <value>The participant auctions.</value>
-        public ICollection<Auction> ParticipantAuctions { get; set; }
+        public ICollection<Auction> AuctionHistory { get; set; }
     }
 }

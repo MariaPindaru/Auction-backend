@@ -6,6 +6,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>Class used to define a category.</summary>
     public class Category
@@ -22,6 +23,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the name.</summary>

@@ -26,6 +26,14 @@ namespace AuctionBackend.DomainLayer.DomainModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the parent.
+        /// </summary>
+        /// <value>
+        /// The parent.
+        /// </value>
+        public Category Parent { get; set; }
+
         /// <summary>Gets or sets the name.</summary>
         /// <value>The name.</value>
         [Required]
@@ -34,6 +42,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
 
         /// <summary>Gets or sets the children.</summary>
         /// <value>The parents.</value>
+        [InverseProperty("Parent")]
         public virtual ICollection<Category> Children { get; set; }
 
         /// <summary>Gets or sets the products.</summary>

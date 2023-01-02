@@ -27,6 +27,21 @@
                 .Index(t => t.Product_Id);
             
             CreateTable(
+                "dbo.Bids",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Bidder_Id = c.Int(nullable: false),
+                        Auction_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Users", t => t.Bidder_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Auctions", t => t.Auction_Id)
+                .Index(t => t.Bidder_Id)
+                .Index(t => t.Auction_Id);
+            
+            CreateTable(
                 "dbo.Users",
                 c => new
                     {
@@ -53,23 +68,11 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 30),
-                        Category_Id = c.Int(),
+                        Parent_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Categories", t => t.Category_Id)
-                .Index(t => t.Category_Id);
-            
-            CreateTable(
-                "dbo.Bids",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Bidder_Id = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.Bidder_Id)
-                .Index(t => t.Bidder_Id);
+                .ForeignKey("dbo.Categories", t => t.Parent_Id)
+                .Index(t => t.Parent_Id);
             
             CreateTable(
                 "dbo.CategoryProducts",
@@ -88,23 +91,25 @@
         
         public override void Down()
         {
-            DropForeignKey("dbo.Bids", "Bidder_Id", "dbo.Users");
             DropForeignKey("dbo.Auctions", "Product_Id", "dbo.Products");
             DropForeignKey("dbo.CategoryProducts", "Product_Id", "dbo.Products");
             DropForeignKey("dbo.CategoryProducts", "Category_Id", "dbo.Categories");
-            DropForeignKey("dbo.Categories", "Category_Id", "dbo.Categories");
+            DropForeignKey("dbo.Categories", "Parent_Id", "dbo.Categories");
             DropForeignKey("dbo.Auctions", "Offerer_Id", "dbo.Users");
+            DropForeignKey("dbo.Bids", "Auction_Id", "dbo.Auctions");
+            DropForeignKey("dbo.Bids", "Bidder_Id", "dbo.Users");
             DropIndex("dbo.CategoryProducts", new[] { "Product_Id" });
             DropIndex("dbo.CategoryProducts", new[] { "Category_Id" });
+            DropIndex("dbo.Categories", new[] { "Parent_Id" });
+            DropIndex("dbo.Bids", new[] { "Auction_Id" });
             DropIndex("dbo.Bids", new[] { "Bidder_Id" });
-            DropIndex("dbo.Categories", new[] { "Category_Id" });
             DropIndex("dbo.Auctions", new[] { "Product_Id" });
             DropIndex("dbo.Auctions", new[] { "Offerer_Id" });
             DropTable("dbo.CategoryProducts");
-            DropTable("dbo.Bids");
             DropTable("dbo.Categories");
             DropTable("dbo.Products");
             DropTable("dbo.Users");
+            DropTable("dbo.Bids");
             DropTable("dbo.Auctions");
         }
     }

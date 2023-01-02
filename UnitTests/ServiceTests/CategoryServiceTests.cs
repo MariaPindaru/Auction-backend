@@ -102,5 +102,82 @@ namespace UnitTests.ServiceTests
 
             Assert.IsFalse(result.IsValid);
         }
+
+
+        [Test]
+        public void TestUpdateValidCategory()
+        {
+            this.category.Id = 1;
+            this.category.Name = "ValidName";
+
+            using (mocks.Record())
+            {
+                categoryRepository.Expect(repo => repo.Update(this.category));
+            }
+
+            ValidationResult result = categoryService.Update(this.category);
+
+            Assert.IsTrue(result.IsValid);
+        }
+
+        [Test]
+        public void TestUpdateCategoryWithNullName()
+        {
+            this.category.Name = null;
+
+            using (mocks.Record())
+            {
+                categoryRepository.Expect(repo => repo.Update(this.category));
+            }
+
+            ValidationResult result = categoryService.Update(this.category);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        [Test]
+        public void TestUpdateCategoryWithShortName()
+        {
+            this.category.Name = "E";
+
+            using (mocks.Record())
+            {
+                categoryRepository.Expect(repo => repo.Update(this.category));
+            }
+
+            ValidationResult result = categoryService.Update(this.category);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        [Test]
+        public void TestUpdateCategoryWithLongName()
+        {
+            string longString = new string('*', 31);
+            this.category.Name = longString;
+
+            using (mocks.Record())
+            {
+                categoryRepository.Expect(repo => repo.Update(this.category));
+            }
+
+            ValidationResult result = categoryService.Update(this.category);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        [Test]
+        public void TestDeleteValidCategory()
+        {
+            this.category.Id = 1;
+            this.category.Name = "ValidName";
+
+            using (mocks.Record())
+            {
+                categoryRepository.Expect(repo => repo.Delete(this.category));
+            }
+
+            categoryService.Delete(this.category);
+        }
     }
 }

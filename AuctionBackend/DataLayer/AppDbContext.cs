@@ -73,16 +73,15 @@ namespace AuctionBackend.DataLayer
         /// </remarks>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>()
-                .HasMany(p => p.Children)
-                .WithMany()
-                .Map(m =>
-                {
-                    m.MapLeftKey("CategoryParentId");
-                    m.MapRightKey("CategoryChildId");
-                    m.ToTable("CategoryChildCategory");
-                });
-
+            //modelBuilder.Entity<Category>()
+            //    .HasMany(p => p.Children)
+            //    .WithMany()
+            //    .Map(m =>
+            //    {
+            //        m.MapLeftKey("CategoryParentId");
+            //        m.MapRightKey("CategoryChildId");
+            //        m.ToTable("CategoryChildCategory");
+            //    });
         }
     }
 }

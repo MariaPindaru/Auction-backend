@@ -22,7 +22,7 @@ namespace AuctionBackend
             var kernel = Injector.Kernel;
             var categoryService = kernel.Get<ICategoryService>();
 
-            InsertCategory(categoryService);
+            //InsertCategory(categoryService);
 
             Console.ReadKey(true);
         }

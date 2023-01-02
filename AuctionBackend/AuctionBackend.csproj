@@ -189,33 +189,9 @@
     <Compile Include="DomainLayer\DomainModel\Validators\CategoryValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\ProductValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserValidator.cs" />
-    <Compile Include="Migrations\202212302245541_Initial.cs" />
-    <Compile Include="Migrations\202212302245541_Initial.designer.cs">
-      <DependentUpon>202212302245541_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212302249430_PrimaryKeyAutoIncrement.cs" />
-    <Compile Include="Migrations\202212302249430_PrimaryKeyAutoIncrement.designer.cs">
-      <DependentUpon>202212302249430_PrimaryKeyAutoIncrement.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212302254286_BidRemoveNullBidder.cs" />
-    <Compile Include="Migrations\202212302254286_BidRemoveNullBidder.designer.cs">
-      <DependentUpon>202212302254286_BidRemoveNullBidder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301021423048_UpdateCategoryEntity.cs" />
-    <Compile Include="Migrations\202301021423048_UpdateCategoryEntity.designer.cs">
-      <DependentUpon>202301021423048_UpdateCategoryEntity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301021427188_UpdateCategoryRelatedTable.cs" />
-    <Compile Include="Migrations\202301021427188_UpdateCategoryRelatedTable.designer.cs">
-      <DependentUpon>202301021427188_UpdateCategoryRelatedTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301021643301_UpdateCategory.cs" />
-    <Compile Include="Migrations\202301021643301_UpdateCategory.designer.cs">
-      <DependentUpon>202301021643301_UpdateCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301021730275_UpdateEntitites.cs" />
-    <Compile Include="Migrations\202301021730275_UpdateEntitites.designer.cs">
-      <DependentUpon>202301021730275_UpdateEntitites.cs</DependentUpon>
+    <Compile Include="Migrations\202301022235172_Initial.cs" />
+    <Compile Include="Migrations\202301022235172_Initial.designer.cs">
+      <DependentUpon>202301022235172_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -245,26 +221,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212302245541_Initial.resx">
-      <DependentUpon>202212302245541_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212302249430_PrimaryKeyAutoIncrement.resx">
-      <DependentUpon>202212302249430_PrimaryKeyAutoIncrement.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212302254286_BidRemoveNullBidder.resx">
-      <DependentUpon>202212302254286_BidRemoveNullBidder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301021423048_UpdateCategoryEntity.resx">
-      <DependentUpon>202301021423048_UpdateCategoryEntity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301021427188_UpdateCategoryRelatedTable.resx">
-      <DependentUpon>202301021427188_UpdateCategoryRelatedTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301021643301_UpdateCategory.resx">
-      <DependentUpon>202301021643301_UpdateCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301021730275_UpdateEntitites.resx">
-      <DependentUpon>202301021730275_UpdateEntitites.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202301022235172_Initial.resx">
+      <DependentUpon>202301022235172_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

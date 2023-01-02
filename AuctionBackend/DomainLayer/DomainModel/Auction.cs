@@ -116,7 +116,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
             var previousPrice = this.StartPrice;
             if (this.BidHistory.Count > 0)
             {
-                previousPrice = BidHistory[this.BidHistory.Count - 1].Price;
+                previousPrice = this.BidHistory[this.BidHistory.Count - 1].Price;
             }
 
             if (previousPrice * 3 < price)

@@ -1,14 +1,18 @@
-﻿using AuctionBackend.DataLayer.DAL.Interfaces;
-using AuctionBackend.DomainLayer.DomainModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="AuctionRepository.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.DataLayer.DAL
 {
-    class AuctionRepository : BaseRepository<Auction>, IAuctionRepository
+    using AuctionBackend.DataLayer.DAL.Interfaces;
+    using AuctionBackend.DomainLayer.DomainModel;
+
+    /// <summary>
+    /// AuctionRepository.
+    /// </summary>
+    /// <seealso cref="AuctionBackend.DataLayer.DAL.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
+    /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IAuctionRepository" />
+    public class AuctionRepository : BaseRepository<Auction>, IAuctionRepository
     {
     }
 }

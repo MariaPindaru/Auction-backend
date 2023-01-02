@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace AuctionBackend.Startup
 {
-    class Injector
+    public class Injector
     {
         private static IKernel _kernel;
         public static IKernel Kernel

@@ -60,6 +60,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
 
         /// <summary>Gets or sets the started auctions.</summary>
         /// <value>The started auctions.</value>
-        public ICollection<Auction> AuctionHistory { get; set; }
+        public virtual ICollection<Auction> AuctionHistory { get; set; }
     }
 }

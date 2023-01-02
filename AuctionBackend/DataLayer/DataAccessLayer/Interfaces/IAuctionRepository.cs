@@ -1,13 +1,16 @@
-﻿using AuctionBackend.DomainLayer.DomainModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="IAuctionRepository.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.DataLayer.DAL.Interfaces
 {
-    interface IAuctionRepository : IRepository<Auction>
+    using AuctionBackend.DomainLayer.DomainModel;
+
+    /// <summary>
+    /// IAuctionRepository.
+    /// </summary>
+    /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
+    public interface IAuctionRepository : IRepository<Auction>
     {
     }
 }

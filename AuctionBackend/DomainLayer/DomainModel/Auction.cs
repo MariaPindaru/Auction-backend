@@ -99,7 +99,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <value>
         /// The bid history.
         /// </value>
-        private IList<Bid> BidHistory { get; set; }
+        public virtual IList<Bid> BidHistory { get; set; }
 
         /// <summary>
         /// Adds to bid history.
@@ -116,7 +116,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
             var previousPrice = this.StartPrice;
             if (this.BidHistory.Count > 0)
             {
-                previousPrice = this.BidHistory[this.BidHistory.Count - 1].Price;
+                previousPrice = BidHistory[this.BidHistory.Count - 1].Price;
             }
 
             if (previousPrice * 3 < price)

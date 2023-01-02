@@ -1,27 +1,49 @@
-﻿using AuctionBackend.DataLayer.DAL.Interfaces;
-using AuctionBackend.DomainLayer.BL.Interfaces;
-using FluentValidation;
-using FluentValidation.Results;
-using System.Collections.Generic;
+﻿// <copyright file="BaseService.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.DomainLayer.BL
 {
-    public abstract class BaseService<T, U> : IService<T>
+    using System.Collections.Generic;
+    using AuctionBackend.DataLayer.DAL.Interfaces;
+    using AuctionBackend.DomainLayer.BL.Interfaces;
+    using FluentValidation;
+    using FluentValidation.Results;
+    using log4net;
+
+    /// <summary>
+    /// BaseService.
+    /// </summary>
+    /// <typeparam name="T"> Generic type T. </typeparam>
+    /// <typeparam name="TU"> Generic type U. </typeparam>
+    /// <seealso cref="AuctionBackend.DomainLayer.BL.Interfaces.IService&lt;T&gt;" />
+    public abstract class BaseService<T, TU> : IService<T>
         where T : class
-        where U : IRepository<T>
+        where TU : IRepository<T>
     {
-        protected U _repository;
-        protected IValidator<T> _validator;
+        /// <summary>
+        /// The repository.
+        /// </summary>
+        protected TU repository;
 
         /// <summary>
-        /// Ctor for base service
+        /// The validator.
         /// </summary>
-        /// <param name="repository">The actual repository that will fit into this class</param>
-        /// <param name="validator">The fluent validation validator</param>
-        public BaseService(U repository, IValidator<T> validator)
+        protected IValidator<T> validator;
+
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(TU));
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseService{T, TU}"/> class.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
+        /// <param name="validator">The validator.</param>
+        public BaseService(TU repository, IValidator<T> validator)
         {
-            _repository = repository;
-            _validator = validator;
+            this.repository = repository;
+            this.validator = validator;
+
+            Logger.Info("Service created.");
         }
 
         /// <summary>Inserts the specified entity.</summary>
@@ -31,21 +53,37 @@ namespace AuctionBackend.DomainLayer.BL
         /// </returns>
         public ValidationResult Insert(T entity)
         {
-            var result = _validator.Validate(entity);
+            var result = this.validator.Validate(entity);
             if (result.IsValid)
             {
-                _repository.Insert(entity);
+                this.repository.Insert(entity);
+                Logger.Info($"An object of type {typeof(T).Name} has been inserted.");
+            }
+            else
+            {
+                IList<ValidationFailure> failures = result.Errors;
+                Logger.Error($"The object of type {typeof(T).Name} is not valid. The following errors occurred: {failures}");
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>The validation result.</returns>
         public ValidationResult Update(T entity)
         {
-            var result = _validator.Validate(entity);
+            var result = this.validator.Validate(entity);
             if (result.IsValid)
             {
-                _repository.Update(entity);
+                this.repository.Update(entity);
+            }
+            else
+            {
+                IList<ValidationFailure> failures = result.Errors;
+                Logger.Error($"The object of type {typeof(T).Name} is not valid. The following errors occurred: {failures}");
             }
 
             return result;
@@ -55,17 +93,26 @@ namespace AuctionBackend.DomainLayer.BL
         /// <param name="entity">The entity to be deleted.</param>
         public void Delete(T entity)
         {
-            _repository.Delete(entity);
+            this.repository.Delete(entity);
         }
 
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>The object found.</returns>
         public T GetByID(object id)
         {
-            return _repository.GetByID(id);
+            return this.repository.GetByID(id);
         }
 
+        /// <summary>
+        /// Gets all.
+        /// </summary>
+        /// <returns>List of objects found.</returns>
         public IEnumerable<T> GetAll()
         {
-            return _repository.Get();
+            return this.repository.Get();
         }
     }
 }

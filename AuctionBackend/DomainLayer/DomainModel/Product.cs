@@ -40,6 +40,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the categories.</summary>
         /// <value>The categories.</value>
         [Required]
-        public ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }

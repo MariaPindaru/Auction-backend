@@ -5,14 +5,14 @@
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<AuctionBackend.DataLayer.AppContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AuctionBackend.DataLayer.AppDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(AuctionBackend.DataLayer.AppContext context)
+        protected override void Seed(AuctionBackend.DataLayer.AppDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

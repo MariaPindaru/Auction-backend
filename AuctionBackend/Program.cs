@@ -29,21 +29,54 @@ namespace AuctionBackend
 
         private static void InsertCategory(ICategoryService categoryService)
         {
+
+
+
+
             Category category = new Category
             {
-                Name = "Category name"
+                Name = "ChildCategory1",
             };
-            
-            Product product = new Product
+
+            Category category2 = new Category
             {
-                Name = "Product name",
-                Description = "Product description",
-                Categories = new HashSet<Category> { category }
+                Name = "ChildCategory2",
             };
 
-            var validationResult = categoryService.Insert(category);
+            Category parentCategory = new Category
+            {
+                Name = "ParentCategory2",
+                Children = new HashSet<Category> { category, category2 },
+            };
 
-            Console.WriteLine(validationResult.IsValid);
+            var r = categoryService.Insert(parentCategory);
+            Console.WriteLine(r.IsValid);
+            //Product product = new Product
+            //{
+            //    Name = "Product name",
+            //    Description = "Product description",
+            //};
+
+
+            //var validationResult = categoryService.Insert(parentCategory);
+            //validationResult = categoryService.Insert(category);
+
+            //var l = categoryService.GetCategoriesWithChildren();
+            ////parentCategory = categoryService.GetByID(16);
+            //var category = categoryService.GetByID(17);
+
+            //foreach (var e in l)
+            //{
+            //    e.Children.Add(category);
+            //    var validationResult = categoryService.Update(e);
+            //    validationResult = categoryService.Update(category);
+            //    Console.WriteLine(validationResult.IsValid);
+            //}
+
+            //parentCategory.Children.Add(category);
+
+
+
         }
     }
 }

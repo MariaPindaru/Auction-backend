@@ -17,7 +17,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         public Category()
         {
             this.Products = new HashSet<Product>();
-            this.Parents = new HashSet<Category>();
+            this.Children = new HashSet<Category>();
         }
 
         /// <summary>Gets or sets the identifier.</summary>
@@ -32,12 +32,12 @@ namespace AuctionBackend.DomainLayer.DomainModel
         [StringLength(30, MinimumLength = 2)]
         public string Name { get; set; }
 
-        /// <summary>Gets or sets the parents.</summary>
+        /// <summary>Gets or sets the children.</summary>
         /// <value>The parents.</value>
-        public HashSet<Category> Parents { get; set; }
+        public virtual ICollection<Category> Children { get; set; }
 
         /// <summary>Gets or sets the products.</summary>
         /// <value>The products.</value>
-        public HashSet<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

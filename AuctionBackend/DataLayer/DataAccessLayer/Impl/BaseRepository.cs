@@ -1,21 +1,39 @@
-﻿using AuctionBackend.DataLayer.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Linq.Expressions;
+﻿// <copyright file="BaseRepository.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.DataLayer.DAL
 {
-    abstract class BaseRepository<T> : IRepository<T>
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using AuctionBackend.DataLayer.DAL.Interfaces;
+
+    /// <summary>
+    /// BaseRepository.
+    /// </summary>
+    /// <typeparam name="T">Generic type T.</typeparam>
+    /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IRepository&lt;T&gt;" />
+    public abstract class BaseRepository<T> : IRepository<T>
         where T : class
     {
+        /// <summary>
+        /// Gets the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <param name="includeProperties">The include properties.</param>
+        /// <returns>
+        /// Collection of entities.
+        /// </returns>
         public virtual IEnumerable<T> Get(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "")
         {
-            using (var ctx = new AppContext())
+            using (AppDbContext ctx = new AppDbContext())
             {
                 var dbSet = ctx.Set<T>();
 
@@ -43,9 +61,13 @@ namespace AuctionBackend.DataLayer.DAL
             }
         }
 
+        /// <summary>
+        /// Inserts the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public virtual void Insert(T entity)
         {
-            using (var ctx = new AppContext())
+            using (var ctx = new AppDbContext())
             {
                 var dbSet = ctx.Set<T>();
                 dbSet.Add(entity);
@@ -54,9 +76,13 @@ namespace AuctionBackend.DataLayer.DAL
             }
         }
 
+        /// <summary>
+        /// Updates the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
         public virtual void Update(T item)
         {
-            using (var ctx = new AppContext())
+            using (var ctx = new AppDbContext())
             {
                 var dbSet = ctx.Set<T>();
                 dbSet.Attach(item);
@@ -66,14 +92,22 @@ namespace AuctionBackend.DataLayer.DAL
             }
         }
 
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
         public virtual void Delete(object id)
         {
-            Delete(GetByID(id));
+            this.Delete(this.GetByID(id));
         }
 
+        /// <summary>
+        /// Deletes the specified entity.
+        /// </summary>
+        /// <param name="entityToDelete"> entity to delete. </param>
         public virtual void Delete(T entityToDelete)
         {
-            using (var ctx = new AppContext())
+            using (var ctx = new AppDbContext())
             {
                 var dbSet = ctx.Set<T>();
 
@@ -88,9 +122,16 @@ namespace AuctionBackend.DataLayer.DAL
             }
         }
 
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// The object.
+        /// </returns>
         public virtual T GetByID(object id)
         {
-            using (var ctx = new AppContext())
+            using (var ctx = new AppDbContext())
             {
                 return ctx.Set<T>().Find(id);
             }

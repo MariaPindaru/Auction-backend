@@ -10,8 +10,6 @@ namespace AuctionBackend.Startup
     {
         public override void Load()
         {
-            // Here I should have a switch to change impl (Mocks / Real)
-
             LoadRepositoryLayer();
             LoadServicesLayer();
         }

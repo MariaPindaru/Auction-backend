@@ -1,17 +1,24 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using Ninject;
-using Rhino.Mocks;
-using AuctionBackend.DomainLayer.DomainModel;
-using FluentValidation.Results;
-using AuctionBackend.Startup;
-using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
-using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+﻿// <copyright file="CategoryServiceTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ServiceTests
 {
-    class CategoryServiceTests
+    using System.Collections.Generic;
+    using System.Linq;
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using AuctionBackend.Startup;
+    using FluentValidation.Results;
+    using Ninject;
+    using NUnit.Framework;
+    using Rhino.Mocks;
+
+    /// <summary>
+    /// Category service tests.
+    /// </summary>
+    internal class CategoryServiceTests
     {
         private IKernel kernel;
         private ICategoryService categoryService;
@@ -21,6 +28,9 @@ namespace UnitTests.ServiceTests
 
         private Category category;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -28,14 +38,17 @@ namespace UnitTests.ServiceTests
             this.kernel = Injector.Kernel;
 
             this.mocks = new MockRepository();
-            this.categoryRepository = mocks.StrictMock<ICategoryRepository>();
+            this.categoryRepository = this.mocks.StrictMock<ICategoryRepository>();
 
-            this.kernel.Rebind<ICategoryRepository>().ToConstant(categoryRepository);
-            this.categoryService = kernel.Get<ICategoryService>();
+            this.kernel.Rebind<ICategoryRepository>().ToConstant(this.categoryRepository);
+            this.categoryService = this.kernel.Get<ICategoryService>();
 
             this.category = new Category();
         }
 
+        /// <summary>
+        /// Tests the add valid category.
+        /// </summary>
         [Test]
         public void TestAddValidCategory()
         {
@@ -43,160 +56,189 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Insert(this.category));
+                this.categoryRepository.Expect(repo => repo.Insert(this.category));
             }
 
-            ValidationResult result = categoryService.Insert(this.category);
+            ValidationResult result = this.categoryService.Insert(this.category);
 
             Assert.IsTrue(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the name of the add category with null.
+        /// </summary>
         [Test]
         public void TestAddCategoryWithNullName()
         {
             this.category.Name = null;
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Insert(this.category));
+                this.categoryRepository.Expect(repo => repo.Insert(this.category));
             }
 
-            ValidationResult result = categoryService.Insert(this.category);
+            ValidationResult result = this.categoryService.Insert(this.category);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the short name of the add category with.
+        /// </summary>
         [Test]
         public void TestAddCategoryWithShortName()
         {
             this.category.Name = "E";
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Insert(this.category));
+                this.categoryRepository.Expect(repo => repo.Insert(this.category));
             }
 
-            ValidationResult result = categoryService.Insert(this.category);
+            ValidationResult result = this.categoryService.Insert(this.category);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the long name of the add category with.
+        /// </summary>
         [Test]
         public void TestAddCategoryWithLongName()
         {
             string longString = new string('*', 31);
             this.category.Name = longString;
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Insert(this.category));
+                this.categoryRepository.Expect(repo => repo.Insert(this.category));
             }
 
-            ValidationResult result = categoryService.Insert(this.category);
+            ValidationResult result = this.categoryService.Insert(this.category);
 
             Assert.IsFalse(result.IsValid);
         }
 
-
+        /// <summary>
+        /// Tests the update valid category.
+        /// </summary>
         [Test]
         public void TestUpdateValidCategory()
         {
             this.category.Id = 1;
             this.category.Name = "ValidName";
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Update(this.category));
+                this.categoryRepository.Expect(repo => repo.Update(this.category));
             }
 
-            ValidationResult result = categoryService.Update(this.category);
+            ValidationResult result = this.categoryService.Update(this.category);
 
             Assert.IsTrue(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the name of the update category with null.
+        /// </summary>
         [Test]
         public void TestUpdateCategoryWithNullName()
         {
             this.category.Name = null;
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Update(this.category));
+                this.categoryRepository.Expect(repo => repo.Update(this.category));
             }
 
-            ValidationResult result = categoryService.Update(this.category);
+            ValidationResult result = this.categoryService.Update(this.category);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the short name of the update category with.
+        /// </summary>
         [Test]
         public void TestUpdateCategoryWithShortName()
         {
             this.category.Name = "E";
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Update(this.category));
+                this.categoryRepository.Expect(repo => repo.Update(this.category));
             }
 
-            ValidationResult result = categoryService.Update(this.category);
+            ValidationResult result = this.categoryService.Update(this.category);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the long name of the update category with.
+        /// </summary>
         [Test]
         public void TestUpdateCategoryWithLongName()
         {
             string longString = new string('*', 31);
             this.category.Name = longString;
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Update(this.category));
+                this.categoryRepository.Expect(repo => repo.Update(this.category));
             }
 
-            ValidationResult result = categoryService.Update(this.category);
+            ValidationResult result = this.categoryService.Update(this.category);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the delete valid category.
+        /// </summary>
         [Test]
         public void TestDeleteValidCategory()
         {
             this.category.Id = 1;
             this.category.Name = "ValidName";
 
-            using (mocks.Record())
+            using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Delete(this.category));
+                this.categoryRepository.Expect(repo => repo.Delete(this.category));
             }
 
-            categoryService.Delete(this.category);
+            this.categoryService.Delete(this.category);
         }
 
+        /// <summary>
+        /// Tests the get categories.
+        /// </summary>
         [Test]
         public void TestGetCategories()
         {
             using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.Get()).Return(new HashSet<Category> { this.category });
+                this.categoryRepository.Expect(repo => repo.Get()).Return(new HashSet<Category> { this.category });
             }
 
-            var products = categoryService.GetAll();
+            var products = this.categoryService.GetAll();
 
             Assert.AreEqual(products.ToList().Count, 1);
             Assert.AreEqual(products.ToList().First(), this.category);
         }
 
+        /// <summary>
+        /// Tests the get category by identifier.
+        /// </summary>
         [Test]
         public void TestGetCategoryById()
         {
             using (this.mocks.Record())
             {
-                categoryRepository.Expect(repo => repo.GetByID(10)).Return(this.category);
+                this.categoryRepository.Expect(repo => repo.GetByID(10)).Return(this.category);
             }
 
-            var category = categoryService.GetByID(10);
+            var category = this.categoryService.GetByID(10);
             Assert.AreEqual(category, this.category);
         }
     }

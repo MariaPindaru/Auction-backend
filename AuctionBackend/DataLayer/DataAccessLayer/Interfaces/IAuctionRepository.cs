@@ -6,7 +6,6 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
     using AuctionBackend.DomainLayer.DomainModel;
 
-
     /// <summary>
     /// IAuctionRepository.
     /// </summary>

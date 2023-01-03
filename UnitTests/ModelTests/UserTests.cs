@@ -1,15 +1,25 @@
-﻿using AuctionBackend.DomainLayer.DomainModel;
-using AuctionBackend.DomainLayer.DomainModel.Validators;
-using FluentValidation.TestHelper;
-using NUnit.Framework;
+﻿// <copyright file="UserTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ModelTests
 {
-    class UserTests
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.DomainModel.Validators;
+    using FluentValidation.TestHelper;
+    using NUnit.Framework;
+
+    /// <summary>
+    /// UserTests.
+    /// </summary>
+    internal class UserTests
     {
         private User user;
         private UserValidator userValidator;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -18,10 +28,13 @@ namespace UnitTests.ModelTests
             {
                 Name = "Username",
                 Role = Role.Bidder,
-                Score = 30.43f
+                Score = 30.43f,
             };
         }
 
+        /// <summary>
+        /// Tests the valid user.
+        /// </summary>
         [Test]
         public void TestValidUser()
         {
@@ -29,6 +42,9 @@ namespace UnitTests.ModelTests
             result.ShouldNotHaveAnyValidationErrors();
         }
 
+        /// <summary>
+        /// Tests the null name.
+        /// </summary>
         [Test]
         public void TestNullName()
         {
@@ -37,6 +53,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(user => user.Name);
         }
 
+        /// <summary>
+        /// Tests the short name.
+        /// </summary>
         [Test]
         public void TestShortName()
         {
@@ -45,6 +64,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(user => user.Name);
         }
 
+        /// <summary>
+        /// Tests the long name.
+        /// </summary>
         [Test]
         public void TestLongName()
         {
@@ -55,7 +77,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(user => user.Name);
         }
 
-
+        /// <summary>
+        /// Tests the invalid role.
+        /// </summary>
         [Test]
         public void TestInvalidRole()
         {
@@ -65,6 +89,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(user => user.Role);
         }
 
+        /// <summary>
+        /// Tests the negative score.
+        /// </summary>
         [Test]
         public void TestNegativeScore()
         {
@@ -74,6 +101,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(user => user.Score);
         }
 
+        /// <summary>
+        /// Tests the out of range score.
+        /// </summary>
         [Test]
         public void TestOutOfRangeScore()
         {

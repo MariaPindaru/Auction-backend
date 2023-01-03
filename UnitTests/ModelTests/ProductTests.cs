@@ -1,31 +1,44 @@
-﻿using AuctionBackend.DomainLayer.DomainModel;
-using AuctionBackend.DomainLayer.DomainModel.Validators;
-using FluentValidation.TestHelper;
-using NUnit.Framework;
+﻿// <copyright file="ProductTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ModelTests
 {
-    class ProductTests
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.DomainModel.Validators;
+    using FluentValidation.TestHelper;
+    using NUnit.Framework;
+
+    /// <summary>
+    /// ProductTests.
+    /// </summary>
+    internal class ProductTests
     {
         private Product product;
         private ProductValidator productValidator;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
             this.productValidator = new ProductValidator();
             Category category = new Category
             {
-                Name = "Category name"
+                Name = "Category name",
             };
             this.product = new Product
             {
                 Name = "Product name",
                 Description = "Product description",
-                Category = category 
+                Category = category,
             };
         }
 
+        /// <summary>
+        /// Tests the valid product.
+        /// </summary>
         [Test]
         public void TestValidProduct()
         {
@@ -33,6 +46,9 @@ namespace UnitTests.ModelTests
             result.ShouldNotHaveAnyValidationErrors();
         }
 
+        /// <summary>
+        /// Tests the null name.
+        /// </summary>
         [Test]
         public void TestNullName()
         {
@@ -41,6 +57,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(product => product.Name);
         }
 
+        /// <summary>
+        /// Tests the short name.
+        /// </summary>
         [Test]
         public void TestShortName()
         {
@@ -49,6 +68,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(product => product.Name);
         }
 
+        /// <summary>
+        /// Tests the long name.
+        /// </summary>
         [Test]
         public void TestLongName()
         {
@@ -58,6 +80,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(product => product.Name);
         }
 
+        /// <summary>
+        /// Tests the null description.
+        /// </summary>
         [Test]
         public void TestNullDescription()
         {
@@ -66,6 +91,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(product => product.Description);
         }
 
+        /// <summary>
+        /// Tests the short description.
+        /// </summary>
         [Test]
         public void TestShortDescription()
         {
@@ -74,6 +102,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(product => product.Description);
         }
 
+        /// <summary>
+        /// Tests the long description.
+        /// </summary>
         [Test]
         public void TestLongDescription()
         {
@@ -83,6 +114,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(product => product.Description);
         }
 
+        /// <summary>
+        /// Tests the null category.
+        /// </summary>
         [Test]
         public void TestNullCategory()
         {
@@ -91,6 +125,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(product => product.Category);
         }
 
+        /// <summary>
+        /// Tests the invalid category.
+        /// </summary>
         [Test]
         public void TestInvalidCategory()
         {

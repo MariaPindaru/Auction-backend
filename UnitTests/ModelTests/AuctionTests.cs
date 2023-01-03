@@ -1,17 +1,26 @@
-﻿using AuctionBackend.DomainLayer.DomainModel;
-using AuctionBackend.DomainLayer.DomainModel.Validators;
-using NUnit.Framework;
-using System;
-
-using FluentValidation.TestHelper;
+﻿// <copyright file="AuctionTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ModelTests
 {
-    class AuctionTests
+    using System;
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.DomainModel.Validators;
+    using FluentValidation.TestHelper;
+    using NUnit.Framework;
+
+    /// <summary>
+    /// AuctionTests.
+    /// </summary>
+    internal class AuctionTests
     {
         private Auction auction;
         private AuctionValidator auctionValidator;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -21,17 +30,17 @@ namespace UnitTests.ModelTests
             {
                 Name = "Offerer",
                 Role = Role.Offerer,
-                Score = 30.43f
+                Score = 30.43f,
             };
             var category = new Category
             {
-                Name = "Category name"
+                Name = "Category name",
             };
             var product = new Product
             {
                 Name = "Product name",
                 Description = "Product description",
-                Category = category 
+                Category = category,
             };
 
             this.auction = new Auction
@@ -39,12 +48,15 @@ namespace UnitTests.ModelTests
                 Offerer = offrer,
                 Product = product,
                 Currency = Currency.Euro,
-                StartPrice = 10.5m, 
+                StartPrice = 10.5m,
                 StartTime = new DateTime(2022, 12, 10),
                 EndTime = new DateTime(2022, 12, 13),
             };
         }
 
+        /// <summary>
+        /// Tests the valid auction.
+        /// </summary>
         [Test]
         public void TestValidAuction()
         {
@@ -52,6 +64,9 @@ namespace UnitTests.ModelTests
             result.ShouldNotHaveAnyValidationErrors();
         }
 
+        /// <summary>
+        /// Tests the null offerer.
+        /// </summary>
         [Test]
         public void TestNullOfferer()
         {
@@ -60,6 +75,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(auction => auction.Offerer);
         }
 
+        /// <summary>
+        /// Tests the null product.
+        /// </summary>
         [Test]
         public void TestNullProduct()
         {
@@ -68,6 +86,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(auction => auction.Product);
         }
 
+        /// <summary>
+        /// Tests the negative start price.
+        /// </summary>
         [Test]
         public void TestNegativeStartPrice()
         {
@@ -76,6 +97,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(auction => auction.StartPrice);
         }
 
+        /// <summary>
+        /// Tests the invalid currency.
+        /// </summary>
         [Test]
         public void TestInvalidCurrency()
         {
@@ -84,6 +108,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(auction => auction.Currency);
         }
 
+        /// <summary>
+        /// Tests the add valid bid.
+        /// </summary>
         [Test]
         public void TestAddValidBid()
         {
@@ -91,13 +118,15 @@ namespace UnitTests.ModelTests
             {
                 Name = "Bidder",
                 Role = Role.Bidder,
-                Score = 30.43f
+                Score = 30.43f,
             };
-            
             this.auction.AddToBidHistory(ref bidder, price: 11.5m);
             Assert.AreEqual(this.auction.GetLastPrice(), 11.5m);
         }
 
+        /// <summary>
+        /// Tests the adition of a bid with a price too high.
+        /// </summary>
         [Test]
         public void TestAddTooHighBid()
         {
@@ -105,7 +134,7 @@ namespace UnitTests.ModelTests
             {
                 Name = "Bidder",
                 Role = Role.Bidder,
-                Score = 30.43f
+                Score = 30.43f,
             };
 
             var ex = Assert.Throws<Exception>(() => this.auction.AddToBidHistory(ref bidder, price: 10000.5m));
@@ -114,6 +143,9 @@ namespace UnitTests.ModelTests
             Assert.AreEqual(this.auction.GetLastPrice(), 10.5m);
         }
 
+        /// <summary>
+        /// Tests the add lower bid.
+        /// </summary>
         [Test]
         public void TestAddLowerBid()
         {
@@ -121,7 +153,7 @@ namespace UnitTests.ModelTests
             {
                 Name = "Bidder",
                 Role = Role.Bidder,
-                Score = 30.43f
+                Score = 30.43f,
             };
 
             var ex = Assert.Throws<Exception>(() => this.auction.AddToBidHistory(ref bidder, price: 9.5m));
@@ -130,6 +162,9 @@ namespace UnitTests.ModelTests
             Assert.AreEqual(this.auction.GetLastPrice(), 10.5m);
         }
 
+        /// <summary>
+        /// Tests the add bid with offerer role.
+        /// </summary>
         [Test]
         public void TestAddBidWithOffererRole()
         {
@@ -137,7 +172,7 @@ namespace UnitTests.ModelTests
             {
                 Name = "Bidder",
                 Role = Role.Offerer,
-                Score = 30.43f
+                Score = 30.43f,
             };
 
             var ex = Assert.Throws<Exception>(() => this.auction.AddToBidHistory(ref bidder, price: 12.5m));

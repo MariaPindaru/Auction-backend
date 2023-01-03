@@ -41,14 +41,15 @@ namespace AuctionBackend.Startup
         public static void Inject()
         {
             kernel = new StandardKernel(new Bindings());
-            //kernel.Load(Assembly.GetExecutingAssembly());
+
+            // kernel.Load(Assembly.GetExecutingAssembly());
         }
 
         /// <summary>
         /// Gets this instance.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T"> Type of entity. </typeparam>
+        /// <returns> The entity. </returns>
         public static T Get<T>()
         {
             return kernel.Get<T>();

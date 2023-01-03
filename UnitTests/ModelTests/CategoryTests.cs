@@ -1,16 +1,25 @@
-﻿using NUnit.Framework;
+﻿// <copyright file="CategoryTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ModelTests
 {
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using FluentValidation.TestHelper;
+    using NUnit.Framework;
 
-    class CategoryTests
+    /// <summary>
+    /// CategoryTests.
+    /// </summary>
+    internal class CategoryTests
     {
         private Category category;
         private CategoryValidator categoryValidator;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -22,6 +31,9 @@ namespace UnitTests.ModelTests
             };
         }
 
+        /// <summary>
+        /// Tests the valid category.
+        /// </summary>
         [Test]
         public void TestValidCategory()
         {
@@ -29,6 +41,9 @@ namespace UnitTests.ModelTests
             result.ShouldNotHaveAnyValidationErrors();
         }
 
+        /// <summary>
+        /// Tests the name of the null.
+        /// </summary>
         [Test]
         public void TestNullName()
         {
@@ -37,6 +52,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(category => category.Name);
         }
 
+        /// <summary>
+        /// Tests the short name.
+        /// </summary>
         [Test]
         public void TestShortName()
         {
@@ -45,6 +63,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(category => category.Name);
         }
 
+        /// <summary>
+        /// Tests the long name.
+        /// </summary>
         [Test]
         public void TestLongName()
         {

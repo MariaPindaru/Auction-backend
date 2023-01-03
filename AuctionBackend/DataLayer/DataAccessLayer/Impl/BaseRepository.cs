@@ -39,8 +39,8 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
 
                 IQueryable<T> query = dbSet;
 
-                foreach (var includeProperty in includeProperties.Split
-                   (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var includeProperty in includeProperties.Split(
+                   new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProperty);
                 }

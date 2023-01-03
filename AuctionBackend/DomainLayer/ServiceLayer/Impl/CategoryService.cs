@@ -4,7 +4,6 @@
 
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
-    using System.Collections.Generic;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
@@ -24,28 +23,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         public CategoryService()
             : base(Injector.Get<ICategoryRepository>(), new CategoryValidator())
         {
-        }
-
-        /// <summary>
-        /// Gets the categories with products.
-        /// </summary>
-        /// <returns>Categories with products.</returns>
-        public IEnumerable<Category> GetCategoriesWithChildren()
-        {
-            return this.repository.Get(
-                filter: category => category.Children.Count > 0,
-                includeProperties: "Children");
-        }
-
-        /// <summary>
-        /// Gets the categories with products.
-        /// </summary>
-        /// <returns>Categories with products.</returns>
-        public IEnumerable<Category> GetCategoriesWithProducts()
-        {
-            return this.repository.Get(
-                filter: category => category.Products.Count > 0,
-                includeProperties: "Products");
         }
     }
 }

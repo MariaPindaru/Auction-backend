@@ -1,4 +1,8 @@
-﻿namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
+﻿// <copyright file="IService.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
+
+namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
 {
     using System.Collections.Generic;
     using FluentValidation.Results;

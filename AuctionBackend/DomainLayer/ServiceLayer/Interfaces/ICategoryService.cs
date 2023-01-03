@@ -13,10 +13,5 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;AuctionBackend.DomainLayer.DomainModel.Category&gt;" />
     public interface ICategoryService : IService<Category>
     {
-        /// <summary>
-        /// Gets the categories with products.
-        /// </summary>
-        /// <returns> Categorie with products.</returns>
-        IEnumerable<Category> GetCategoriesWithProducts();
     }
 }

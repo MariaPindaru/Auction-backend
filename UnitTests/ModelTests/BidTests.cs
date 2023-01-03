@@ -1,15 +1,25 @@
-﻿using AuctionBackend.DomainLayer.DomainModel;
-using AuctionBackend.DomainLayer.DomainModel.Validators;
-using FluentValidation.TestHelper;
-using NUnit.Framework;
+﻿// <copyright file="BidTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ModelTests
 {
-    class BidTests
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.DomainModel.Validators;
+    using FluentValidation.TestHelper;
+    using NUnit.Framework;
+
+    /// <summary>
+    /// BidTests.
+    /// </summary>
+    internal class BidTests
     {
         private Bid bid;
         private BidValidator bidValidator;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -24,10 +34,13 @@ namespace UnitTests.ModelTests
             {
                 Bidder = bidder,
                 Price = 10.3m,
-                Currency = Currency.Dolar
+                Currency = Currency.Dolar,
             };
         }
 
+        /// <summary>
+        /// Tests the valid bid.
+        /// </summary>
         [Test]
         public void TestValidBid()
         {
@@ -35,6 +48,9 @@ namespace UnitTests.ModelTests
             result.ShouldNotHaveAnyValidationErrors();
         }
 
+        /// <summary>
+        /// Tests the null bidder.
+        /// </summary>
         [Test]
         public void TestNullBidder()
         {
@@ -43,6 +59,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(bid => bid.Bidder);
         }
 
+        /// <summary>
+        /// Tests the invalid bidder.
+        /// </summary>
         [Test]
         public void TestInvalidBidder()
         {
@@ -51,6 +70,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(bid => bid.Bidder.Name);
         }
 
+        /// <summary>
+        /// Tests the negative price.
+        /// </summary>
         [Test]
         public void TestNegativePrice()
         {
@@ -59,6 +81,9 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(bid => bid.Price);
         }
 
+        /// <summary>
+        /// Tests the invalid currency.
+        /// </summary>
         [Test]
         public void TestInvalidCurrency()
         {

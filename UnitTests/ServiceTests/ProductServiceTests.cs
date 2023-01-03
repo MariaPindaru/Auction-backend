@@ -1,17 +1,24 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using Ninject;
-using Rhino.Mocks;
-using AuctionBackend.DomainLayer.DomainModel;
-using FluentValidation.Results;
-using AuctionBackend.Startup;
-using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
-using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+﻿// <copyright file="ProductServiceTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ServiceTests
 {
-    class ProductServiceTests
+    using System.Collections.Generic;
+    using System.Linq;
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using AuctionBackend.Startup;
+    using FluentValidation.Results;
+    using Ninject;
+    using NUnit.Framework;
+    using Rhino.Mocks;
+
+    /// <summary>
+    /// ProductServiceTests.
+    /// </summary>
+    internal class ProductServiceTests
     {
         private IKernel kernel;
         private IProductService productService;
@@ -22,7 +29,9 @@ namespace UnitTests.ServiceTests
         private Product product;
         private Category category;
 
-
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -30,14 +39,14 @@ namespace UnitTests.ServiceTests
             this.kernel = Injector.Kernel;
 
             this.mocks = new MockRepository();
-            this.productRepository = mocks.StrictMock<IProductRepository>();
+            this.productRepository = this.mocks.StrictMock<IProductRepository>();
 
             this.kernel.Rebind<IProductRepository>().ToConstant(this.productRepository);
-            this.productService = kernel.Get<IProductService>();
+            this.productService = this.kernel.Get<IProductService>();
 
             this.category = new Category
             {
-                Name = "Electronics"
+                Name = "Electronics",
             };
             this.product = new Product
             {
@@ -47,19 +56,25 @@ namespace UnitTests.ServiceTests
             };
         }
 
+        /// <summary>
+        /// Tests the add valid product.
+        /// </summary>
         [Test]
         public void TestAddValidProduct()
         {
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsTrue(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the name of the add product null.
+        /// </summary>
         [Test]
         public void TestAddProductNullName()
         {
@@ -67,14 +82,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the short name of the add product.
+        /// </summary>
         [Test]
         public void TestAddProductShortName()
         {
@@ -82,14 +100,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the long name of the add product.
+        /// </summary>
         [Test]
         public void TestAddProductLongName()
         {
@@ -98,14 +119,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the add product null description.
+        /// </summary>
         [Test]
         public void TestAddProductNullDescription()
         {
@@ -113,14 +137,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the add product short description.
+        /// </summary>
         [Test]
         public void TestAddProductShortDescription()
         {
@@ -128,14 +155,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the add product long description.
+        /// </summary>
         [Test]
         public void TestAddProductLongDescription()
         {
@@ -144,14 +174,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the add product null category.
+        /// </summary>
         [Test]
         public void TestAddProductNullCategory()
         {
@@ -159,14 +192,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the name of the add product null category.
+        /// </summary>
         [Test]
         public void TestAddProductNullCategoryName()
         {
@@ -174,27 +210,33 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the update valid product.
+        /// </summary>
         [Test]
         public void TestUpdateValidProduct()
         {
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsTrue(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the name of the update product null.
+        /// </summary>
         [Test]
         public void TestUpdateProductNullName()
         {
@@ -202,14 +244,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the short name of the update product.
+        /// </summary>
         [Test]
         public void TestUpdateProductShortName()
         {
@@ -217,14 +262,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Insert(this.product));
             }
 
-            ValidationResult result = productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the long name of the update product.
+        /// </summary>
         [Test]
         public void TestUpdateProductLongName()
         {
@@ -233,14 +281,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the update product null description.
+        /// </summary>
         [Test]
         public void TestUpdateProductNullDescription()
         {
@@ -248,14 +299,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the update product short description.
+        /// </summary>
         [Test]
         public void TestUpdateProductShortDescription()
         {
@@ -263,14 +317,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the update product long description.
+        /// </summary>
         [Test]
         public void TestUpdateProductLongDescription()
         {
@@ -279,14 +336,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the update product null category.
+        /// </summary>
         [Test]
         public void TestUpdateProductNullCategory()
         {
@@ -294,14 +354,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the name of the update product null category.
+        /// </summary>
         [Test]
         public void TestUpdateProductNullCategoryName()
         {
@@ -309,15 +372,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Update(this.product));
+                this.productRepository.Expect(repo => repo.Update(this.product));
             }
 
-            ValidationResult result = productService.Update(this.product);
+            ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
         }
 
-
+        /// <summary>
+        /// Tests the delete product.
+        /// </summary>
         [Test]
         public void TestDeleteProduct()
         {
@@ -325,35 +390,41 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Delete(this.product));
+                this.productRepository.Expect(repo => repo.Delete(this.product));
             }
 
-            productService.Delete(this.product);
+            this.productService.Delete(this.product);
         }
 
+        /// <summary>
+        /// Tests the get products.
+        /// </summary>
         [Test]
         public void TestGetProducts()
         {
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.Get()).Return(new HashSet<Product> { this.product });
+                this.productRepository.Expect(repo => repo.Get()).Return(new HashSet<Product> { this.product });
             }
 
-            var products = productService.GetAll();
+            var products = this.productService.GetAll();
 
             Assert.AreEqual(products.ToList().Count, 1);
             Assert.AreEqual(products.ToList().First(), this.product);
         }
 
+        /// <summary>
+        /// Tests the get product by identifier.
+        /// </summary>
         [Test]
         public void TestGetProductById()
         {
             using (this.mocks.Record())
             {
-                productRepository.Expect(repo => repo.GetByID(10)).Return(this.product);
+                this.productRepository.Expect(repo => repo.GetByID(10)).Return(this.product);
             }
 
-            var product = productService.GetByID(10);
+            var product = this.productService.GetByID(10);
 
             Assert.AreEqual(product, this.product);
         }

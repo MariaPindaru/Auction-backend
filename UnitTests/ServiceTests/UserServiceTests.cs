@@ -1,15 +1,22 @@
-﻿using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
-using AuctionBackend.DomainLayer.DomainModel;
-using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
-using AuctionBackend.Startup;
-using FluentValidation.Results;
-using Ninject;
-using NUnit.Framework;
-using Rhino.Mocks;
+﻿// <copyright file="UserServiceTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests.ServiceTests
 {
-    class UserServiceTests
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using AuctionBackend.Startup;
+    using FluentValidation.Results;
+    using Ninject;
+    using NUnit.Framework;
+    using Rhino.Mocks;
+
+    /// <summary>
+    /// User service tests.
+    /// </summary>
+    internal class UserServiceTests
     {
         private IKernel kernel;
         private IUserService userService;
@@ -19,6 +26,9 @@ namespace UnitTests.ServiceTests
 
         private User user;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -26,14 +36,17 @@ namespace UnitTests.ServiceTests
             this.kernel = Injector.Kernel;
 
             this.mocks = new MockRepository();
-            this.userRepository = mocks.StrictMock<IUserRepository>();
+            this.userRepository = this.mocks.StrictMock<IUserRepository>();
 
-            this.kernel.Rebind<IUserRepository>().ToConstant(userRepository);
-            this.userService = kernel.Get<IUserService>();
+            this.kernel.Rebind<IUserRepository>().ToConstant(this.userRepository);
+            this.userService = this.kernel.Get<IUserService>();
 
             this.user = new User();
         }
 
+        /// <summary>
+        /// Tests the add valid user.
+        /// </summary>
         [Test]
         public void TestAddValidUser()
         {
@@ -43,14 +56,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                userRepository.Expect(repo => repo.Insert(this.user));
+                this.userRepository.Expect(repo => repo.Insert(this.user));
             }
 
-            ValidationResult result = userService.Insert(this.user);
+            ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsTrue(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the name of the addd user null.
+        /// </summary>
         [Test]
         public void TestAdddUserNullName()
         {
@@ -60,14 +76,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                userRepository.Expect(repo => repo.Insert(this.user));
+                this.userRepository.Expect(repo => repo.Insert(this.user));
             }
 
-            ValidationResult result = userService.Insert(this.user);
+            ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
         }
-        
+
+        /// <summary>
+        /// Tests the short name of the addd user.
+        /// </summary>
         [Test]
         public void TestAdddUserShortName()
         {
@@ -77,14 +96,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                userRepository.Expect(repo => repo.Insert(this.user));
+                this.userRepository.Expect(repo => repo.Insert(this.user));
             }
 
-            ValidationResult result = userService.Insert(this.user);
+            ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the long name of the addd user.
+        /// </summary>
         [Test]
         public void TestAdddUserLongName()
         {
@@ -95,14 +117,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                userRepository.Expect(repo => repo.Insert(this.user));
+                this.userRepository.Expect(repo => repo.Insert(this.user));
             }
 
-            ValidationResult result = userService.Insert(this.user);
+            ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the addd user invalid role.
+        /// </summary>
         [Test]
         public void TestAdddUserInvalidRole()
         {
@@ -112,14 +137,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                userRepository.Expect(repo => repo.Insert(this.user));
+                this.userRepository.Expect(repo => repo.Insert(this.user));
             }
 
-            ValidationResult result = userService.Insert(this.user);
+            ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the addd user negative score.
+        /// </summary>
         [Test]
         public void TestAdddUserNegativeScore()
         {
@@ -129,14 +157,17 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                userRepository.Expect(repo => repo.Insert(this.user));
+                this.userRepository.Expect(repo => repo.Insert(this.user));
             }
 
-            ValidationResult result = userService.Insert(this.user);
+            ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
         }
 
+        /// <summary>
+        /// Tests the addd user out of range score.
+        /// </summary>
         [Test]
         public void TestAdddUserOutOfRangeScore()
         {
@@ -146,13 +177,12 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
-                userRepository.Expect(repo => repo.Insert(this.user));
+                this.userRepository.Expect(repo => repo.Insert(this.user));
             }
 
-            ValidationResult result = userService.Insert(this.user);
+            ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
         }
-
     }
 }

@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿// <copyright file="IRepository.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     /// <summary>
     /// IRepository.
     /// </summary>

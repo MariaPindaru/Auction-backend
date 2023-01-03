@@ -2,15 +2,15 @@
 // Maria Pindaru
 // </copyright>
 
-using AuctionBackend.DomainLayer.DomainModel;
-using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
-using AuctionBackend.Startup;
-using Ninject;
-using System;
-using System.Collections.Generic;
-
 namespace AuctionBackend
 {
+    using System;
+    using System.Collections.Generic;
+    using AuctionBackend.DomainLayer.DomainModel;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using AuctionBackend.Startup;
+    using Ninject;
+
     /// <summary>
     /// Main program.
     /// </summary>
@@ -22,17 +22,12 @@ namespace AuctionBackend
             var kernel = Injector.Kernel;
             var categoryService = kernel.Get<ICategoryService>();
 
-            //InsertCategory(categoryService);
-
+            // InsertCategory(categoryService);
             Console.ReadKey(true);
         }
 
         private static void InsertCategory(ICategoryService categoryService)
         {
-
-
-
-
             Category category = new Category
             {
                 Name = "ChildCategory1",
@@ -51,32 +46,6 @@ namespace AuctionBackend
 
             var r = categoryService.Insert(parentCategory);
             Console.WriteLine(r.IsValid);
-            //Product product = new Product
-            //{
-            //    Name = "Product name",
-            //    Description = "Product description",
-            //};
-
-
-            //var validationResult = categoryService.Insert(parentCategory);
-            //validationResult = categoryService.Insert(category);
-
-            //var l = categoryService.GetCategoriesWithChildren();
-            ////parentCategory = categoryService.GetByID(16);
-            //var category = categoryService.GetByID(17);
-
-            //foreach (var e in l)
-            //{
-            //    e.Children.Add(category);
-            //    var validationResult = categoryService.Update(e);
-            //    validationResult = categoryService.Update(category);
-            //    Console.WriteLine(validationResult.IsValid);
-            //}
-
-            //parentCategory.Children.Add(category);
-
-
-
         }
     }
 }

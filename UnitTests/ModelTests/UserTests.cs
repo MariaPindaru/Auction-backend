@@ -3,7 +3,7 @@ using AuctionBackend.DomainLayer.DomainModel.Validators;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
-namespace UnitTests.DomainLayerTests
+namespace UnitTests.ModelTests
 {
     class UserTests
     {

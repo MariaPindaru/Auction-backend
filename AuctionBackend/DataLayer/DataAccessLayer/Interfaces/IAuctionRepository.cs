@@ -2,14 +2,15 @@
 // Maria Pindaru
 // </copyright>
 
-namespace AuctionBackend.DataLayer.DAL.Interfaces
+namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
     using AuctionBackend.DomainLayer.DomainModel;
+
 
     /// <summary>
     /// IAuctionRepository.
     /// </summary>
-    /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
+    /// <seealso cref="IRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
     public interface IAuctionRepository : IRepository<Auction>
     {
     }

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuctionBackend.DomainLayer.BL.Interfaces
+namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
 {
-    interface IProductService : IService<Product>
+    public interface IProductService : IService<Product>
     {
     }
 }

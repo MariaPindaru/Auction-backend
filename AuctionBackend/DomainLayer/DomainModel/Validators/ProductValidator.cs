@@ -22,7 +22,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
             this.RuleFor(product => product.Description).NotEmpty().WithMessage("Product description cannot be null");
             this.RuleFor(product => product.Description).Length(3, 500).WithMessage("The product description must have between 3 and 500 chars");
 
-            this.RuleFor(product => product.Categories).NotEmpty().WithMessage("The product must have at least one category.");
+            this.RuleFor(product => product.Category).NotEmpty().SetValidator(new CategoryValidator()).WithMessage("The product must have a valid category.");
         }
     }
 }

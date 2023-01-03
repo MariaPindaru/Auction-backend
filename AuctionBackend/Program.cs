@@ -2,8 +2,8 @@
 // Maria Pindaru
 // </copyright>
 
-using AuctionBackend.DomainLayer.BL.Interfaces;
 using AuctionBackend.DomainLayer.DomainModel;
+using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
 using AuctionBackend.Startup;
 using Ninject;
 using System;

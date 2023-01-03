@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuctionBackend.DataLayer.DAL.Interfaces
+namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
     interface IUserRepository : IRepository<User>
     {

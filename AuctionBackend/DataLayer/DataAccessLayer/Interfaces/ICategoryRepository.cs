@@ -2,7 +2,7 @@
 // Maria Pindaru
 // </copyright>
 
-namespace AuctionBackend.DataLayer.DAL.Interfaces
+namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
     using AuctionBackend.DomainLayer.DomainModel;
 

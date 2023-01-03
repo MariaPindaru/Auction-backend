@@ -1,6 +1,4 @@
-﻿using AuctionBackend.DomainLayer.BL;
-using AuctionBackend.DomainLayer.BL.Interfaces;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +8,9 @@ using Ninject;
 using Rhino.Mocks;
 using AuctionBackend.DomainLayer.DomainModel;
 using FluentValidation.Results;
-using AuctionBackend.DataLayer.DAL.Interfaces;
 using AuctionBackend.Startup;
-using AuctionBackend.DomainLayer.BL;
-using AuctionBackend.DomainLayer.DomainModel.Validators;
+using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
 
 namespace UnitTests.ServiceTests
 {
@@ -178,6 +175,20 @@ namespace UnitTests.ServiceTests
             }
 
             categoryService.Delete(this.category);
+        }
+
+        [Test]
+        public void TestGetCategories()
+        {
+            using (this.mocks.Record())
+            {
+                categoryRepository.Expect(repo => repo.Get()).Return(new HashSet<Category> { this.category });
+            }
+
+            var products = categoryService.GetAll();
+
+            Assert.AreEqual(products.ToList().Count, 1);
+            Assert.AreEqual(products.ToList().First(), this.category);
         }
     }
 }

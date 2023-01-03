@@ -2,19 +2,19 @@
 // Maria Pindaru
 // </copyright>
 
-namespace AuctionBackend.DataLayer.DAL
+namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
 {
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Linq.Expressions;
-    using AuctionBackend.DataLayer.DAL.Interfaces;
 
     /// <summary>
     /// BaseRepository.
     /// </summary>
-    /// <typeparam name="T">Generic type T.</typeparam>
+    /// <typeparam name="T">Entity type.</typeparam>
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IRepository&lt;T&gt;" />
     public abstract class BaseRepository<T> : IRepository<T>
         where T : class

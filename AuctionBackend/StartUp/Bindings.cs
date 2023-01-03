@@ -1,7 +1,7 @@
-﻿using AuctionBackend.DataLayer.DAL;
-using AuctionBackend.DataLayer.DAL.Interfaces;
-using AuctionBackend.DomainLayer.BL;
-using AuctionBackend.DomainLayer.BL.Interfaces;
+﻿using AuctionBackend.DataLayer.DataAccessLayer.Impl;
+using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+using AuctionBackend.DomainLayer.ServiceLayer.Impl;
+using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
 using Ninject.Modules;
 
 namespace AuctionBackend.Startup
@@ -17,11 +17,13 @@ namespace AuctionBackend.Startup
         private void LoadServicesLayer()
         {
             Bind<ICategoryService>().To<CategoryService>();
+            Bind<IProductService>().To<ProductService>();
         }
 
         private void LoadRepositoryLayer()
         {
             Bind<ICategoryRepository>().To<CategoryRepository>();
+            Bind<IProductRepository>().To<ProductRepository>();
         }
     }
 }

@@ -42,5 +42,15 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// The price.
         /// </value>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currency.
+        /// </summary>
+        /// <value>
+        /// The currency.
+        /// </value>
+        [Required]
+        [Range(0, 2)]
+        public Currency Currency { get; set; }
     }
 }

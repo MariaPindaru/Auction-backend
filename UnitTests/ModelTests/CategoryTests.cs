@@ -1,11 +1,10 @@
 ﻿using NUnit.Framework;
 
-namespace UnitTests.Models
+namespace UnitTests.ModelTests
 {
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using FluentValidation.TestHelper;
-    using UnitTests.DomainLayerTests;
 
     class CategoryTests
     {

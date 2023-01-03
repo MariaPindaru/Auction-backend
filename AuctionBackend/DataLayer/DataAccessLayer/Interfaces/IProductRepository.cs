@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuctionBackend.DataLayer.DAL.Interfaces
+namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
-    interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     {
     }
 }

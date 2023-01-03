@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 using FluentValidation.TestHelper;
 
-namespace UnitTests.DomainLayerTests
+namespace UnitTests.ModelTests
 {
     class AuctionTests
     {
@@ -33,7 +33,7 @@ namespace UnitTests.DomainLayerTests
             {
                 Name = "Product name",
                 Description = "Product description",
-                Categories = new HashSet<Category> { category }
+                Category = category 
             };
 
             this.auction = new Auction
@@ -76,6 +76,14 @@ namespace UnitTests.DomainLayerTests
             this.auction.StartPrice = -1.7m;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
             result.ShouldHaveValidationErrorFor(auction => auction.StartPrice);
+        }
+
+        [Test]
+        public void TestInvalidCurrency()
+        {
+            this.auction.Currency = (Currency)300;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.Currency);
         }
 
         [Test]

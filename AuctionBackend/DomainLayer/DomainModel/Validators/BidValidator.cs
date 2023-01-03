@@ -17,7 +17,8 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public BidValidator()
         {
-            this.RuleFor(bid => bid.Bidder).NotNull().WithMessage("The bidder cannot be null."); ;
+            this.RuleFor(bid => bid.Bidder).NotNull().SetValidator(new UserValidator()).WithMessage("The bidder cannot be null or invalid.");
+            this.RuleFor(bid => bid.Currency).IsInEnum().WithMessage("The currency must be within the defined enum.");
             this.RuleFor(bid => bid.Price).InclusiveBetween(0.1m, decimal.MaxValue).WithMessage("The price must be in range 0 and decimal max value."); ;
         }
     }

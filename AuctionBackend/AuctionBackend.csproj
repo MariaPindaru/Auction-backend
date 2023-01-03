@@ -193,6 +193,14 @@
     <Compile Include="Migrations\202301022235172_Initial.designer.cs">
       <DependentUpon>202301022235172_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301022250220_ProductHasOneCategory.cs" />
+    <Compile Include="Migrations\202301022250220_ProductHasOneCategory.designer.cs">
+      <DependentUpon>202301022250220_ProductHasOneCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301022331525_AddCurrencyForBid.cs" />
+    <Compile Include="Migrations\202301022331525_AddCurrencyForBid.designer.cs">
+      <DependentUpon>202301022331525_AddCurrencyForBid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -223,6 +231,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202301022235172_Initial.resx">
       <DependentUpon>202301022235172_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301022250220_ProductHasOneCategory.resx">
+      <DependentUpon>202301022250220_ProductHasOneCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301022331525_AddCurrencyForBid.resx">
+      <DependentUpon>202301022331525_AddCurrencyForBid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

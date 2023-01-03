@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace AuctionBackend.DataLayer.DAL.Interfaces
+namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
     /// <summary>
     /// IRepository.

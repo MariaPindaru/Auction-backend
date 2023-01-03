@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using System.Collections.Generic;
 
-namespace AuctionBackend.DomainLayer.BL.Interfaces
+namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
 {
     public interface IService<T>
         where T : class

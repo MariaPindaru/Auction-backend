@@ -1,7 +1,7 @@
 ﻿using AuctionBackend.DomainLayer.DomainModel;
 using System.Collections.Generic;
 
-namespace AuctionBackend.DomainLayer.BL.Interfaces
+namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
 {
     public interface ICategoryService : IService<Category>
     {

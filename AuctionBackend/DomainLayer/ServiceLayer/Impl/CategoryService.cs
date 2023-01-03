@@ -2,21 +2,21 @@
 // Maria Pindaru
 // </copyright>
 
-namespace AuctionBackend.DomainLayer.BL
+namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
-    using AuctionBackend.DataLayer.DAL.Interfaces;
-    using AuctionBackend.DomainLayer.BL.Interfaces;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using AuctionBackend.Startup;
     using log4net;
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
 
     /// <summary>
     /// CategoryService.
     /// </summary>
-    /// <seealso cref="AuctionBackend.DomainLayer.BL.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Category, AuctionBackend.DataLayer.DAL.Interfaces.ICategoryRepository&gt;" />
-    /// <seealso cref="AuctionBackend.DomainLayer.BL.Interfaces.ICategoryService" />
+    /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Category, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.ICategoryRepository&gt;" />
+    /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.ICategoryService" />
     public class CategoryService : BaseService<Category, ICategoryRepository>, ICategoryService
     {
         /// <summary>

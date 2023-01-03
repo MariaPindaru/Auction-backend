@@ -11,14 +11,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
     /// <summary>Class used to define a poduct.</summary>
     public class Product
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Product"/> class.
-        /// </summary>
-        public Product()
-        {
-            this.Categories = new HashSet<Category>();
-        }
-
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
@@ -40,6 +32,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the categories.</summary>
         /// <value>The categories.</value>
         [Required]
-        public virtual ICollection<Category> Categories { get; set; }
+        public Category Category { get; set; }
     }
 }

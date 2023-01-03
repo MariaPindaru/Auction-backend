@@ -2,11 +2,12 @@
 // Maria Pindaru
 // </copyright>
 
-namespace AuctionBackend.DomainLayer.BL
+namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
-    using AuctionBackend.DataLayer.DAL.Interfaces;
-    using AuctionBackend.DomainLayer.BL.Interfaces;
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+
     using FluentValidation;
     using FluentValidation.Results;
     using log4net;
@@ -14,9 +15,9 @@ namespace AuctionBackend.DomainLayer.BL
     /// <summary>
     /// BaseService.
     /// </summary>
-    /// <typeparam name="T"> Generic type T. </typeparam>
-    /// <typeparam name="TU"> Generic type U. </typeparam>
-    /// <seealso cref="AuctionBackend.DomainLayer.BL.Interfaces.IService&lt;T&gt;" />
+    /// <typeparam name="T"> Repository type. </typeparam>
+    /// <typeparam name="TU"> Validator type. </typeparam>
+    /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;T&gt;" />
     public abstract class BaseService<T, TU> : IService<T>
         where T : class
         where TU : IRepository<T>

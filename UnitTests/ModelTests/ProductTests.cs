@@ -4,7 +4,7 @@ using FluentValidation.TestHelper;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace UnitTests.DomainLayerTests
+namespace UnitTests.ModelTests
 {
     class ProductTests
     {
@@ -23,7 +23,7 @@ namespace UnitTests.DomainLayerTests
             {
                 Name = "Product name",
                 Description = "Product description",
-                Categories = new HashSet<Category>{ category }
+                Category = category 
             };
         }
 
@@ -85,19 +85,19 @@ namespace UnitTests.DomainLayerTests
         }
 
         [Test]
-        public void TestNullCategories()
+        public void TestNullCategory()
         {
-            this.product.Categories = null;
+            this.product.Category = null;
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
-            result.ShouldHaveValidationErrorFor(product => product.Categories);
+            result.ShouldHaveValidationErrorFor(product => product.Category);
         }
 
         [Test]
-        public void TestEmptyCategories()
+        public void TestInvalidCategory()
         {
-            this.product.Categories = new HashSet<Category>();
+            this.product.Category.Name = null;
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
-            result.ShouldHaveValidationErrorFor(product => product.Categories);
+            result.ShouldHaveValidationErrorFor(product => product.Category.Name);
         }
     }
 }

@@ -14,7 +14,14 @@ namespace UnitTests.ModelTests
     /// </summary>
     internal class ProductTests
     {
+        /// <summary>
+        /// The product.
+        /// </summary>
         private Product product;
+
+        /// <summary>
+        /// The product validator.
+        /// </summary>
         private ProductValidator productValidator;
 
         /// <summary>

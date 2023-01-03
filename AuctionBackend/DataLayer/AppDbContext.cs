@@ -7,7 +7,7 @@ namespace AuctionBackend.DataLayer
     using System.Data.Entity;
     using AuctionBackend.DomainLayer.DomainModel;
 
-    /// <summary>Class used to declare the application db context.</summary>
+    /// <summary>Class used to declare the application database context.</summary>
     internal class AppDbContext : DbContext
     {
         /// <summary>Initializes a new instance of the <see cref="AppDbContext" /> class.</summary>

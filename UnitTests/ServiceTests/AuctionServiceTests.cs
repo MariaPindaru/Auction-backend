@@ -19,12 +19,29 @@ namespace UnitTests.ServiceTests
     /// </summary>
     internal class AuctionServiceTests
     {
+        /// <summary>
+        /// The kernel.
+        /// </summary>
         private IKernel kernel;
+
+        /// <summary>
+        /// The auction service.
+        /// </summary>
         private IAuctionService auctionService;
 
+        /// <summary>
+        /// The auction repository.
+        /// </summary>
         private IAuctionRepository auctionRepository;
+
+        /// <summary>
+        /// The mocks.
+        /// </summary>
         private MockRepository mocks;
 
+        /// <summary>
+        /// The auction.
+        /// </summary>
         private Auction auction;
 
         /// <summary>

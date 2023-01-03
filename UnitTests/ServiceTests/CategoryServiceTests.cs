@@ -20,12 +20,29 @@ namespace UnitTests.ServiceTests
     /// </summary>
     internal class CategoryServiceTests
     {
+        /// <summary>
+        /// The kernel.
+        /// </summary>
         private IKernel kernel;
+
+        /// <summary>
+        /// The category service.
+        /// </summary>
         private ICategoryService categoryService;
 
+        /// <summary>
+        /// The category repository.
+        /// </summary>
         private ICategoryRepository categoryRepository;
+
+        /// <summary>
+        /// The mocks.
+        /// </summary>
         private MockRepository mocks;
 
+        /// <summary>
+        /// The category.
+        /// </summary>
         private Category category;
 
         /// <summary>

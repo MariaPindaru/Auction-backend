@@ -15,7 +15,14 @@ namespace UnitTests.ModelTests
     /// </summary>
     internal class AuctionTests
     {
+        /// <summary>
+        /// The auction.
+        /// </summary>
         private Auction auction;
+
+        /// <summary>
+        /// The auction validator.
+        /// </summary>
         private AuctionValidator auctionValidator;
 
         /// <summary>

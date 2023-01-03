@@ -20,13 +20,34 @@ namespace UnitTests.ServiceTests
     /// </summary>
     internal class ProductServiceTests
     {
+        /// <summary>
+        /// The kernel.
+        /// </summary>
         private IKernel kernel;
+
+        /// <summary>
+        /// The product service.
+        /// </summary>
         private IProductService productService;
 
+        /// <summary>
+        /// The product repository.
+        /// </summary>
         private IProductRepository productRepository;
+
+        /// <summary>
+        /// The mocks.
+        /// </summary>
         private MockRepository mocks;
 
+        /// <summary>
+        /// The product.
+        /// </summary>
         private Product product;
+
+        /// <summary>
+        /// The category.
+        /// </summary>
         private Category category;
 
         /// <summary>

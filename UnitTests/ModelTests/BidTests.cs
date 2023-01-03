@@ -14,7 +14,14 @@ namespace UnitTests.ModelTests
     /// </summary>
     internal class BidTests
     {
+        /// <summary>
+        /// The bid.
+        /// </summary>
         private Bid bid;
+
+        /// <summary>
+        /// The bid validator.
+        /// </summary>
         private BidValidator bidValidator;
 
         /// <summary>

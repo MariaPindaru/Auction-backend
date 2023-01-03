@@ -14,7 +14,14 @@ namespace UnitTests.ModelTests
     /// </summary>
     internal class CategoryTests
     {
+        /// <summary>
+        /// The category.
+        /// </summary>
         private Category category;
+
+        /// <summary>
+        /// The category validator.
+        /// </summary>
         private CategoryValidator categoryValidator;
 
         /// <summary>

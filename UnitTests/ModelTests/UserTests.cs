@@ -14,7 +14,14 @@ namespace UnitTests.ModelTests
     /// </summary>
     internal class UserTests
     {
+        /// <summary>
+        /// The user.
+        /// </summary>
         private User user;
+
+        /// <summary>
+        /// The user validator.
+        /// </summary>
         private UserValidator userValidator;
 
         /// <summary>

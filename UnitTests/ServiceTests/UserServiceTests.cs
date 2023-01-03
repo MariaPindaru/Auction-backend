@@ -18,12 +18,29 @@ namespace UnitTests.ServiceTests
     /// </summary>
     internal class UserServiceTests
     {
+        /// <summary>
+        /// The kernel.
+        /// </summary>
         private IKernel kernel;
+
+        /// <summary>
+        /// The user service.
+        /// </summary>
         private IUserService userService;
 
+        /// <summary>
+        /// The user repository.
+        /// </summary>
         private IUserRepository userRepository;
+
+        /// <summary>
+        /// The mocks.
+        /// </summary>
         private MockRepository mocks;
 
+        /// <summary>
+        /// The user.
+        /// </summary>
         private User user;
 
         /// <summary>
@@ -65,10 +82,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the name of the addd user null.
+        /// Tests the name of the add user null.
         /// </summary>
         [Test]
-        public void TestAdddUserNullName()
+        public void TestAddUserWithNullName()
         {
             this.user.Name = null;
             this.user.Role = Role.Bidder;
@@ -85,10 +102,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the short name of the addd user.
+        /// Tests the short name of the add user with.
         /// </summary>
         [Test]
-        public void TestAdddUserShortName()
+        public void TestAddUserWithShortName()
         {
             this.user.Name = "U";
             this.user.Role = Role.Bidder;
@@ -105,10 +122,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the long name of the addd user.
+        /// Tests the long name of the add user.
         /// </summary>
         [Test]
-        public void TestAdddUserLongName()
+        public void TestAddUserWithLongName()
         {
             string longString = new string('*', 51);
             this.user.Name = longString;
@@ -126,10 +143,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the addd user invalid role.
+        /// Tests the add user invalid role.
         /// </summary>
         [Test]
-        public void TestAdddUserInvalidRole()
+        public void TestAddUserWithInvalidRole()
         {
             this.user.Name = "Username";
             this.user.Role = (Role)200;
@@ -146,10 +163,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the addd user negative score.
+        /// Tests the add user negative score.
         /// </summary>
         [Test]
-        public void TestAdddUserNegativeScore()
+        public void TestAddUserWithNegativeScore()
         {
             this.user.Name = "Username";
             this.user.Role = Role.Bidder;
@@ -166,10 +183,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the addd user out of range score.
+        /// Tests the add user out of range score.
         /// </summary>
         [Test]
-        public void TestAdddUserOutOfRangeScore()
+        public void TestAddUserWithOutOfRangeScore()
         {
             this.user.Name = "Username";
             this.user.Role = Role.Bidder;

@@ -348,5 +348,18 @@ namespace UnitTests.ServiceTests
             Assert.AreEqual(products.ToList().Count, 1);
             Assert.AreEqual(products.ToList().First(), this.product);
         }
+
+        [Test]
+        public void TestGetProductById()
+        {
+            using (this.mocks.Record())
+            {
+                productRepository.Expect(repo => repo.GetByID(10)).Return(this.product);
+            }
+
+            var product = productService.GetByID(10);
+
+            Assert.AreEqual(product, this.product);
+        }
     }
 }

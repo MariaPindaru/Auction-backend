@@ -190,5 +190,17 @@ namespace UnitTests.ServiceTests
             Assert.AreEqual(products.ToList().Count, 1);
             Assert.AreEqual(products.ToList().First(), this.category);
         }
+
+        [Test]
+        public void TestGetCategoryById()
+        {
+            using (this.mocks.Record())
+            {
+                categoryRepository.Expect(repo => repo.GetByID(10)).Return(this.category);
+            }
+
+            var category = categoryService.GetByID(10);
+            Assert.AreEqual(category, this.category);
+        }
     }
 }

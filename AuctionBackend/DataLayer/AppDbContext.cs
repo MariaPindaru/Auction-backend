@@ -1,4 +1,4 @@
-﻿// <copyright file="AppContext.cs" company="Transilvania University of Brasov">
+﻿// <copyright file="AppDbContext.cs" company="Transilvania University of Brasov">
 // Maria Pindaru
 // </copyright>
 

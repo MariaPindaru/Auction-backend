@@ -1,8 +1,12 @@
-﻿using FluentValidation.Results;
-using System.Collections.Generic;
-
-namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
+﻿namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
 {
+    using System.Collections.Generic;
+    using FluentValidation.Results;
+
+    /// <summary>
+    /// IService.
+    /// </summary>
+    /// <typeparam name="T"> Entity type. </typeparam>
     public interface IService<T>
         where T : class
     {

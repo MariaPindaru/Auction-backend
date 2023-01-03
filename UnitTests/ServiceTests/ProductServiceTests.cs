@@ -1,15 +1,11 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ninject;
 using Rhino.Mocks;
 using AuctionBackend.DomainLayer.DomainModel;
 using FluentValidation.Results;
 using AuctionBackend.Startup;
-using AuctionBackend.DomainLayer.DomainModel.Validators;
 using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
 using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
 

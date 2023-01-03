@@ -4,12 +4,12 @@
 
 namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
 {
-    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Linq.Expressions;
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
 
     /// <summary>
     /// BaseRepository.

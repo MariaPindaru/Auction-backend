@@ -1,12 +1,15 @@
-﻿using AuctionBackend.DomainLayer.DomainModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="IProductService.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
 {
+    using AuctionBackend.DomainLayer.DomainModel;
+
+    /// <summary>
+    /// IProductService.
+    /// </summary>
+    /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;AuctionBackend.DomainLayer.DomainModel.Product&gt;" />
     public interface IProductService : IService<Product>
     {
     }

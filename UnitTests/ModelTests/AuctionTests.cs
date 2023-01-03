@@ -1,9 +1,7 @@
 ﻿using AuctionBackend.DomainLayer.DomainModel;
 using AuctionBackend.DomainLayer.DomainModel.Validators;
-using FluentValidation.Results;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 using FluentValidation.TestHelper;
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
 {
-    interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<User>
     {
     }
 }

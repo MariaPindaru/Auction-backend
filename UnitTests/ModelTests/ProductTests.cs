@@ -2,7 +2,6 @@
 using AuctionBackend.DomainLayer.DomainModel.Validators;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace UnitTests.ModelTests
 {

@@ -1,29 +1,46 @@
-﻿using AuctionBackend.DataLayer.DataAccessLayer.Impl;
-using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
-using AuctionBackend.DomainLayer.ServiceLayer.Impl;
-using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
-using Ninject.Modules;
+﻿// <copyright file="Bindings.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.Startup
 {
-    class Bindings : NinjectModule
+    using AuctionBackend.DataLayer.DataAccessLayer.Impl;
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.ServiceLayer.Impl;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using Ninject.Modules;
+
+    /// <summary>
+    /// Bindings.
+    /// </summary>
+    /// <seealso cref="Ninject.Modules.NinjectModule" />
+    public class Bindings : NinjectModule
     {
+        /// <summary>
+        /// Loads the module into the kernel.
+        /// </summary>
         public override void Load()
         {
-            LoadRepositoryLayer();
-            LoadServicesLayer();
+            this.LoadRepositoryLayer();
+            this.LoadServicesLayer();
         }
 
+        /// <summary>
+        /// Loads the services layer.
+        /// </summary>
         private void LoadServicesLayer()
         {
-            Bind<ICategoryService>().To<CategoryService>();
-            Bind<IProductService>().To<ProductService>();
+            this.Bind<ICategoryService>().To<CategoryService>();
+            this.Bind<IProductService>().To<ProductService>();
         }
 
+        /// <summary>
+        /// Loads the repository layer.
+        /// </summary>
         private void LoadRepositoryLayer()
         {
-            Bind<ICategoryRepository>().To<CategoryRepository>();
-            Bind<IProductRepository>().To<ProductRepository>();
+            this.Bind<ICategoryRepository>().To<CategoryRepository>();
+            this.Bind<IProductRepository>().To<ProductRepository>();
         }
     }
 }

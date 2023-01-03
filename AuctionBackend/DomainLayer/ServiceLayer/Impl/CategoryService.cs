@@ -5,12 +5,11 @@
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
-    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
+    using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.Startup;
-    using log4net;
-    using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
 
     /// <summary>
     /// CategoryService.

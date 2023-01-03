@@ -17,12 +17,15 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public AuctionValidator()
         {
-            this.RuleFor(auction => auction.Offerer).NotNull().WithMessage("The offerer cannot be null.");
-            this.RuleFor(auction => auction.Product).NotNull().WithMessage("The product cannot be null.");
+            this.RuleFor(auction => auction.Offerer).NotNull().WithMessage("The offerer cannot be null.").SetValidator(new UserValidator());
+            this.RuleFor(auction => auction.Product).NotNull().WithMessage("The product cannot be null.").SetValidator(new ProductValidator());
             this.RuleFor(auction => auction.StartPrice).ExclusiveBetween(0.0m, decimal.MaxValue).WithMessage("The product price must be in range (0, decimal.MaxValue).");
             this.RuleFor(auction => auction.Currency).IsInEnum().WithMessage("The currency must be within the defined enum.");
             this.RuleFor(auction => auction.StartTime).NotEmpty().WithMessage("Start time must be specified.");
             this.RuleFor(auction => auction.EndTime).NotEmpty().WithMessage("End time must be specified.");
+
+            this.RuleFor(auction => auction.StartTime).GreaterThanOrEqualTo(System.DateTime.Now).WithMessage("Start time cannot be in the past.");
+            this.RuleFor(auction => auction.EndTime).GreaterThanOrEqualTo(auction => auction.StartTime).WithMessage("End time cannot be lower than start time.");
         }
     }
 }

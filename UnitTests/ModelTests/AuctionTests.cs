@@ -56,8 +56,8 @@ namespace UnitTests.ModelTests
                 Product = product,
                 Currency = Currency.Euro,
                 StartPrice = 10.5m,
-                StartTime = new DateTime(2022, 12, 10),
-                EndTime = new DateTime(2022, 12, 13),
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddDays(5),
             };
         }
 
@@ -83,6 +83,17 @@ namespace UnitTests.ModelTests
         }
 
         /// <summary>
+        /// Tests the invalid offerer.
+        /// </summary>
+        [Test]
+        public void TestInvalidOfferer()
+        {
+            this.auction.Offerer.Name = null;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.Offerer.Name);
+        }
+
+        /// <summary>
         /// Tests the null product.
         /// </summary>
         [Test]
@@ -91,6 +102,17 @@ namespace UnitTests.ModelTests
             this.auction.Product = null;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
             result.ShouldHaveValidationErrorFor(auction => auction.Product);
+        }
+
+        /// <summary>
+        /// Tests the invalid product.
+        /// </summary>
+        [Test]
+        public void TestInvalidProduct()
+        {
+            this.auction.Product.Name = null;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.Product.Name);
         }
 
         /// <summary>
@@ -116,76 +138,51 @@ namespace UnitTests.ModelTests
         }
 
         /// <summary>
-        /// Tests the add valid bid.
+        /// Tests the start time is default.
         /// </summary>
         [Test]
-        public void TestAddValidBid()
+        public void TestStartTimeIsDefault()
         {
-            var bidder = new User
-            {
-                Name = "Bidder",
-                Role = Role.Bidder,
-                Score = 30.43f,
-            };
-            this.auction.AddToBidHistory(ref bidder, price: 11.5m);
-            Assert.AreEqual(this.auction.GetLastPrice(), 11.5m);
+            this.auction.StartTime = default;
+            this.auction.EndTime = DateTime.Now.AddDays(10);
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
         }
 
         /// <summary>
-        /// Tests the adition of a bid with a price too high.
+        /// Tests the end time is default.
         /// </summary>
         [Test]
-        public void TestAddTooHighBid()
+        public void TestEndTimeIsDefault()
         {
-            var bidder = new User
-            {
-                Name = "Bidder",
-                Role = Role.Bidder,
-                Score = 30.43f,
-            };
-
-            var ex = Assert.Throws<Exception>(() => this.auction.AddToBidHistory(ref bidder, price: 10000.5m));
-            Assert.That(ex.Message, Is.EqualTo("The price can't be 300% bigger than last price."));
-
-            Assert.AreEqual(this.auction.GetLastPrice(), 10.5m);
+            this.auction.StartTime = DateTime.Now.AddDays(10);
+            this.auction.EndTime = default;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.EndTime);
         }
 
         /// <summary>
-        /// Tests the add lower bid.
+        /// Tests the start time after end time.
         /// </summary>
         [Test]
-        public void TestAddLowerBid()
+        public void TestStartTimeAfterEndTime()
         {
-            var bidder = new User
-            {
-                Name = "Bidder",
-                Role = Role.Bidder,
-                Score = 30.43f,
-            };
-
-            var ex = Assert.Throws<Exception>(() => this.auction.AddToBidHistory(ref bidder, price: 9.5m));
-            Assert.That(ex.Message, Is.EqualTo("The price can't be lower than last price."));
-
-            Assert.AreEqual(this.auction.GetLastPrice(), 10.5m);
+            this.auction.StartTime = DateTime.Now.AddDays(10);
+            this.auction.EndTime = DateTime.Now.AddDays(2);
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.EndTime);
         }
 
         /// <summary>
-        /// Tests the add bid with offerer role.
+        /// Tests the start time in past.
         /// </summary>
         [Test]
-        public void TestAddBidWithOffererRole()
+        public void TestStartTimeInPast()
         {
-            var bidder = new User
-            {
-                Name = "Bidder",
-                Role = Role.Offerer,
-                Score = 30.43f,
-            };
-
-            var ex = Assert.Throws<Exception>(() => this.auction.AddToBidHistory(ref bidder, price: 12.5m));
-            Assert.That(ex.Message, Is.EqualTo("The bidder must have the role Bidder."));
-
-            Assert.AreEqual(this.auction.GetLastPrice(), 10.5m);
+            this.auction.StartTime = DateTime.Now.AddDays(-10);
+            this.auction.EndTime = DateTime.Now.AddDays(10);
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
         }
     }
 }

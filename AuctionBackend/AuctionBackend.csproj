@@ -201,6 +201,10 @@
     <Compile Include="Migrations\202301022331525_AddCurrencyForBid.designer.cs">
       <DependentUpon>202301022331525_AddCurrencyForBid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301031206306_CategoryMultipleParents.cs" />
+    <Compile Include="Migrations\202301031206306_CategoryMultipleParents.designer.cs">
+      <DependentUpon>202301031206306_CategoryMultipleParents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -237,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301022331525_AddCurrencyForBid.resx">
       <DependentUpon>202301022331525_AddCurrencyForBid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301031206306_CategoryMultipleParents.resx">
+      <DependentUpon>202301031206306_CategoryMultipleParents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

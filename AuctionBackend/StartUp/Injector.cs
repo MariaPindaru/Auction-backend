@@ -1,10 +1,13 @@
-﻿using Ninject;
-using System;
-using System.Reflection;
-
+﻿// <copyright file="Injector.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace AuctionBackend.Startup
 {
+    using System;
+    using System.Reflection;
+    using Ninject;
+
     /// <summary>
     /// Injector.
     /// </summary>
@@ -38,7 +41,7 @@ namespace AuctionBackend.Startup
         public static void Inject()
         {
             kernel = new StandardKernel(new Bindings());
-            kernel.Load(Assembly.GetExecutingAssembly());
+            //kernel.Load(Assembly.GetExecutingAssembly());
         }
 
         /// <summary>

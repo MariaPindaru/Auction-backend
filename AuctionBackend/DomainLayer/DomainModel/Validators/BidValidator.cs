@@ -17,9 +17,30 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public BidValidator()
         {
-            this.RuleFor(bid => bid.Bidder).NotNull().SetValidator(new UserValidator()).WithMessage("The bidder cannot be null or invalid.");
-            this.RuleFor(bid => bid.Currency).IsInEnum().WithMessage("The currency must be within the defined enum.");
-            this.RuleFor(bid => bid.Price).InclusiveBetween(0.1m, decimal.MaxValue).WithMessage("The price must be in range 0 and decimal max value.");
+            this.ClassLevelCascadeMode = CascadeMode.Stop;
+
+            this.RuleFor(bid => bid.Bidder)
+                .NotEmpty()
+                .WithMessage("The bidder cannot be null.");
+
+            this.RuleFor(bid => bid.Bidder)
+                .SetValidator(new UserValidator());
+
+            this.RuleFor(bid => bid.Bidder)
+                .Must(bidder => bidder.Role.HasFlag(Role.Bidder))
+                .WithMessage("The bidder must have the bidder role.");
+
+            this.RuleFor(bid => bid.Currency)
+                .IsInEnum()
+                .WithMessage("The currency must be within the defined enum.");
+
+            this.RuleFor(bid => bid.Price)
+                .InclusiveBetween(0.1m, decimal.MaxValue)
+                .WithMessage("The price must be in range 0 and decimal max value.");
+
+            this.RuleFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency })
+                        .Must(x => x.BidCurrency == x.AuctionCurrency)
+                        .WithMessage("The currency must be the same as it is defined in auction.");
         }
     }
 }

@@ -5,7 +5,6 @@
 namespace AuctionBackend
 {
     using System;
-    using System.Collections.Generic;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.Startup;
@@ -21,30 +20,23 @@ namespace AuctionBackend
             Injector.Inject();
             var kernel = Injector.Kernel;
             var categoryService = kernel.Get<ICategoryService>();
+            var productService = kernel.Get<IProductService>();
 
-            // InsertCategory(categoryService);
+            InsertCategory(categoryService, productService);
             Console.ReadKey(true);
         }
 
-        private static void InsertCategory(ICategoryService categoryService)
+        private static void InsertCategory(ICategoryService categoryService, IProductService productService)
         {
-            Category category = new Category
-            {
-                Name = "ChildCategory1",
-            };
+            var category = categoryService.GetByID(1);
 
-            Category category2 = new Category
+            var categoryP = new Category
             {
-                Name = "ChildCategory2",
+                Name = "cp",
             };
+            categoryP.Children.Add(category);
 
-            Category parentCategory = new Category
-            {
-                Name = "ParentCategory2",
-                Children = new HashSet<Category> { category, category2 },
-            };
-
-            var r = categoryService.Insert(parentCategory);
+            var r = categoryService.Insert(categoryP);
             Console.WriteLine(r.IsValid);
         }
     }

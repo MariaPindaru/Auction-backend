@@ -17,10 +17,15 @@ namespace AuctionBackend.DomainLayer.DomainModel
     public enum Role
     {
         /// <summary>The offerer.</summary>
-        Offerer,
+        Offerer = 1,
 
         /// <summary>The bidder.</summary>
-        Bidder,
+        Bidder = 2,
+
+        /// <summary>
+        /// Both offerer and bidder.
+        /// </summary>
+        OffererAndBidder = Offerer | Bidder,
     }
 
     /// <summary>Class used to define a user.</summary>
@@ -32,6 +37,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         public User()
         {
             this.AuctionHistory = new HashSet<Auction>();
+            this.BidHistory = new HashSet<Bid>();
         }
 
         /// <summary>Gets or sets the identifier.</summary>
@@ -61,5 +67,13 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the started auctions.</summary>
         /// <value>The started auctions.</value>
         public virtual ICollection<Auction> AuctionHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the bid history.
+        /// </summary>
+        /// <value>
+        /// The bid history.
+        /// </value>
+        public virtual ICollection<Bid> BidHistory { get; set; }
     }
 }

@@ -164,8 +164,10 @@
     <Compile Include="DataLayer\AppDbContext.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Impl\AuctionRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Impl\BaseRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Impl\BidRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Impl\CategoryRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\IAuctionRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IBidRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\ICategoryRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\IProductRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\IRepository.cs" />
@@ -174,10 +176,12 @@
     <Compile Include="DataLayer\DataAccessLayer\Impl\UserRepository.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\AuctionService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\BaseService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\BidService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\CategoryService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\ProductService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\UserService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IAuctionService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\IBidService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\ICategoryService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IProductService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IService.cs" />

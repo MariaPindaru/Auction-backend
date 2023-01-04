@@ -90,7 +90,7 @@ namespace UnitTests.ModelTests
         [Test]
         public void TestInvalidRole()
         {
-            this.user.Role = (Role)2;
+            this.user.Role = (Role)20;
 
             TestValidationResult<User> result = this.userValidator.TestValidate(this.user);
             result.ShouldHaveValidationErrorFor(user => user.Role);

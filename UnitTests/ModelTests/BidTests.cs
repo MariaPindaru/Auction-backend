@@ -4,6 +4,7 @@
 
 namespace UnitTests.ModelTests
 {
+    using System;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using FluentValidation.TestHelper;
@@ -32,9 +33,32 @@ namespace UnitTests.ModelTests
         {
             this.bidValidator = new BidValidator();
 
+            var auction = new Auction
+            {
+                Currency = Currency.Dolar,
+                StartPrice = 10.3m,
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddDays(5),
+                Offerer = new User
+                {
+                    Name = "offerer",
+                    Role = Role.Offerer,
+                },
+                Product = new Product
+                {
+                    Name = "product",
+                    Description = "the product description",
+                    Category = new Category
+                    {
+                        Name = "category",
+                    },
+                },
+            };
+
             var bidder = new User
             {
                 Name = "username",
+                Role = Role.Bidder,
             };
 
             this.bid = new Bid
@@ -42,6 +66,7 @@ namespace UnitTests.ModelTests
                 Bidder = bidder,
                 Price = 10.3m,
                 Currency = Currency.Dolar,
+                Auction = auction,
             };
         }
 
@@ -78,6 +103,28 @@ namespace UnitTests.ModelTests
         }
 
         /// <summary>
+        /// Tests the invalid role bidder.
+        /// </summary>
+        [Test]
+        public void TestInvalidRoleBidder()
+        {
+            this.bid.Bidder.Role = Role.Offerer;
+            TestValidationResult<Bid> result = this.bidValidator.TestValidate(this.bid);
+            result.ShouldHaveValidationErrorFor(bid => bid.Bidder);
+        }
+
+        /// <summary>
+        /// Tests the bidder with both roles.
+        /// </summary>
+        [Test]
+        public void TestBidderWithBothRoles()
+        {
+            this.bid.Bidder.Role = Role.Offerer | Role.Bidder;
+            TestValidationResult<Bid> result = this.bidValidator.TestValidate(this.bid);
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+
+        /// <summary>
         /// Tests the negative price.
         /// </summary>
         [Test]
@@ -97,6 +144,17 @@ namespace UnitTests.ModelTests
             this.bid.Currency = (Currency)90;
             TestValidationResult<Bid> result = this.bidValidator.TestValidate(this.bid);
             result.ShouldHaveValidationErrorFor(bid => bid.Currency);
+        }
+
+        /// <summary>
+        /// Tests the different currency than auction.
+        /// </summary>
+        [Test]
+        public void TestDifferentCurrencyThanAuction()
+        {
+            this.bid.Currency = Currency.Euro;
+            TestValidationResult<Bid> result = this.bidValidator.TestValidate(this.bid);
+            result.ShouldHaveValidationErrorFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency});
         }
     }
 }

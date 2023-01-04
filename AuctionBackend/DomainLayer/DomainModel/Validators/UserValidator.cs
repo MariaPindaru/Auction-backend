@@ -16,6 +16,8 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public UserValidator()
         {
+            this.ClassLevelCascadeMode = CascadeMode.Stop;
+
             this.RuleFor(user => user.Name).NotEmpty().WithMessage("User name cannot be null");
             this.RuleFor(user => user.Name).Length(2, 50).WithMessage("The user's name must have between 2 and 50 chars");
 

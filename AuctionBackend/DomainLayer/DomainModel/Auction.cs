@@ -88,6 +88,14 @@ namespace AuctionBackend.DomainLayer.DomainModel
         [Required]
         public DateTime EndTime { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="Auction"/> is started.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if started; otherwise, <c>false</c>.
+        /// </value>
+        public bool Started { get; set; }
+
         /// <summary>Gets or sets a value indicating whether this instance is finished.</summary>
         /// <value>
         ///   <c>true</c> if this instance is finished; otherwise, <c>false</c>.</value>

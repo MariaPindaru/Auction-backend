@@ -52,6 +52,8 @@ namespace UnitTests.ModelTests
 
             this.auction = new Auction
             {
+                Started = true,
+                IsFinished = false,
                 Offerer = offrer,
                 Product = product,
                 Currency = Currency.Euro,
@@ -91,6 +93,28 @@ namespace UnitTests.ModelTests
             this.auction.Offerer.Name = null;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
             result.ShouldHaveValidationErrorFor(auction => auction.Offerer.Name);
+        }
+
+        /// <summary>
+        /// Tests the invalid offerer role.
+        /// </summary>
+        [Test]
+        public void TestInvalidOffererRole()
+        {
+            this.auction.Offerer.Role = Role.Bidder;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.Offerer);
+        }
+
+        /// <summary>
+        /// Tests the offerer with both roles.
+        /// </summary>
+        [Test]
+        public void TestOffererWithBothRoles()
+        {
+            this.auction.Offerer.Role = Role.Bidder | Role.Offerer;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldNotHaveAnyValidationErrors();
         }
 
         /// <summary>
@@ -184,5 +208,14 @@ namespace UnitTests.ModelTests
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
             result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
         }
+
+        //[Test]
+        //public void TestStartTimeInPast()
+        //{
+        //    this.auction.StartTime = DateTime.Now.AddDays(-10);
+        //    this.auction.EndTime = DateTime.Now.AddDays(10);
+        //    TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+        //    result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
+        //}
     }
 }

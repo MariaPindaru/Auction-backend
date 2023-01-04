@@ -201,5 +201,42 @@ namespace UnitTests.ServiceTests
 
             Assert.IsFalse(result.IsValid);
         }
+
+        /// <summary>
+        /// Tests the update valid user.
+        /// </summary>
+        [Test]
+        public void TestUpdateValidUser()
+        {
+            this.user.Name = "Username";
+            this.user.Role = Role.Bidder;
+            this.user.Score = 20.9f;
+
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Update(this.user));
+            }
+
+            ValidationResult result = this.userService.Update(this.user);
+
+            Assert.IsTrue(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the name of the update user with null.
+        /// </summary>
+        [Test]
+        public void TestUpdateUserWithNullName()
+        {
+            this.user.Name = null;
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Update(this.user));
+            }
+
+            ValidationResult result = this.userService.Update(this.user);
+
+            Assert.IsFalse(result.IsValid);
+        }
     }
 }

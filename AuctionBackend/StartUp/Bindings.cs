@@ -34,6 +34,7 @@ namespace AuctionBackend.Startup
             this.Bind<IProductService>().To<ProductService>();
             this.Bind<IUserService>().To<UserService>();
             this.Bind<IAuctionService>().To<AuctionService>();
+            this.Bind<IBidService>().To<BidService>();
         }
 
         /// <summary>
@@ -45,6 +46,7 @@ namespace AuctionBackend.Startup
             this.Bind<IProductRepository>().To<ProductRepository>();
             this.Bind<IUserRepository>().To<UserRepository>();
             this.Bind<IAuctionRepository>().To<AuctionRepository>();
+            this.Bind<IBidRepository>().To<BidRepository>();
         }
     }
 }

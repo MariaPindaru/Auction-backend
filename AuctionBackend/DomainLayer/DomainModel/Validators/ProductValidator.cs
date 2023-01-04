@@ -16,6 +16,8 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public ProductValidator()
         {
+            this.ClassLevelCascadeMode = CascadeMode.Stop;
+
             this.RuleFor(product => product.Name).NotEmpty().WithMessage("Product name cannot be null");
             this.RuleFor(product => product.Name).Length(2, 100).WithMessage("The product name must have between 2 and 100 chars");
 

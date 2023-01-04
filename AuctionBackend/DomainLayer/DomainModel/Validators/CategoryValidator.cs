@@ -17,6 +17,8 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public CategoryValidator()
         {
+            this.ClassLevelCascadeMode = CascadeMode.Stop;
+
             this.RuleFor(category => category.Name).NotEmpty().WithMessage("Catgeory name cannot be null");
             this.RuleFor(category => category.Name).Length(2, 30).WithMessage("The category name must have between 2 and 30 chars");
         }

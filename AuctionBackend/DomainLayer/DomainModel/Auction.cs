@@ -100,56 +100,5 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// The bid history.
         /// </value>
         public virtual IList<Bid> BidHistory { get; set; }
-
-        /// <summary>
-        /// Adds to bid history.
-        /// </summary>
-        /// <param name="bidder">The bidder.</param>
-        /// <param name="price">The price.</param>
-        public void AddToBidHistory(ref User bidder, decimal price)
-        {
-            if (bidder.Role != Role.Bidder)
-            {
-                throw new Exception("The bidder must have the role Bidder.");
-            }
-
-            var previousPrice = this.StartPrice;
-            if (this.BidHistory.Count > 0)
-            {
-                previousPrice = this.BidHistory[this.BidHistory.Count - 1].Price;
-            }
-
-            if (previousPrice * 3 < price)
-            {
-                throw new Exception("The price can't be 300% bigger than last price.");
-            }
-
-            if (previousPrice > price)
-            {
-                throw new Exception("The price can't be lower than last price.");
-            }
-
-            var bid = new Bid
-            {
-                Bidder = bidder,
-                Price = price,
-            };
-            this.BidHistory.Add(bid);
-        }
-
-        /// <summary>
-        /// Gets the last price.
-        /// </summary>
-        /// <returns> Last price. </returns>
-        public decimal GetLastPrice()
-        {
-            var previousPrice = this.StartPrice;
-            if (this.BidHistory.Count > 0)
-            {
-                previousPrice = this.BidHistory[this.BidHistory.Count - 1].Price;
-            }
-
-            return previousPrice;
-        }
     }
 }

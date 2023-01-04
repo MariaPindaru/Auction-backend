@@ -32,7 +32,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </summary>
         protected IValidator<T> validator;
 
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(TU));
+        private static readonly ILog Logger = LogManager.GetLogger($"{typeof(T).Name}BaseService");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseService{T, TU}"/> class.

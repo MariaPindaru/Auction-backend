@@ -208,6 +208,10 @@
     <Compile Include="Migrations\202301031206306_CategoryMultipleParents.designer.cs">
       <DependentUpon>202301031206306_CategoryMultipleParents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301041151261_FixParentChildCategoryKeys.cs" />
+    <Compile Include="Migrations\202301041151261_FixParentChildCategoryKeys.designer.cs">
+      <DependentUpon>202301041151261_FixParentChildCategoryKeys.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -247,6 +251,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301031206306_CategoryMultipleParents.resx">
       <DependentUpon>202301031206306_CategoryMultipleParents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301041151261_FixParentChildCategoryKeys.resx">
+      <DependentUpon>202301041151261_FixParentChildCategoryKeys.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

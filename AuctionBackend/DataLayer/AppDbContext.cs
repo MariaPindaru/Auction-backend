@@ -78,8 +78,8 @@ namespace AuctionBackend.DataLayer
                         .WithMany(c => c.Children)
                         .Map(m =>
                         {
-                            m.MapLeftKey("ParentId");
-                            m.MapRightKey("ChildId");
+                            m.MapLeftKey("ChildId");
+                            m.MapRightKey("ParentId");
                             m.ToTable("ParentChildCategory");
                         });
         }

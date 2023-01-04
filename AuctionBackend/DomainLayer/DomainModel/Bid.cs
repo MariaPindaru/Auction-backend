@@ -19,12 +19,12 @@ namespace AuctionBackend.DomainLayer.DomainModel
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets the auction.
+        /// Gets or sets the auction.
         /// </summary>
         /// <value>
         /// The auction.
         /// </value>
-        public Auction Auction { get; }
+        public Auction Auction { get; set; }
 
         /// <summary>
         /// Gets or sets the bidder.

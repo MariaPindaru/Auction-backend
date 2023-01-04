@@ -70,7 +70,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
             using (var ctx = new AppDbContext())
             {
                 var dbSet = ctx.Set<T>();
-                dbSet.Add(entity);
+                dbSet.Attach(entity);
 
                 ctx.SaveChanges();
             }

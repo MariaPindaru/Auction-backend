@@ -14,5 +14,30 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IAuctionRepository" />
     public class AuctionRepository : BaseRepository<Auction>, IAuctionRepository
     {
+        /// <summary>
+        /// Inserts the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        public override void Insert(Auction entity)
+        {
+            using (var ctx = new AppDbContext())
+            {
+                User offerer = ctx.Set<User>().Find(entity.Offerer.Id);
+                if (offerer != null)
+                {
+                    entity.Offerer = offerer;
+                }
+
+                Product product = ctx.Set<Product>().Find(entity.Product.Id);
+                if (product != null)
+                {
+                    entity.Product = product;
+                }
+
+                ctx.Set<Auction>().Add(entity);
+
+                ctx.SaveChanges();
+            }
+        }
     }
 }

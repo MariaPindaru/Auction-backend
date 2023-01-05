@@ -4,6 +4,8 @@
 
 namespace UnitTests.ServiceTests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
@@ -237,6 +239,40 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userService.Update(this.user);
 
             Assert.IsFalse(result.IsValid);
+        }
+
+
+        /// <summary>
+        /// Tests the get users.
+        /// </summary>
+        [Test]
+        public void TestGetUsers()
+        {
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Get()).Return(new HashSet<User> { this.user });
+            }
+
+            var users = this.userService.GetAll();
+
+            Assert.AreEqual(users.ToList().Count, 1);
+            Assert.AreEqual(users.ToList().First(), this.user);
+        }
+
+        /// <summary>
+        /// Tests the get user by identifier.
+        /// </summary>
+        [Test]
+        public void TestGetUserById()
+        {
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.GetByID(10)).Return(this.user);
+            }
+
+            var product = this.userService.GetByID(10);
+
+            Assert.AreEqual(product, this.user);
         }
     }
 }

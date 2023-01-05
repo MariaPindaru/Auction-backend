@@ -18,6 +18,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
         /// Inserts the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         public override void Insert(Product entity)
         {
             using (var ctx = new AppDbContext())

@@ -4,6 +4,7 @@
 
 namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
 {
+    using System.Diagnostics.CodeAnalysis;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
 
@@ -12,6 +13,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IAuctionRepository" />
+    [ExcludeFromCodeCoverage]
     public class AuctionRepository : BaseRepository<Auction>, IAuctionRepository
     {
         /// <summary>

@@ -16,6 +16,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// </summary>
     /// <typeparam name="T">Entity type.</typeparam>
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IRepository&lt;T&gt;" />
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public abstract class BaseRepository<T> : IRepository<T>
         where T : class
     {

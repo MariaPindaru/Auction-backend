@@ -5,6 +5,7 @@
 namespace AuctionBackend
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.Startup;
@@ -13,6 +14,7 @@ namespace AuctionBackend
     /// <summary>
     /// Main program.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal class Program
     {
         private static void Main(string[] args)

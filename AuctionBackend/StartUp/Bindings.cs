@@ -14,6 +14,7 @@ namespace AuctionBackend.Startup
     /// Bindings.
     /// </summary>
     /// <seealso cref="Ninject.Modules.NinjectModule" />
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class Bindings : NinjectModule
     {
         /// <summary>

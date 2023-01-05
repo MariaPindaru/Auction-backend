@@ -55,26 +55,12 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
 
             this.RuleFor(auction => auction.StartTime)
                 .GreaterThanOrEqualTo(System.DateTime.Now)
-                .WithMessage("Start time cannot be in the past.");
+                .WithMessage("Start time cannot be in the past.")
+                .When(auction => auction.Id <= 0);
 
             this.RuleFor(auction => auction.EndTime)
-                .GreaterThanOrEqualTo(auction => auction.StartTime)
+                .GreaterThan(auction => auction.StartTime)
                 .WithMessage("End time cannot be lower than start time.");
-
-            this.RuleFor(auction => auction.Started)
-                .Equal(false)
-                .When(auction => auction.StartTime > System.DateTime.Now)
-                .WithMessage("Auction can't be started before it's start date.");
-
-            this.RuleFor(auction => auction.Started)
-                .Equal(false)
-                .When(auction => auction.IsFinished)
-                .WithMessage("Auction can't be started after it has been closed.");
-
-            this.RuleFor(auction => auction.Started)
-                .Equal(true)
-                .When(auction => auction.StartTime >= System.DateTime.Now)
-                .WithMessage("Auction must be started if it is past it's start time.");
 
             this.RuleFor(auction => auction.IsFinished)
                 .Equal(false)
@@ -84,7 +70,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
             this.RuleFor(auction => auction.IsFinished)
                 .Equal(true)
                 .When(auction => auction.EndTime < System.DateTime.Now)
-                .WithMessage("Auction must be finished if it is past it's end time.");
+                .WithMessage("Auction must be finished if it is past its end time.");
         }
     }
 }

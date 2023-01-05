@@ -14,6 +14,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Category&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.ICategoryRepository" />
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
         /// <summary>

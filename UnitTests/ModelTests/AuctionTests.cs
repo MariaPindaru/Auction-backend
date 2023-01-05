@@ -52,7 +52,6 @@ namespace UnitTests.ModelTests
 
             this.auction = new Auction
             {
-                Started = true,
                 IsFinished = false,
                 Offerer = offrer,
                 Product = product,
@@ -209,13 +208,32 @@ namespace UnitTests.ModelTests
             result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
         }
 
-        //[Test]
-        //public void TestStartTimeInPast()
-        //{
-        //    this.auction.StartTime = DateTime.Now.AddDays(-10);
-        //    this.auction.EndTime = DateTime.Now.AddDays(10);
-        //    TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
-        //    result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
-        //}
+        /// <summary>
+        /// Tests the is finished is false after end date.
+        /// </summary>
+        [Test]
+        public void TestIsFinishedIsFalseAfterEndDate()
+        {
+            this.auction.StartTime = DateTime.Now.AddDays(-2);
+            this.auction.EndTime = DateTime.Now.AddDays(-1);
+            this.auction.IsFinished = false;
+            this.auction.Id = 12;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.IsFinished);
+        }
+
+        /// <summary>
+        /// Tests the is finished is true before start date.
+        /// </summary>
+        [Test]
+        public void TestIsFinishedIsTrueBeforeStartDate()
+        {
+            this.auction.StartTime = DateTime.Now.AddDays(2);
+            this.auction.EndTime = DateTime.Now.AddDays(10);
+            this.auction.IsFinished = true;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.IsFinished);
+        }
+
     }
 }

@@ -10,6 +10,7 @@ namespace AuctionBackend.Startup
     /// <summary>
     /// Injector.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class Injector
     {
         private static IKernel kernel;

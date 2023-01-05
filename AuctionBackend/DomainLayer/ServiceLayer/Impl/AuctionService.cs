@@ -27,5 +27,18 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         : base(Injector.Get<IAuctionRepository>(), new AuctionValidator())
         {
         }
+
+        /// <summary>
+        /// Inserts the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        /// The validation result.
+        /// </returns>
+        public ValidationResult Insert(Auction entity)
+        {
+
+            return base.Insert(entity);
+        }
     }
 }

@@ -5,6 +5,8 @@
 namespace UnitTests.ServiceTests
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
@@ -89,6 +91,7 @@ namespace UnitTests.ServiceTests
 
             this.bid = new Bid
             {
+                Id = 0,
                 Bidder = bidder,
                 Price = 20.3m,
                 Currency = Currency.Dolar,
@@ -178,6 +181,89 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.bidService.Insert(this.bid);
 
             Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update valid bid.
+        /// </summary>
+        [Test]
+        public void TestUpdateValidBid()
+        {
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.Update(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Update(this.bid);
+
+            Assert.IsTrue(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update bid with null bidder.
+        /// </summary>
+        [Test]
+        public void TestUpdateBidWithNullBidder()
+        {
+            this.bid.Bidder = null;
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.Update(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Update(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update bid with invalid bidder.
+        /// </summary>
+        [Test]
+        public void TestUpdateBidWithInvalidBidder()
+        {
+            this.bid.Bidder.Name = null;
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.Update(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Update(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the get bids.
+        /// </summary>
+        [Test]
+        public void TestGetBids()
+        {
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.Get()).Return(new HashSet<Bid> { this.bid });
+            }
+
+            var bids = this.bidService.GetAll();
+
+            Assert.AreEqual(bids.ToList().Count, 1);
+            Assert.AreEqual(bids.ToList().First(), this.bid);
+        }
+
+        /// <summary>
+        /// Tests the get bid by identifier.
+        /// </summary>
+        [Test]
+        public void TestGetBidById()
+        {
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.GetByID(10)).Return(this.bid);
+            }
+
+            var product = this.bidService.GetByID(10);
+
+            Assert.AreEqual(product, this.bid);
         }
     }
 }

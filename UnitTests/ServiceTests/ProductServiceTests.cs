@@ -71,6 +71,7 @@ namespace UnitTests.ServiceTests
             };
             this.product = new Product
             {
+                Id = 0,
                 Category = this.category,
                 Name = "TV",
                 Description = "you can watch the tv :)",

@@ -60,7 +60,7 @@ namespace UnitTests.ServiceTests
             this.kernel.Rebind<IUserRepository>().ToConstant(this.userRepository);
             this.userService = this.kernel.Get<IUserService>();
 
-            this.user = new User();
+            this.user = new User { Id = 0, };
         }
 
         /// <summary>

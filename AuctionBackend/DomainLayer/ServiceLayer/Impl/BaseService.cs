@@ -22,7 +22,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         where T : class
         where TU : IRepository<T>
     {
-        private static readonly ILog Logger = LogManager.GetLogger($"{typeof(T).Name}BaseService");
+        protected static readonly ILog Logger = LogManager.GetLogger($"{typeof(T).Name}BaseService");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseService{T, TU}"/> class.

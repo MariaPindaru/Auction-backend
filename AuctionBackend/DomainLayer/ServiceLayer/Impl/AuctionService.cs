@@ -13,6 +13,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     using AuctionBackend.Startup;
     using FluentValidation.Results;
     using log4net;
+    using log4net.Repository.Hierarchy;
 
     /// <summary>
     /// AuctionService.
@@ -40,9 +41,12 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         {
             if (entity.StartTime < DateTime.Now)
             {
+                var errorString = "Start time cannot be in the past.";
+                Logger.Error(errorString);
+
                 IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
                 {
-                    new ValidationFailure("StartTime", "Start time cannot be in the past."),
+                    new ValidationFailure("StartTime", errorString),
                 };
                 return new ValidationResult(failures);
             }
@@ -62,11 +66,31 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             Auction auction = this.Repository.GetByID(entity.Id);
             if (auction is null)
             {
+                var errorString = "The auction's id is not valid so the object cannot be updated.";
+                Logger.Error(errorString);
+
                 IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
                 {
-                    new ValidationFailure("Id", "The auction's id is not valid so the object cannot be updated."),
+                    new ValidationFailure("Id", errorString),
                 };
                 return new ValidationResult(failures);
+            }
+
+            if (auction.IsFinished)
+            {
+                var errorString = "The auction has been finished so it cannot be updated.";
+                Logger.Error(errorString);
+
+                IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
+                {
+                    new ValidationFailure("Finished", errorString),
+                };
+                return new ValidationResult(failures);
+            }
+
+            if (auction.EndTime < DateTime.Now && !auction.IsFinished && entity != auction)
+            {
+                Logger.Info("The end time for the auction has been past so only the 'IsFinished' field will be updated into the database.");
             }
 
             return base.Update(entity);

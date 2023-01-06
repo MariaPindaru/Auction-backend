@@ -9,6 +9,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.Startup;
+    using FluentValidation.Results;
 
     /// <summary>
     /// ProductService.
@@ -23,6 +24,19 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         public ProductService()
         : base(Injector.Get<IProductRepository>(), new ProductValidator())
         {
+        }
+
+        /// <summary>
+        /// Inserts the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        /// The validation result.
+        /// </returns>
+        public new ValidationResult Insert(Product entity)
+        {
+            // TODO: validate description to user's..................
+            return base.Insert(entity);
         }
     }
 }

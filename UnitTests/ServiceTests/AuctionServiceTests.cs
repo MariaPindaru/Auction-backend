@@ -364,6 +364,90 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the update auction after is finished.
+        /// </summary>
+        [Test]
+        public void TestUpdateAuctionAfterIsFinished()
+        {
+            this.auction.StartTime = DateTime.Now.AddDays(-10);
+            this.auction.EndTime = DateTime.Now.AddDays(-6);
+            this.auction.IsFinished = true;
+
+            using (this.mocks.Record())
+            {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
+                this.auctionRepository.Expect(repo => repo.Update(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Update(this.auction);
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update auction is finished after its end time.
+        /// </summary>
+        [Test]
+        public void TestUpdateAuctionIsFinishedAfterItsEndTime()
+        {
+            this.auction.StartTime = DateTime.Now.AddDays(-10);
+            this.auction.EndTime = DateTime.Now.AddDays(-6);
+            this.auction.IsFinished = false;
+
+            using (this.mocks.Record())
+            {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
+                this.auctionRepository.Expect(repo => repo.Update(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Update(this.auction);
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update auction after its end time.
+        /// </summary>
+        [Test]
+        public void TestUpdateAuctionAfterItsEndTime()
+        {
+            this.auction.StartTime = DateTime.Now.AddDays(-10);
+            this.auction.EndTime = DateTime.Now.AddDays(-6);
+            this.auction.IsFinished = false;
+
+            var auctionLocal = new Auction
+            {
+                Id = 10,
+                IsFinished = false,
+                Currency = Currency.Dolar,
+                StartPrice = 10.3m,
+                StartTime = DateTime.Now.AddDays(1),
+                EndTime = DateTime.Now.AddDays(5),
+                Offerer = new User
+                {
+                    Name = "user",
+                    Role = Role.Offerer,
+                },
+                Product = new Product
+                {
+                    Name = "product",
+                    Description = "the product description",
+                    Category = new Category
+                    {
+                        Name = "category",
+                    },
+                },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
+                this.auctionRepository.Expect(repo => repo.Update(auctionLocal));
+            }
+
+            ValidationResult result = this.auctionService.Update(auctionLocal);
+            Assert.IsTrue(result.IsValid);
+        }
+
+        /// <summary>
         /// Tests the delete auction.
         /// </summary>
         [Test]

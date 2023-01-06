@@ -5,7 +5,6 @@
 namespace UnitTests.EndToEndTest
 {
     using System;
-    using System.Collections.Generic;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;

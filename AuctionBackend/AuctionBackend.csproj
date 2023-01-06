@@ -196,6 +196,7 @@
     <Compile Include="DomainLayer\DomainModel\Validators\CategoryValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\ProductValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserValidator.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Utils\LevenshteinDistance.cs" />
     <Compile Include="Migrations\202301022235172_Initial.cs" />
     <Compile Include="Migrations\202301022235172_Initial.designer.cs">
       <DependentUpon>202301022235172_Initial.cs</DependentUpon>

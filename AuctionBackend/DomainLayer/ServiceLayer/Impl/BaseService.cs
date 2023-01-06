@@ -22,16 +22,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         where T : class
         where TU : IRepository<T>
     {
-        /// <summary>
-        /// The repository.
-        /// </summary>
-        protected TU repository;
-
-        /// <summary>
-        /// The validator.
-        /// </summary>
-        protected IValidator<T> validator;
-
         private static readonly ILog Logger = LogManager.GetLogger($"{typeof(T).Name}BaseService");
 
         /// <summary>
@@ -41,11 +31,27 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <param name="validator">The validator.</param>
         public BaseService(TU repository, IValidator<T> validator)
         {
-            this.repository = repository;
-            this.validator = validator;
+            this.Repository = repository;
+            this.Validator = validator;
 
             Logger.Info("Service created.");
         }
+
+        /// <summary>
+        /// Gets the repository.
+        /// </summary>
+        /// <value>
+        /// The repository.
+        /// </value>
+        protected TU Repository { get; }
+
+        /// <summary>
+        /// Gets the validator.
+        /// </summary>
+        /// <value>
+        /// The validator.
+        /// </value>
+        protected IValidator<T> Validator { get; }
 
         /// <summary>Inserts the specified entity.</summary>
         /// <param name="entity">The entity.</param>
@@ -54,10 +60,10 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public ValidationResult Insert(T entity)
         {
-            var result = this.validator.Validate(entity);
+            var result = this.Validator.Validate(entity);
             if (result.IsValid)
             {
-                this.repository.Insert(entity);
+                this.Repository.Insert(entity);
                 Logger.Info($"An object of type {typeof(T).Name} has been inserted.");
             }
             else
@@ -76,10 +82,10 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>The validation result.</returns>
         public ValidationResult Update(T entity)
         {
-            var result = this.validator.Validate(entity);
+            var result = this.Validator.Validate(entity);
             if (result.IsValid)
             {
-                this.repository.Update(entity);
+                this.Repository.Update(entity);
             }
             else
             {
@@ -94,7 +100,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <param name="entity">The entity to be deleted.</param>
         public void Delete(T entity)
         {
-            this.repository.Delete(entity);
+            this.Repository.Delete(entity);
         }
 
         /// <summary>
@@ -104,7 +110,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>The object found.</returns>
         public T GetByID(object id)
         {
-            return this.repository.GetByID(id);
+            return this.Repository.GetByID(id);
         }
 
         /// <summary>
@@ -113,7 +119,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>List of objects found.</returns>
         public IEnumerable<T> GetAll()
         {
-            return this.repository.Get();
+            return this.Repository.Get();
         }
     }
 }

@@ -63,10 +63,11 @@ namespace UnitTests.ServiceTests
 
             this.auction = new Auction
             {
+                Id = 10,
                 IsFinished = false,
                 Currency = Currency.Dolar,
                 StartPrice = 10.3m,
-                StartTime = DateTime.Now,
+                StartTime = DateTime.Now.AddDays(1),
                 EndTime = DateTime.Now.AddDays(5),
                 Offerer = new User
                 {
@@ -305,6 +306,7 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
                 this.auctionRepository.Expect(repo => repo.Update(this.auction));
             }
 
@@ -321,6 +323,23 @@ namespace UnitTests.ServiceTests
             this.auction.Product = null;
             using (this.mocks.Record())
             {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
+                this.auctionRepository.Expect(repo => repo.Update(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Update(this.auction);
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update nonexisting auction.
+        /// </summary>
+        [Test]
+        public void TestUpdateNonexistingAuction()
+        {
+            using (this.mocks.Record())
+            {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(null);
                 this.auctionRepository.Expect(repo => repo.Update(this.auction));
             }
 
@@ -336,6 +355,7 @@ namespace UnitTests.ServiceTests
         {
             using (this.mocks.Record())
             {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
                 this.auctionRepository.Expect(repo => repo.Update(this.auction));
             }
 

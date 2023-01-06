@@ -53,11 +53,9 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("End time must be specified.");
 
-            this.RuleFor(auction => auction.StartTime)
-                .GreaterThanOrEqualTo(System.DateTime.Now)
-                .WithMessage("Start time cannot be in the past.")
-                .When(auction => auction.Id <= 0);
-
+            // this.RuleFor(auction => auction.StartTime)
+            //    .GreaterThanOrEqualTo(System.DateTime.Now)
+            //    .WithMessage("Start time cannot be in the past.");
             this.RuleFor(auction => auction.EndTime)
                 .GreaterThan(auction => auction.StartTime)
                 .WithMessage("End time cannot be lower than start time.");

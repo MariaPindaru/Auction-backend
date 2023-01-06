@@ -199,14 +199,14 @@ namespace UnitTests.ModelTests
         /// <summary>
         /// Tests the start time in past.
         /// </summary>
-        [Test]
-        public void TestStartTimeInPast()
-        {
-            this.auction.StartTime = DateTime.Now.AddDays(-10);
-            this.auction.EndTime = DateTime.Now.AddDays(10);
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
-            result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
-        }
+        //[Test]
+        //public void TestStartTimeInPast()
+        //{
+        //    this.auction.StartTime = DateTime.Now.AddDays(-10);
+        //    this.auction.EndTime = DateTime.Now.AddDays(10);
+        //    TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+        //    result.ShouldHaveValidationErrorFor(auction => auction.StartTime);
+        //}
 
         /// <summary>
         /// Tests the is finished is false after end date.

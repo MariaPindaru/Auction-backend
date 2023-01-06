@@ -4,6 +4,7 @@
 
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
+    using System;
     using System.Collections.Generic;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
@@ -35,10 +36,40 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>
         /// The validation result.
         /// </returns>
-        public ValidationResult Insert(Auction entity)
+        public new ValidationResult Insert(Auction entity)
         {
+            if (entity.StartTime < DateTime.Now)
+            {
+                IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
+                {
+                    new ValidationFailure("StartTime", "Start time cannot be in the past."),
+                };
+                return new ValidationResult(failures);
+            }
 
             return base.Insert(entity);
+        }
+
+        /// <summary>
+        /// Inserts the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        /// The validation result.
+        /// </returns>
+        public new ValidationResult Update(Auction entity)
+        {
+            Auction auction = this.Repository.GetByID(entity.Id);
+            if (auction is null)
+            {
+                IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
+                {
+                    new ValidationFailure("Id", "The auction's id is not valid so the object cannot be updated."),
+                };
+                return new ValidationResult(failures);
+            }
+
+            return base.Update(entity);
         }
     }
 }

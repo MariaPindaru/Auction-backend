@@ -15,6 +15,9 @@ namespace UnitTests.ServiceTests
     using Ninject;
     using NUnit.Framework;
     using Rhino.Mocks;
+    using Microsoft.Extensions.Configuration;
+    using System.Configuration;
+
 
     /// <summary>
     /// AuctionServiceTests.
@@ -92,6 +95,17 @@ namespace UnitTests.ServiceTests
         [Test]
         public void TestAddValidAuction()
         {
+
+            var myConfiguration = new Dictionary<string, string>
+{
+    {"Key1", "Value1"},
+    {"Nested:Key1", "NestedValue1"},
+    {"Nested:Key2", "NestedValue2"}
+};
+
+            var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
+                .AddInMemoryCollection(myConfiguration)
+                .Build();
             using (this.mocks.Record())
             {
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));

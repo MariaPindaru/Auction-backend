@@ -4,8 +4,8 @@
 
 namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
 {
-    using AuctionBackend.DomainLayer.DomainModel;
     using System.Collections.Generic;
+    using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
     /// IAuctionService.
@@ -14,12 +14,17 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
     public interface IAuctionService : IService<Auction>
     {
         /// <summary>
-        /// Gets the auctions with their bid history.
+        /// Gets the user auctions.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>
-        /// Collection of aucctions including their bidding history.
-        /// </returns>
-        /*Auction GetAuctionWithTheirBidHistory(int id);*/
+        /// <param name="userId">The user identifier.</param>
+        /// <returns> Collection of auctions which have as offerer the given user. </returns>
+        IEnumerable<Auction> GetUserAuctions(int userId);
+
+        /// <summary>
+        /// Gets the user active auctions.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns> Collection of active auctions which have as offerer the given user. </returns>
+        IEnumerable<Auction> GetUserActiveAuctions(int userId);
     }
 }

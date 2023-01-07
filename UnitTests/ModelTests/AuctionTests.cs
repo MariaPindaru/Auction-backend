@@ -222,6 +222,5 @@ namespace UnitTests.ModelTests
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
             result.ShouldHaveValidationErrorFor(auction => auction.IsFinished);
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="AuctionEndToEndTests.cs" company="Transilvania University of Brasov">
+﻿// <copyright file="BidEndToEndTests.cs" company="Transilvania University of Brasov">
 // Maria Pindaru
 // </copyright>
 
@@ -17,7 +17,7 @@ namespace UnitTests.EndToEndTest
     /// <summary>
     /// AuctionEndToEndTests.
     /// </summary>
-    internal class AuctionEndToEndTests
+    internal class BidEndToEndTests
     {
         private IKernel kernel;
 

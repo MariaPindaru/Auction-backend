@@ -4,6 +4,7 @@
 
 namespace AuctionBackend.DomainLayer.DomainModel
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -32,5 +33,14 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <value>The categories.</value>
         [Required]
         public Category Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the auction.
+        /// </summary>
+        /// <value>
+        /// The auction.
+        /// </value>
+        [Required]
+        public Auction Auction { get; set; }
     }
 }

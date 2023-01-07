@@ -6,6 +6,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.Config;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
 
     using FluentValidation;
@@ -22,6 +23,9 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         where T : class
         where TU : IRepository<T>
     {
+        /// <summary>
+        /// The logger.
+        /// </summary>
         protected static readonly ILog Logger = LogManager.GetLogger($"{typeof(T).Name}BaseService");
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>
         ///   The validation result.
         /// </returns>
-        public ValidationResult Insert(T entity)
+        public virtual ValidationResult Insert(T entity)
         {
             var result = this.Validator.Validate(entity);
             if (result.IsValid)
@@ -80,12 +84,13 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns>The validation result.</returns>
-        public ValidationResult Update(T entity)
+        public virtual ValidationResult Update(T entity)
         {
             var result = this.Validator.Validate(entity);
             if (result.IsValid)
             {
                 this.Repository.Update(entity);
+                Logger.Error($"The object of type {typeof(T).Name} has been updated.");
             }
             else
             {

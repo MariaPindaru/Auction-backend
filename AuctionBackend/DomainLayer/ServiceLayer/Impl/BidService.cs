@@ -4,13 +4,13 @@
 
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
+    using System.Collections.Generic;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.Startup;
     using FluentValidation.Results;
-    using System.Collections.Generic;
 
     /// <summary>
     /// BidService.
@@ -34,7 +34,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>
         /// The validation result.
         /// </returns>
-        public new ValidationResult Insert(Bid entity)
+        public override ValidationResult Insert(Bid entity)
         {
             Auction auction = entity.Auction;
             if (auction != null && auction.BidHistory != null && auction.BidHistory.Count > 0)

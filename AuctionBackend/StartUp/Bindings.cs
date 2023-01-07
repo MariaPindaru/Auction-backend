@@ -6,6 +6,7 @@ namespace AuctionBackend.Startup
 {
     using AuctionBackend.DataLayer.DataAccessLayer.Impl;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.Config;
     using AuctionBackend.DomainLayer.ServiceLayer.Impl;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using Ninject.Modules;
@@ -36,6 +37,8 @@ namespace AuctionBackend.Startup
             this.Bind<IUserService>().To<UserService>();
             this.Bind<IAuctionService>().To<AuctionService>();
             this.Bind<IBidService>().To<BidService>();
+
+            this.Bind<IConfiguration>().To<Configuration>();
         }
 
         /// <summary>

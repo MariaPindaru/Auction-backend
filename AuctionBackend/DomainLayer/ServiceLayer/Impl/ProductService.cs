@@ -4,10 +4,12 @@
 
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
+    using System.Collections.Generic;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using AuctionBackend.DomainLayer.ServiceLayer.Utils;
     using AuctionBackend.Startup;
     using FluentValidation.Results;
 
@@ -33,9 +35,31 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>
         /// The validation result.
         /// </returns>
-        public new ValidationResult Insert(Product entity)
+        public override ValidationResult Insert(Product entity)
         {
-            // TODO: validate description to user's..................
+            if (entity.Auction != null && entity.Auction.Offerer != null && entity.Description != null)
+            {
+                var offerer = entity.Auction.Offerer;
+                var productsWithTheSameOfferer = this.Repository.Get(
+                    filter: product => product.Auction.Offerer.Id == offerer.Id,
+                    includeProperties: "Auction, User");
+
+                foreach (var previousProduct in productsWithTheSameOfferer)
+                {
+                    if (LevenshteinDistance.Calculate(previousProduct.Description, entity.Description) > 0)
+                    {
+                        var errorString = "The product's description is too similar with another product description used for an auction by the same user.";
+                        Logger.Error(errorString);
+
+                        IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
+                        {
+                            new ValidationFailure("Description", errorString),
+                        };
+                        return new ValidationResult(failures);
+                    }
+                }
+            }
+
             return base.Insert(entity);
         }
     }

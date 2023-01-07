@@ -1,8 +1,12 @@
-﻿using AuctionBackend.DomainLayer.ServiceLayer.Utils;
-using NUnit.Framework;
+﻿// <copyright file="LevenshteinDistanceTests.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
 
 namespace UnitTests
 {
+    using AuctionBackend.DomainLayer.ServiceLayer.Utils;
+    using NUnit.Framework;
+
     /// <summary>
     /// LevenshteinDistanceTests.
     /// </summary>

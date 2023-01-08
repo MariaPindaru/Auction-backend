@@ -8,6 +8,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
 
     /// <summary>
     /// Enum used to define the user's role.
@@ -38,6 +39,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         {
             this.AuctionHistory = new HashSet<Auction>();
             this.BidHistory = new HashSet<Bid>();
+            this.ReceivedUserScores = new HashSet<UserScore>();
         }
 
         /// <summary>Gets or sets the identifier.</summary>
@@ -58,11 +60,35 @@ namespace AuctionBackend.DomainLayer.DomainModel
         [Range(0, 1)]
         public Role Role { get; set; }
 
-        /// <summary>Gets or sets the score.</summary>
-        /// <value>The score.</value>
-        //[Required]
-        //[Range(0.0f, 100.0f)]
-        //public float Score { get; set; }
+        /// <summary>
+        /// Gets the score.
+        /// </summary>
+        /// <value>
+        /// The score.
+        /// </value>
+        [NotMapped]
+        public int Score
+        {
+            get
+            {
+                if (this.ReceivedUserScores.Count >= 3)
+                {
+                    if (this.ReceivedUserScores.Count % 2 == 1)
+                    {
+                        var medianIndex = (this.ReceivedUserScores.Count + 1) / 2;
+                        return this.ReceivedUserScores.ElementAt(medianIndex).Score;
+                    }
+                    else
+                    {
+                        var medianIndex = this.ReceivedUserScores.Count / 2;
+                        return (this.ReceivedUserScores.ElementAt(medianIndex).Score +
+                                this.ReceivedUserScores.ElementAt(medianIndex + 1).Score) / 2;
+                    }
+                }
+
+                return 0;
+            }
+        }
 
         /// <summary>Gets or sets the started auctions.</summary>
         /// <value>The started auctions.</value>

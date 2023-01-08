@@ -7,13 +7,13 @@ namespace AuctionBackend.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class ProductHasOneCategory : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ProductHasOneCategory));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202301022250220_ProductHasOneCategory"; }
+            get { return "202301081046472_Initial"; }
         }
         
         string IMigrationMetadata.Source

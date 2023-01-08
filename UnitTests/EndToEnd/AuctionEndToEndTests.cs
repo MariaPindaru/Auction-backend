@@ -90,10 +90,7 @@ namespace UnitTests.EndToEnd
                     .Select(i => new Auction())
                     .ToList();
 
-                int offererId = this.auction.Offerer.Id;
-                this.auctionRepository.Expect(repo => repo.Get(
-                    filter: auction => auction.Offerer.Id == offererId,
-                    includeProperties: "Auction, User"))
+                this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(activeAuctions);
 

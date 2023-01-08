@@ -58,6 +58,14 @@ namespace AuctionBackend.DataLayer
         public virtual DbSet<Bid> Bids { get; set; }
 
         /// <summary>
+        /// Gets or sets the user scores.
+        /// </summary>
+        /// <value>
+        /// The user scores.
+        /// </value>
+        public virtual DbSet<UserScore> UserScores { get; set; }
+
+        /// <summary>
         /// This method is called when the model for a derived context has been initialized, but
         /// before the model has been locked down and used to initialize the context.  The default
         /// implementation of this method does nothing, but it can be overridden in a derived class
@@ -84,10 +92,16 @@ namespace AuctionBackend.DataLayer
                             m.ToTable("ParentChildCategory");
                         });
 
-            modelBuilder.Entity<Product>()
-                        .HasOptional(a => a.Auction)
-                        .WithOptionalDependent()
-                        .WillCascadeOnDelete(true);
+            modelBuilder.Entity<User>()
+                .HasMany(c => c.ReceivedUserScores)
+                .WithRequired(c => c.ScoredUser)
+                .WillCascadeOnDelete(false);
+
+
+            modelBuilder.Entity<User>()
+                .HasMany(c => c.GivenUserScores)
+                .WithRequired(c => c.ScoringUser)
+                .WillCascadeOnDelete(false);
         }
     }
 }

@@ -42,21 +42,24 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Insert(Auction entity)
         {
-            int offererId = entity.Offerer.Id;
-            var activeAuctionForOfferer = this.Repository.Get(
-                    filter: auction => auction.Offerer.Id == offererId,
-                    includeProperties: "Auction, User").ToList().Count;
-
-            if (activeAuctionForOfferer >= this.appConfiguration.MaxActiveAuctions)
+            if (entity.Offerer != null)
             {
-                var errorString = "The offerer has reached the maximum limit of active auctions for the moment.";
-                Logger.Error(errorString);
+                int offererId = entity.Offerer.Id;
+                var activeAuctionForOfferer = this.Repository.Get(
+                        filter: auction => auction.Offerer.Id == offererId,
+                        includeProperties: "Auction, User").ToList().Count;
 
-                IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
+                if (activeAuctionForOfferer >= this.appConfiguration.MaxActiveAuctions)
+                {
+                    var errorString = "The offerer has reached the maximum limit of active auctions for the moment.";
+                    Logger.Error(errorString);
+
+                    IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
                 {
                     new ValidationFailure("Offerer", errorString),
                 };
-                return new ValidationResult(failures);
+                    return new ValidationResult(failures);
+                }
             }
 
             if (entity.StartTime < DateTime.Now)
@@ -70,6 +73,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 };
                 return new ValidationResult(failures);
             }
+
             return base.Insert(entity);
         }
 

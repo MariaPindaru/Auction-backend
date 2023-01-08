@@ -10,6 +10,7 @@ namespace AuctionBackend.DomainLayer.Config
     /// Configuration.
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.Config.IConfiguration" />
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     internal class Configuration : IConfiguration
     {
         /// <summary>

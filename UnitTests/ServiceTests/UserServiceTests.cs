@@ -71,7 +71,6 @@ namespace UnitTests.ServiceTests
         {
             this.user.Name = "Username";
             this.user.Role = Role.Bidder;
-            this.user.Score = 20.9f;
 
             using (this.mocks.Record())
             {
@@ -91,7 +90,6 @@ namespace UnitTests.ServiceTests
         {
             this.user.Name = null;
             this.user.Role = Role.Bidder;
-            this.user.Score = 20.9f;
 
             using (this.mocks.Record())
             {
@@ -111,7 +109,6 @@ namespace UnitTests.ServiceTests
         {
             this.user.Name = "U";
             this.user.Role = Role.Bidder;
-            this.user.Score = 20.9f;
 
             using (this.mocks.Record())
             {
@@ -132,7 +129,6 @@ namespace UnitTests.ServiceTests
             string longString = new string('*', 51);
             this.user.Name = longString;
             this.user.Role = Role.Bidder;
-            this.user.Score = 20.9f;
 
             using (this.mocks.Record())
             {
@@ -152,47 +148,6 @@ namespace UnitTests.ServiceTests
         {
             this.user.Name = "Username";
             this.user.Role = (Role)200;
-            this.user.Score = 20.9f;
-
-            using (this.mocks.Record())
-            {
-                this.userRepository.Expect(repo => repo.Insert(this.user));
-            }
-
-            ValidationResult result = this.userService.Insert(this.user);
-
-            Assert.IsFalse(result.IsValid);
-        }
-
-        /// <summary>
-        /// Tests the add user negative score.
-        /// </summary>
-        [Test]
-        public void TestAddUserWithNegativeScore()
-        {
-            this.user.Name = "Username";
-            this.user.Role = Role.Bidder;
-            this.user.Score = -20.9f;
-
-            using (this.mocks.Record())
-            {
-                this.userRepository.Expect(repo => repo.Insert(this.user));
-            }
-
-            ValidationResult result = this.userService.Insert(this.user);
-
-            Assert.IsFalse(result.IsValid);
-        }
-
-        /// <summary>
-        /// Tests the add user out of range score.
-        /// </summary>
-        [Test]
-        public void TestAddUserWithOutOfRangeScore()
-        {
-            this.user.Name = "Username";
-            this.user.Role = Role.Bidder;
-            this.user.Score = 220.9f;
 
             using (this.mocks.Record())
             {
@@ -212,7 +167,6 @@ namespace UnitTests.ServiceTests
         {
             this.user.Name = "Username";
             this.user.Role = Role.Bidder;
-            this.user.Score = 20.9f;
 
             using (this.mocks.Record())
             {

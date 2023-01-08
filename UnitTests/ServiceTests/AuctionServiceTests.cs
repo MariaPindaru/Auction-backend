@@ -8,6 +8,7 @@ namespace UnitTests.ServiceTests
     using System.Collections.Generic;
     using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.Config;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.Startup;
@@ -15,9 +16,6 @@ namespace UnitTests.ServiceTests
     using Ninject;
     using NUnit.Framework;
     using Rhino.Mocks;
-    using Microsoft.Extensions.Configuration;
-    using System.Configuration;
-
 
     /// <summary>
     /// AuctionServiceTests.
@@ -40,6 +38,11 @@ namespace UnitTests.ServiceTests
         private IAuctionRepository auctionRepository;
 
         /// <summary>
+        /// The configuration.
+        /// </summary>
+        private IConfiguration configuration;
+
+        /// <summary>
         /// The mocks.
         /// </summary>
         private MockRepository mocks;
@@ -60,8 +63,11 @@ namespace UnitTests.ServiceTests
 
             this.mocks = new MockRepository();
             this.auctionRepository = this.mocks.StrictMock<IAuctionRepository>();
-
             this.kernel.Rebind<IAuctionRepository>().ToConstant(this.auctionRepository);
+
+            this.configuration = this.mocks.StrictMock<IConfiguration>();
+            this.kernel.Rebind<IConfiguration>().ToConstant(this.configuration);
+
             this.auctionService = this.kernel.Get<IAuctionService>();
 
             this.auction = new Auction
@@ -95,19 +101,12 @@ namespace UnitTests.ServiceTests
         [Test]
         public void TestAddValidAuction()
         {
-
-            var myConfiguration = new Dictionary<string, string>
-{
-    {"Key1", "Value1"},
-    {"Nested:Key1", "NestedValue1"},
-    {"Nested:Key2", "NestedValue2"}
-};
-
-            var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
-                .AddInMemoryCollection(myConfiguration)
-                .Build();
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -125,6 +124,10 @@ namespace UnitTests.ServiceTests
             this.auction.Currency = (Currency)200;
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -142,6 +145,10 @@ namespace UnitTests.ServiceTests
             this.auction.StartPrice = -20.8m;
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -159,6 +166,10 @@ namespace UnitTests.ServiceTests
             this.auction.StartTime = default;
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -176,6 +187,10 @@ namespace UnitTests.ServiceTests
             this.auction.EndTime = default;
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -194,6 +209,10 @@ namespace UnitTests.ServiceTests
             this.auction.StartTime = DateTime.Now.AddDays(8);
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -211,6 +230,10 @@ namespace UnitTests.ServiceTests
             this.auction.StartTime = DateTime.Now.AddDays(-7);
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -231,6 +254,10 @@ namespace UnitTests.ServiceTests
 
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -248,7 +275,10 @@ namespace UnitTests.ServiceTests
             this.auction.Offerer = null;
             using (this.mocks.Record())
             {
-                this.auctionRepository.Expect(repo => repo.Insert(this.auction));
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
             }
 
             ValidationResult result = this.auctionService.Insert(this.auction);
@@ -265,6 +295,10 @@ namespace UnitTests.ServiceTests
             this.auction.Offerer.Name = null;
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -282,6 +316,10 @@ namespace UnitTests.ServiceTests
             this.auction.Product = null;
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -299,6 +337,10 @@ namespace UnitTests.ServiceTests
             this.auction.Product.Name = null;
             using (this.mocks.Record())
             {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 

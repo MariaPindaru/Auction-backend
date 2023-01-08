@@ -75,5 +75,21 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// The bid history.
         /// </value>
         public virtual ICollection<Bid> BidHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the received user scores.
+        /// </summary>
+        /// <value>
+        /// The received user scores.
+        /// </value>
+        public virtual ICollection<UserScore> ReceivedUserScores { get; set; }
+
+        /// <summary>
+        /// Gets or sets the given user scores.
+        /// </summary>
+        /// <value>
+        /// The given user scores.
+        /// </value>
+        public virtual ICollection<UserScore> GivenUserScores { get; set; }
     }
 }

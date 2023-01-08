@@ -37,7 +37,6 @@ namespace UnitTests.ModelTests
             {
                 Name = "Offerer",
                 Role = Role.Offerer,
-                Score = 30.43f,
             };
             var category = new Category
             {

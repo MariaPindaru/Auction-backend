@@ -35,7 +35,6 @@ namespace UnitTests.ModelTests
             {
                 Name = "Username",
                 Role = Role.Bidder,
-                Score = 30.43f,
             };
         }
 
@@ -94,30 +93,6 @@ namespace UnitTests.ModelTests
 
             TestValidationResult<User> result = this.userValidator.TestValidate(this.user);
             result.ShouldHaveValidationErrorFor(user => user.Role);
-        }
-
-        /// <summary>
-        /// Tests the negative score.
-        /// </summary>
-        [Test]
-        public void TestNegativeScore()
-        {
-            this.user.Score = -2.2f;
-
-            TestValidationResult<User> result = this.userValidator.TestValidate(this.user);
-            result.ShouldHaveValidationErrorFor(user => user.Score);
-        }
-
-        /// <summary>
-        /// Tests the out of range score.
-        /// </summary>
-        [Test]
-        public void TestOutOfRangeScore()
-        {
-            this.user.Score = 200.2f;
-
-            TestValidationResult<User> result = this.userValidator.TestValidate(this.user);
-            result.ShouldHaveValidationErrorFor(user => user.Score);
         }
     }
 }

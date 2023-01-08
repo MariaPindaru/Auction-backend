@@ -60,9 +60,9 @@ namespace AuctionBackend.DomainLayer.DomainModel
 
         /// <summary>Gets or sets the score.</summary>
         /// <value>The score.</value>
-        [Required]
-        [Range(0.0f, 100.0f)]
-        public float Score { get; set; }
+        //[Required]
+        //[Range(0.0f, 100.0f)]
+        //public float Score { get; set; }
 
         /// <summary>Gets or sets the started auctions.</summary>
         /// <value>The started auctions.</value>

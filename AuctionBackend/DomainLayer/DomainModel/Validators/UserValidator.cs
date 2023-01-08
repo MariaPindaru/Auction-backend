@@ -23,7 +23,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
 
             this.RuleFor(user => user.Role).IsInEnum().WithMessage("The role must be within the Role enum.");
 
-            this.RuleFor(user => user.Score).InclusiveBetween(0.0f, 100.0f).WithMessage("The score must be in range 0 to 100.");
+            //this.RuleFor(user => user.Score).InclusiveBetween(0.0f, 100.0f).WithMessage("The score must be in range 0 to 100.");
         }
     }
 }

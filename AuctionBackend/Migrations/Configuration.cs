@@ -17,7 +17,7 @@ namespace AuctionBackend.Migrations
         /// </summary>
         public Configuration()
         {
-            this.AutomaticMigrationsEnabled = true;
+            this.AutomaticMigrationsEnabled = false;
         }
 
         /// <summary>

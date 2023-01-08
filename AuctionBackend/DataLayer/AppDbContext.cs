@@ -83,6 +83,11 @@ namespace AuctionBackend.DataLayer
                             m.MapRightKey("ParentId");
                             m.ToTable("ParentChildCategory");
                         });
+
+            modelBuilder.Entity<Product>()
+                        .HasOptional(a => a.Auction)
+                        .WithOptionalDependent()
+                        .WillCascadeOnDelete(true);
         }
     }
 }

@@ -40,7 +40,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <value>
         /// The auction.
         /// </value>
-        [Required]
         public Auction Auction { get; set; }
     }
 }

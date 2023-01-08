@@ -255,6 +255,14 @@
     <Compile Include="Migrations\202301041151261_FixParentChildCategoryKeys.designer.cs">
       <DependentUpon>202301041151261_FixParentChildCategoryKeys.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301081017015_UpdateProductEntity.cs" />
+    <Compile Include="Migrations\202301081017015_UpdateProductEntity.designer.cs">
+      <DependentUpon>202301081017015_UpdateProductEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301081024335_RemoveScoreFieldFromUser.cs" />
+    <Compile Include="Migrations\202301081024335_RemoveScoreFieldFromUser.designer.cs">
+      <DependentUpon>202301081024335_RemoveScoreFieldFromUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -262,9 +270,7 @@
     <Compile Include="StartUp\Injector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
@@ -299,6 +305,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301041151261_FixParentChildCategoryKeys.resx">
       <DependentUpon>202301041151261_FixParentChildCategoryKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301081017015_UpdateProductEntity.resx">
+      <DependentUpon>202301081017015_UpdateProductEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301081024335_RemoveScoreFieldFromUser.resx">
+      <DependentUpon>202301081024335_RemoveScoreFieldFromUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

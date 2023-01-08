@@ -26,5 +26,19 @@ namespace AuctionBackend.DomainLayer.Config
                 return int.Parse(ConfigurationManager.AppSettings["MaxActiveAuctions"]);
             }
         }
+
+        /// <summary>
+        /// Gets the default score.
+        /// </summary>
+        /// <value>
+        /// The default score.
+        /// </value>
+        public int DefaultScore
+        {
+            get
+            {
+                return int.Parse(ConfigurationManager.AppSettings["DefaultScore"]);
+            }
+        }
     }
 }

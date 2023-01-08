@@ -202,6 +202,7 @@
     <Compile Include="DataLayer\DataAccessLayer\Impl\BaseRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Impl\BidRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Impl\CategoryRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Impl\UserScoreRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\IAuctionRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\IBidRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\ICategoryRepository.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="DataLayer\DataAccessLayer\Interfaces\IUserRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Impl\ProductRepository.cs" />
     <Compile Include="DataLayer\DataAccessLayer\Impl\UserRepository.cs" />
+    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IUserScoreRepository.cs" />
     <Compile Include="DomainLayer\Config\Configuration.cs" />
     <Compile Include="DomainLayer\Config\IConfiguration.cs" />
     <Compile Include="DomainLayer\DomainModel\UserScore.cs" />
@@ -219,12 +221,14 @@
     <Compile Include="DomainLayer\ServiceLayer\Impl\BidService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\CategoryService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\ProductService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\UserScoreService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\UserService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IAuctionService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IBidService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\ICategoryService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IProductService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\IUserScoreService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IUserService.cs" />
     <Compile Include="DomainLayer\DomainModel\Auction.cs" />
     <Compile Include="DomainLayer\DomainModel\Bid.cs" />
@@ -240,6 +244,10 @@
     <Compile Include="Migrations\202301081046472_Initial.cs" />
     <Compile Include="Migrations\202301081046472_Initial.designer.cs">
       <DependentUpon>202301081046472_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301082318430_AddDateForUserScore.cs" />
+    <Compile Include="Migrations\202301082318430_AddDateForUserScore.designer.cs">
+      <DependentUpon>202301082318430_AddDateForUserScore.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -271,6 +279,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202301081046472_Initial.resx">
       <DependentUpon>202301081046472_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301082318430_AddDateForUserScore.resx">
+      <DependentUpon>202301082318430_AddDateForUserScore.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,7 +12,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Product&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IProductRepository" />
-    public class ProductRepository : BaseRepository<Product>, IProductRepository
+    internal class ProductRepository : BaseRepository<Product>, IProductRepository
     {
         /// <summary>
         /// Inserts the specified entity.

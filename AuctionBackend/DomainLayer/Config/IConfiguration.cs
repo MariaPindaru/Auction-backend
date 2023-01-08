@@ -16,5 +16,13 @@ namespace AuctionBackend.DomainLayer.Config
         /// The maximum active auctions.
         /// </value>
         int MaxActiveAuctions { get; }
+
+        /// <summary>
+        /// Gets the default score.
+        /// </summary>
+        /// <value>
+        /// The default score.
+        /// </value>
+        int DefaultScore { get; }
     }
 }

@@ -4,9 +4,11 @@
 
 namespace UnitTests.ServiceTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DomainLayer.Config;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using AuctionBackend.Startup;
@@ -36,6 +38,11 @@ namespace UnitTests.ServiceTests
         private IUserRepository userRepository;
 
         /// <summary>
+        /// The configuration.
+        /// </summary>
+        private IConfiguration configuration;
+
+        /// <summary>
         /// The mocks.
         /// </summary>
         private MockRepository mocks;
@@ -56,8 +63,11 @@ namespace UnitTests.ServiceTests
 
             this.mocks = new MockRepository();
             this.userRepository = this.mocks.StrictMock<IUserRepository>();
-
             this.kernel.Rebind<IUserRepository>().ToConstant(this.userRepository);
+
+            this.configuration = this.mocks.StrictMock<IConfiguration>();
+            this.kernel.Rebind<IConfiguration>().ToConstant(this.configuration);
+
             this.userService = this.kernel.Get<IUserService>();
 
             this.user = new User { Id = 0, };
@@ -227,6 +237,90 @@ namespace UnitTests.ServiceTests
             var product = this.userService.GetByID(10);
 
             Assert.AreEqual(product, this.user);
+        }
+
+        /// <summary>
+        /// Tests the get user seriosity score.
+        /// </summary>
+        [Test]
+        public void TestGetUserSeriosityScoreDefault()
+        {
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Get())
+                                   .IgnoreArguments()
+                                   .Return(new HashSet<User> { this.user });
+
+                this.configuration.Expect(config => config.DefaultScore).Return(9);
+            }
+
+            var score = this.userService.GetSeriosityScore(this.user.Id);
+
+            Assert.AreEqual(score, 9);
+        }
+
+        /// <summary>
+        /// Tests the get user seriosity score median.
+        /// </summary>
+        [Test]
+        public void TestGetUserSeriosityScoreMedian()
+        {
+            this.user.ReceivedUserScores = new HashSet<UserScore>
+            {
+                new UserScore
+                {
+                    Score = 8,
+                    Date = DateTime.Now,
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+
+                new UserScore
+                {
+                    Score = 2,
+                    Date = DateTime.Now,
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+
+                new UserScore
+                {
+                    Score = 7,
+                    Date = DateTime.Now,
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Get())
+                                   .IgnoreArguments()
+                                   .Return(new HashSet<User> { this.user });
+            }
+
+            var score = this.userService.GetSeriosityScore(this.user.Id);
+
+            Assert.AreEqual(score, 7);
+        }
+
+
+        /// <summary>
+        /// Tests the get user seriosity score null.
+        /// </summary>
+        [Test]
+        public void TestGetUserSeriosityScoreNull()
+        {
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Get())
+                                   .IgnoreArguments()
+                                   .Return(new HashSet<User>());
+            }
+
+            var score = this.userService.GetSeriosityScore(this.user.Id);
+
+            Assert.AreEqual(score, null);
         }
     }
 }

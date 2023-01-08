@@ -4,6 +4,7 @@
 
 namespace AuctionBackend.DomainLayer.DomainModel
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -48,5 +49,14 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// </value>
         [Required]
         public int Score { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date.
+        /// </summary>
+        /// <value>
+        /// The date.
+        /// </value>
+        [Required]
+        public DateTime Date { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.User&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IUserRepository" />
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    internal class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 }

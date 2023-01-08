@@ -45,9 +45,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             if (entity.Offerer != null)
             {
                 int offererId = entity.Offerer.Id;
-                var activeAuctionForOfferer = this.Repository.Get(
-                        filter: auction => auction.Offerer.Id == offererId,
-                        includeProperties: "Auction, User").ToList().Count;
+                var activeAuctionForOfferer = this.GetUserActiveAuctions(offererId).ToList().Count;
 
                 if (activeAuctionForOfferer >= this.appConfiguration.MaxActiveAuctions)
                 {
@@ -133,20 +131,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                                    auction.StartTime < DateTime.Now &&
                                    auction.EndTime > DateTime.Now &&
                                    !auction.IsFinished,
-                includeProperties: "User");
-        }
-
-        /// <summary>
-        /// Gets the user auctions.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>
-        /// Collection of auctions which have as offerer the given user.
-        /// </returns>
-        public IEnumerable<Auction> GetUserAuctions(int userId)
-        {
-            return this.Repository.Get(
-                filter: auction => auction.Offerer.Id == userId,
                 includeProperties: "User");
         }
     }

@@ -14,7 +14,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IAuctionRepository" />
     [ExcludeFromCodeCoverage]
-    public class AuctionRepository : BaseRepository<Auction>, IAuctionRepository
+    internal class AuctionRepository : BaseRepository<Auction>, IAuctionRepository
     {
         /// <summary>
         /// Inserts the specified entity.

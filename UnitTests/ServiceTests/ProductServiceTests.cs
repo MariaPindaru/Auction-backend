@@ -450,5 +450,66 @@ namespace UnitTests.ServiceTests
 
             Assert.AreEqual(product, this.product);
         }
+
+        /// <summary>
+        /// Tests the add product with identical description.
+        /// </summary>
+        [Test]
+        public void TestAddProductWithIdenticalDescription()
+        {
+            using (this.mocks.Record())
+            {
+                this.product.Auction = new Auction
+                {
+                    Offerer = new User(),
+                };
+                this.productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Get())
+                                      .IgnoreArguments()
+                                      .Return(new HashSet<Product>
+                                      {
+                                          new Product
+                                          {
+                                              Id = 90,
+                                              Description = this.product.Description,
+                                          },
+                                      });
+            }
+
+            ValidationResult result = this.productService.Insert(this.product);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add product with similar description.
+        /// </summary>
+        [Test]
+        public void TestAddProducTWithSimilarDescription()
+        {
+            using (this.mocks.Record())
+            {
+                this.product.Auction = new Auction
+                {
+                    Offerer = new User(),
+                };
+                this.product.Description = "hihi";
+                this.productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Get())
+                                      .IgnoreArguments()
+                                      .Return(new HashSet<Product>
+                                      {
+                                          new Product
+                                          {
+                                              Id = 90,
+                                              Description = "haha",
+                                          },
+                                      });
+            }
+
+            ValidationResult result = this.productService.Insert(this.product);
+
+            Assert.IsTrue(result.IsValid);
+        }
     }
 }

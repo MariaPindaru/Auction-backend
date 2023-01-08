@@ -46,7 +46,13 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 
                 foreach (var previousProduct in productsWithTheSameOfferer)
                 {
-                    if (LevenshteinDistance.Calculate(previousProduct.Description, entity.Description) > 0)
+                    if (previousProduct.Id == entity.Id)
+                    {
+                        continue;
+                    }
+
+                    var distance = LevenshteinDistance.Calculate(previousProduct.Description, entity.Description);
+                    if (distance < previousProduct.Description.Length / 3)
                     {
                         var errorString = "The product's description is too similar with another product description used for an auction by the same user.";
                         Logger.Error(errorString);

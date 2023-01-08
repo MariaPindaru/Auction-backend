@@ -13,7 +13,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Bid&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IBidRepository" />
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public class BidRepository : BaseRepository<Bid>, IBidRepository
+    internal class BidRepository : BaseRepository<Bid>, IBidRepository
     {
         /// <summary>
         /// Inserts the specified entity.

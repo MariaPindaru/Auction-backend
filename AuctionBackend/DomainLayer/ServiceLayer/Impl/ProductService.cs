@@ -46,11 +46,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 
                 foreach (var previousProduct in productsWithTheSameOfferer)
                 {
-                    if (previousProduct.Id == entity.Id)
-                    {
-                        continue;
-                    }
-
                     var distance = LevenshteinDistance.Calculate(previousProduct.Description, entity.Description);
                     if (distance < previousProduct.Description.Length / 3)
                     {

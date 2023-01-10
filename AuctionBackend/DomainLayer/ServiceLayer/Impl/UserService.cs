@@ -51,24 +51,22 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             }
             else if (user.ReceivedUserScores.Count > 0)
             {
-                var lastTreeMonthsScores = user.ReceivedUserScores.Where(score => score.Date > DateTime.Now.AddMonths(-3));
-                var scores = lastTreeMonthsScores;
-                if (lastTreeMonthsScores.Count() == 0)
-                {
-                    scores = user.ReceivedUserScores;
-                }
+                var scores = user.ReceivedUserScores.Where(score => score.Date > DateTime.Now.AddMonths(-3));
 
-                scores = scores.OrderBy(s => s.Score);
-                var scoresCount = scores.Count();
-                if (scoresCount % 2 == 1)
+                if (scores.Count() != 0)
                 {
-                    var middleIndex = scoresCount / 2;
-                    return scores.ElementAt(middleIndex).Score;
-                }
-                else
-                {
-                    var middleIndex = scoresCount / 2;
-                    return (scores.ElementAt(middleIndex - 1).Score + scores.ElementAt(middleIndex).Score) / 2;
+                    scores = scores.OrderBy(s => s.Score);
+                    var scoresCount = scores.Count();
+                    if (scoresCount % 2 == 1)
+                    {
+                        var middleIndex = scoresCount / 2;
+                        return scores.ElementAt(middleIndex).Score;
+                    }
+                    else
+                    {
+                        var middleIndex = scoresCount / 2;
+                        return (scores.ElementAt(middleIndex - 1).Score + scores.ElementAt(middleIndex).Score) / 2;
+                    }
                 }
             }
 

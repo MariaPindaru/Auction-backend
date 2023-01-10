@@ -260,10 +260,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the get user seriosity score median.
+        /// Tests the get user seriosity score median odd.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScoreMedian()
+        public void TestGetUserSeriosityScoreMedianOdd()
         {
             this.user.ReceivedUserScores = new HashSet<UserScore>
             {
@@ -304,6 +304,86 @@ namespace UnitTests.ServiceTests
             Assert.AreEqual(score, 7);
         }
 
+        /// <summary>
+        /// Tests the get user seriosity score median even.
+        /// </summary>
+        [Test]
+        public void TestGetUserSeriosityScoreMedianEven()
+        {
+            this.user.ReceivedUserScores = new HashSet<UserScore>
+            {
+                new UserScore
+                {
+                    Score = 8,
+                    Date = DateTime.Now,
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+                new UserScore
+                {
+                    Score = 5,
+                    Date = DateTime.Now,
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+                new UserScore
+                {
+                    Score = 7,
+                    Date = DateTime.Now,
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+                new UserScore
+                {
+                    Score = 9,
+                    Date = DateTime.Now,
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Get())
+                                   .IgnoreArguments()
+                                   .Return(new HashSet<User> { this.user });
+            }
+
+            var score = this.userService.GetSeriosityScore(this.user.Id);
+
+            Assert.AreEqual(score, 7);
+        }
+
+        /// <summary>
+        /// Tests the get user seriosity score no score in last three months.
+        /// </summary>
+        [Test]
+        public void TestGetUserSeriosityScoreNoScoreLastThreeMonths()
+        {
+            this.user.ReceivedUserScores = new HashSet<UserScore>
+            {
+                new UserScore
+                {
+                    Score = 8,
+                    Date = DateTime.Now.AddMonths(-5),
+                    ScoredUser = new User(),
+                    ScoringUser = new User(),
+                },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Get())
+                                   .IgnoreArguments()
+                                   .Return(new HashSet<User> { this.user });
+
+                this.configuration.Expect(config => config.DefaultScore).Return(5);
+            }
+
+            var score = this.userService.GetSeriosityScore(this.user.Id);
+
+            Assert.AreEqual(score, 5);
+        }
 
         /// <summary>
         /// Tests the get user seriosity score null.

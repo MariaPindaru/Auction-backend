@@ -39,6 +39,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
             this.AuctionHistory = new HashSet<Auction>();
             this.BidHistory = new HashSet<Bid>();
             this.ReceivedUserScores = new HashSet<UserScore>();
+            this.GivenUserScores = new HashSet<UserScore>();
         }
 
         /// <summary>Gets or sets the identifier.</summary>

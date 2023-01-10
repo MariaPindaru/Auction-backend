@@ -10,7 +10,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
     /// IUserScoreService.
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;AuctionBackend.DomainLayer.DomainModel.User&gt;" />
-    internal interface IUserScoreService : IService<UserScore>
+    public interface IUserScoreService : IService<UserScore>
     {
     }
 }

@@ -88,23 +88,13 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             {
                 if (auction.IsFinished)
                 {
-                    validationFailures.Add(new ValidationFailure("Finished", "The auction with has been finished so it cannot be updated."));
+                    validationFailures.Add(new ValidationFailure(nameof(Auction.IsFinished), "The auction with has been finished so it cannot be updated."));
                 }
 
-                if (entity.StartTime < auction.StartTime)
-                {
-                    validationFailures.Add(new ValidationFailure("StartTime", "The auction new start time cannot be before the previous start time."));
-                }
-
-                if (auction.EndTime < DateTime.Now && entity != auction)
+                if (auction.EndTime < DateTime.Now)
                 {
                     Logger.Info("The end time for the auction has been past so only the 'IsFinished' field will be updated into the database.");
-                }
-
-                if (validationFailures.Count > 0)
-                {
-                    Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
-                    return new ValidationResult(validationFailures);
+                    entity.IsFinished = true;
                 }
             }
 

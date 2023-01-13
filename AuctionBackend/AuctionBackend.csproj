@@ -204,20 +204,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataLayer\AppDbContext.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Impl\AuctionRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Impl\BaseRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Impl\BidRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Impl\CategoryRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Impl\UserScoreRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IAuctionRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IBidRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Interfaces\ICategoryRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IProductRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IUserRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Impl\ProductRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Impl\UserRepository.cs" />
-    <Compile Include="DataLayer\DataAccessLayer\Interfaces\IUserScoreRepository.cs" />
+    <Compile Include="DataLayer\Impl\AuctionRepository.cs" />
+    <Compile Include="DataLayer\Impl\BaseRepository.cs" />
+    <Compile Include="DataLayer\Impl\BidRepository.cs" />
+    <Compile Include="DataLayer\Impl\CategoryRepository.cs" />
+    <Compile Include="DataLayer\Impl\UserScoreRepository.cs" />
+    <Compile Include="DomainLayer\DomainModel\Interfaces\IAuctionRepository.cs" />
+    <Compile Include="DomainLayer\DomainModel\Interfaces\IBidRepository.cs" />
+    <Compile Include="DomainLayer\DomainModel\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="DomainLayer\DomainModel\Interfaces\IProductRepository.cs" />
+    <Compile Include="DomainLayer\DomainModel\Interfaces\IRepository.cs" />
+    <Compile Include="DomainLayer\DomainModel\Interfaces\IUserRepository.cs" />
+    <Compile Include="DataLayer\Impl\ProductRepository.cs" />
+    <Compile Include="DataLayer\Impl\UserRepository.cs" />
+    <Compile Include="DomainLayer\DomainModel\Interfaces\IUserScoreRepository.cs" />
     <Compile Include="DomainLayer\Config\Configuration.cs" />
     <Compile Include="DomainLayer\Config\IConfiguration.cs" />
     <Compile Include="DomainLayer\DomainModel\UserScore.cs" />
@@ -289,6 +289,9 @@
     <EmbeddedResource Include="Migrations\202301082318430_AddDateForUserScore.resx">
       <DependentUpon>202301082318430_AddDateForUserScore.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataLayer\DataAccessLayer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

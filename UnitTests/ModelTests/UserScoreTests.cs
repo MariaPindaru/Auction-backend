@@ -57,7 +57,7 @@ namespace UnitTests.ModelTests
         /// Tests the add valid user score.
         /// </summary>
         [Test]
-        public void TestValidUserScore()
+        public void TestValidation_ValidUserScore_ReturnsNoError()
         {
             TestValidationResult<UserScore> result = this.userScoreValidator.TestValidate(this.userScore);
             result.ShouldNotHaveAnyValidationErrors();
@@ -67,7 +67,7 @@ namespace UnitTests.ModelTests
         /// Tests the null scoring user.
         /// </summary>
         [Test]
-        public void TestNullScoringUser()
+        public void TestValidation_NullScoringUser_ReturnsErrorForScoringUser()
         {
             this.userScore.ScoringUser = null;
 
@@ -79,7 +79,7 @@ namespace UnitTests.ModelTests
         /// Tests the null scored user.
         /// </summary>
         [Test]
-        public void TestNullScoredUser()
+        public void TestValidation_NullScoredUser_ReturnsErrorForScoredUser()
         {
             this.userScore.ScoredUser = null;
 
@@ -91,7 +91,7 @@ namespace UnitTests.ModelTests
         /// Tests the invalid scoring user.
         /// </summary>
         [Test]
-        public void TestInvalidScoringUser()
+        public void TestValidation_ScoringUserHasNullName_ReturnsErrorForScoringUserName()
         {
             this.userScore.ScoringUser.Name = null;
 
@@ -103,7 +103,7 @@ namespace UnitTests.ModelTests
         /// Tests the invalid scored user.
         /// </summary>
         [Test]
-        public void TestInvalidScoredUser()
+        public void TestValidation_ScoredUserHasNullName_ReturnsErrorForScoredUserName()
         {
             this.userScore.ScoredUser.Name = null;
 
@@ -115,7 +115,7 @@ namespace UnitTests.ModelTests
         /// Tests the negative score.
         /// </summary>
         [Test]
-        public void TestNegativeScore()
+        public void TestValidation_HasNegativeScore_ReturnsErrorForScore()
         {
             this.userScore.Score = -1;
 
@@ -127,7 +127,7 @@ namespace UnitTests.ModelTests
         /// Tests the score too high.
         /// </summary>
         [Test]
-        public void TestScoreTooHigh()
+        public void TestValidation_HasScoreTooHigh_ReturnsErrorForScore()
         {
             this.userScore.Score = 11;
 
@@ -139,7 +139,7 @@ namespace UnitTests.ModelTests
         /// Tests the score zero.
         /// </summary>
         [Test]
-        public void TestScoreZero()
+        public void TestValidation_HasScoreZero_ReturnsErrorForScore()
         {
             this.userScore.Score = 0;
 

@@ -420,6 +420,22 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the update start date before previous one.
+        /// </summary>
+        [Test]
+        public void TestUpdateStartDateBeforePreviousOne() // TODO:
+        {
+            using (this.mocks.Record())
+            {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
+                this.auctionRepository.Expect(repo => repo.Update(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Update(this.auction);
+            Assert.IsTrue(result.IsValid);
+        }
+
+        /// <summary>
         /// Tests the update auction after is finished.
         /// </summary>
         [Test]
@@ -546,6 +562,32 @@ namespace UnitTests.ServiceTests
             var result = this.auctionService.GetAll();
             Assert.AreEqual(result.ToList().Count, 1);
             Assert.AreEqual(result.ToList().First(), this.auction);
+        }
+
+        /// <summary>
+        /// Tests the add auction maximum limit achived.
+        /// </summary>
+        [Test]
+        public void TestAddAuctionMaxLimitAchived()
+        {
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+
+                ICollection<Auction> activeAuctions = Enumerable.Range(0, 2)
+                    .Select(i => new Auction())
+                    .ToList();
+
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(activeAuctions);
+
+                this.auctionRepository.Expect(repo => repo.Insert(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Insert(this.auction);
+
+            Assert.IsFalse(result.IsValid);
         }
     }
 }

@@ -19,6 +19,13 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         {
             this.ClassLevelCascadeMode = CascadeMode.Stop;
 
+            this.RuleFor(bid => bid.Auction)
+                .NotEmpty()
+                .WithMessage("The auction cannot be null.");
+
+            this.RuleFor(bid => bid.Auction)
+                .SetValidator(new AuctionValidator());
+
             this.RuleFor(bid => bid.Bidder)
                 .NotEmpty()
                 .WithMessage("The bidder cannot be null.");

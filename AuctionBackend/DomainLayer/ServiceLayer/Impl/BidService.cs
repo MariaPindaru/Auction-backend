@@ -5,6 +5,7 @@
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
+    using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
@@ -19,12 +20,15 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IBidService" />
     public class BidService : BaseService<Bid, IBidRepository>, IBidService
     {
+        private IAuctionService auctionService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BidService"/> class.
         /// </summary>
         public BidService()
         : base(Injector.Get<IBidRepository>(), new BidValidator())
         {
+            this.auctionService = Injector.Get<IAuctionService>();
         }
 
         /// <summary>
@@ -36,26 +40,36 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Insert(Bid entity)
         {
+            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+
             Auction auction = entity.Auction;
-            if (auction != null && auction.BidHistory != null && auction.BidHistory.Count > 0)
+            if (auction != null && this.auctionService.GetByID(auction.Id) == null)
             {
-                if (auction.BidHistory[auction.BidHistory.Count - 1].Price == entity.Price)
+                validationFailures.Add(new ValidationFailure("Auction", "The auction doesn't exist, the bid cannot be added."));
+            }
+
+            if (auction != null && auction.BidHistory != null)
+            {
+                var lastPrice = auction.StartPrice;
+                if (auction.BidHistory.Count > 0)
                 {
-                    IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
-                    {
-                        new ValidationFailure("Price", "The bid price must be higher than the previous one."),
-                    };
-                    return new ValidationResult(failures);
+                    lastPrice = auction.BidHistory[auction.BidHistory.Count - 1].Price;
                 }
 
-                if (3 * auction.BidHistory[auction.BidHistory.Count - 1].Price < entity.Price)
+                if (lastPrice == entity.Price)
                 {
-                    IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
-                    {
-                        new ValidationFailure("Price", "The bid price cannot be mode than 300% higher than the previous one."),
-                    };
-                    return new ValidationResult(failures);
+                    validationFailures.Add(new ValidationFailure("Price", "The bid price must be higher than the previous one."));
                 }
+                else if (3 * lastPrice < entity.Price)
+                {
+                    validationFailures.Add(new ValidationFailure("Price", "The bid price cannot be mode than 300% higher than the previous one."));
+                }
+            }
+
+            if (validationFailures.Count > 0)
+            {
+                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                return new ValidationResult(validationFailures);
             }
 
             return base.Insert(entity);

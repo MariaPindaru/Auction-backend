@@ -64,16 +64,18 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public virtual ValidationResult Insert(T entity)
         {
+            Logger.Info($"Inserting object of type {typeof(T).Name}.");
+
             var result = this.Validator.Validate(entity);
             if (result.IsValid)
             {
                 this.Repository.Insert(entity);
-                Logger.Info($"An object of type {typeof(T).Name} has been inserted.");
+                Logger.Info($"The object has been inserted.");
             }
             else
             {
                 IList<ValidationFailure> failures = result.Errors;
-                Logger.Error($"The object of type {typeof(T).Name} is not valid. The following errors occurred: {failures}");
+                Logger.Error($"The object is not valid. The following errors occurred: {failures}");
             }
 
             return result;
@@ -86,16 +88,18 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>The validation result.</returns>
         public virtual ValidationResult Update(T entity)
         {
+            Logger.Info($"Updating object of type {typeof(T).Name}.");
+
             var result = this.Validator.Validate(entity);
             if (result.IsValid)
             {
                 this.Repository.Update(entity);
-                Logger.Error($"The object of type {typeof(T).Name} has been updated.");
+                Logger.Error($"The object has been updated.");
             }
             else
             {
                 IList<ValidationFailure> failures = result.Errors;
-                Logger.Error($"The object of type {typeof(T).Name} is not valid. The following errors occurred: {failures}");
+                Logger.Error($"The object is not valid. The following errors occurred: {failures}");
             }
 
             return result;
@@ -105,6 +109,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <param name="entity">The entity to be deleted.</param>
         public void Delete(T entity)
         {
+            Logger.Info($"Deleting object of type {typeof(T).Name}.");
             this.Repository.Delete(entity);
         }
 
@@ -115,6 +120,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>The object found.</returns>
         public T GetByID(object id)
         {
+            Logger.Info($"Geting by id object of type {typeof(T).Name}.");
             return this.Repository.GetByID(id);
         }
 
@@ -124,6 +130,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns>List of objects found.</returns>
         public IEnumerable<T> GetAll()
         {
+            Logger.Info($"Getting all objects of type {typeof(T).Name}.");
             return this.Repository.Get();
         }
     }

@@ -47,7 +47,7 @@ namespace UnitTests.ModelTests
         /// Tests the valid product.
         /// </summary>
         [Test]
-        public void TestValidProduct()
+        public void TestValidation_ValidProduct_ReturnsNoErrors()
         {
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
             result.ShouldNotHaveAnyValidationErrors();
@@ -57,7 +57,7 @@ namespace UnitTests.ModelTests
         /// Tests the null name.
         /// </summary>
         [Test]
-        public void TestNullName()
+        public void TestValidation_HasNullName_ReturnsErrorForName()
         {
             this.product.Name = null;
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
@@ -68,7 +68,7 @@ namespace UnitTests.ModelTests
         /// Tests the short name.
         /// </summary>
         [Test]
-        public void TestShortName()
+        public void TestValidation_HasNameTooShort_ReturnsErrorForName()
         {
             this.product.Name = "N";
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
@@ -79,7 +79,7 @@ namespace UnitTests.ModelTests
         /// Tests the long name.
         /// </summary>
         [Test]
-        public void TestLongName()
+        public void TestValidation_HasNameTooLong_ReturnsErrorForName()
         {
             string longString = new string('*', 101);
             this.product.Name = longString;
@@ -91,7 +91,7 @@ namespace UnitTests.ModelTests
         /// Tests the null description.
         /// </summary>
         [Test]
-        public void TestNullDescription()
+        public void TestValidation_HasNullDescription_ReturnsErrorForDescription()
         {
             this.product.Description = null;
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
@@ -102,7 +102,7 @@ namespace UnitTests.ModelTests
         /// Tests the short description.
         /// </summary>
         [Test]
-        public void TestShortDescription()
+        public void TestValidation_HasDescriptionTooShort_ReturnsErrorForDescription()
         {
             this.product.Description = "N";
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
@@ -113,7 +113,7 @@ namespace UnitTests.ModelTests
         /// Tests the long description.
         /// </summary>
         [Test]
-        public void TestLongDescription()
+        public void TestValidation_HasDescriptionTooLong_ReturnsErrorForDescription()
         {
             string longString = new string('*', 501);
             this.product.Description = longString;
@@ -125,7 +125,7 @@ namespace UnitTests.ModelTests
         /// Tests the null category.
         /// </summary>
         [Test]
-        public void TestNullCategory()
+        public void TestValidation_HasNullCategory_ReturnsErrorForCategory()
         {
             this.product.Category = null;
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
@@ -136,7 +136,7 @@ namespace UnitTests.ModelTests
         /// Tests the invalid category.
         /// </summary>
         [Test]
-        public void TestInvalidCategory()
+        public void TestValidation_CategoryHasNullName_ReturnsErrorForCategoryName()
         {
             this.product.Category.Name = null;
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);

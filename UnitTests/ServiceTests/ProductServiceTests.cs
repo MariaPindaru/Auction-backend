@@ -241,6 +241,42 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the add product null auction.
+        /// </summary>
+        [Test]
+        public void TestAddProductNullAuction() // TODO:
+        {
+            this.product.Category.Name = null;
+
+            using (this.mocks.Record())
+            {
+                this.productRepository.Expect(repo => repo.Insert(this.product));
+            }
+
+            ValidationResult result = this.productService.Insert(this.product);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add product invalid auction.
+        /// </summary>
+        [Test]
+        public void TestAddProductInvalidAuction() // TODO:
+        {
+            this.product.Category.Name = null;
+
+            using (this.mocks.Record())
+            {
+                this.productRepository.Expect(repo => repo.Insert(this.product));
+            }
+
+            ValidationResult result = this.productService.Insert(this.product);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
         /// Tests the update valid product.
         /// </summary>
         [Test]

@@ -42,6 +42,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Insert(Auction entity)
         {
+            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
             if (entity.Offerer != null)
             {
                 int offererId = entity.Offerer.Id;
@@ -49,27 +50,19 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 
                 if (activeAuctionForOfferer >= this.appConfiguration.MaxActiveAuctions)
                 {
-                    var errorString = "The offerer has reached the maximum limit of active auctions for the moment.";
-                    Logger.Error(errorString);
-
-                    IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
-                {
-                    new ValidationFailure("Offerer", errorString),
-                };
-                    return new ValidationResult(failures);
+                    validationFailures.Add(new ValidationFailure("Offerer", "The offerer has reached the maximum limit of active auctions for the moment."));
                 }
             }
 
             if (entity.StartTime < DateTime.Now)
             {
-                var errorString = "Start time cannot be in the past.";
-                Logger.Error(errorString);
+                validationFailures.Add(new ValidationFailure("StartTime", "Start time cannot be in the past."));
+            }
 
-                IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
-                {
-                    new ValidationFailure("StartTime", errorString),
-                };
-                return new ValidationResult(failures);
+            if (validationFailures.Count > 0)
+            {
+                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                return new ValidationResult(validationFailures);
             }
 
             return base.Insert(entity);
@@ -84,34 +77,41 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Update(Auction entity)
         {
+            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+
             Auction auction = this.Repository.GetByID(entity.Id);
             if (auction is null)
             {
-                var errorString = "The auction's id is not valid so the object cannot be updated.";
-                Logger.Error(errorString);
-
-                IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
+                validationFailures.Add(new ValidationFailure("Id", "The auction's id is not valid so the object cannot be updated."));
+            }
+            else
+            {
+                if (auction.IsFinished)
                 {
-                    new ValidationFailure("Id", errorString),
-                };
-                return new ValidationResult(failures);
+                    validationFailures.Add(new ValidationFailure("Finished", "The auction with has been finished so it cannot be updated."));
+                }
+
+                if (entity.StartTime < auction.StartTime)
+                {
+                    validationFailures.Add(new ValidationFailure("StartTime", "The auction new start time cannot be before the previous start time."));
+                }
+
+                if (auction.EndTime < DateTime.Now && entity != auction)
+                {
+                    Logger.Info("The end time for the auction has been past so only the 'IsFinished' field will be updated into the database.");
+                }
+
+                if (validationFailures.Count > 0)
+                {
+                    Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                    return new ValidationResult(validationFailures);
+                }
             }
 
-            if (auction.IsFinished)
+            if (validationFailures.Count > 0)
             {
-                var errorString = "The auction has been finished so it cannot be updated.";
-                Logger.Error(errorString);
-
-                IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
-                {
-                    new ValidationFailure("Finished", errorString),
-                };
-                return new ValidationResult(failures);
-            }
-
-            if (auction.EndTime < DateTime.Now && !auction.IsFinished && entity != auction)
-            {
-                Logger.Info("The end time for the auction has been past so only the 'IsFinished' field will be updated into the database.");
+                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                return new ValidationResult(validationFailures);
             }
 
             return base.Update(entity);

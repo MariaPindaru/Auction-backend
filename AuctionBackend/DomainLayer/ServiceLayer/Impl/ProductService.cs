@@ -5,6 +5,7 @@
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
+    using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
@@ -37,6 +38,28 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Insert(Product entity)
         {
+            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+            if (this.DescriptionIsDuplicate(entity))
+            {
+                validationFailures.Add(new ValidationFailure("Description", "The product's description is too similar with another product description used for an auction by the same user."));
+            }
+
+            if (validationFailures.Count > 0)
+            {
+                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                return new ValidationResult(validationFailures);
+            }
+
+            return base.Insert(entity);
+        }
+
+        /// <summary>
+        /// Descriptions the is duplicate.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns> True if the product owner has another product with a very similar description, false otherwise.</returns>
+        private bool DescriptionIsDuplicate(Product entity)
+        {
             if (entity.Auction != null && entity.Auction.Offerer != null && entity.Description != null)
             {
                 var offerer = entity.Auction.Offerer;
@@ -49,19 +72,12 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                     var distance = LevenshteinDistance.Calculate(previousProduct.Description, entity.Description);
                     if (distance < previousProduct.Description.Length / 3)
                     {
-                        var errorString = "The product's description is too similar with another product description used for an auction by the same user.";
-                        Logger.Error(errorString);
-
-                        IEnumerable<ValidationFailure> failures = new HashSet<ValidationFailure>
-                        {
-                            new ValidationFailure("Description", errorString),
-                        };
-                        return new ValidationResult(failures);
+                        return true;
                     }
                 }
             }
 
-            return base.Insert(entity);
+            return false;
         }
     }
 }

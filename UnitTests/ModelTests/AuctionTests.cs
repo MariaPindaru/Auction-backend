@@ -5,6 +5,7 @@
 namespace UnitTests.ModelTests
 {
     using System;
+    using System.Linq;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using FluentValidation.TestHelper;
@@ -65,7 +66,7 @@ namespace UnitTests.ModelTests
         /// Tests the valid auction.
         /// </summary>
         [Test]
-        public void TestValidAuction()
+        public void TestValidation_ValidAuction_ReturnsNoErrors()
         {
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
             result.ShouldNotHaveAnyValidationErrors();
@@ -75,7 +76,7 @@ namespace UnitTests.ModelTests
         /// Tests the null offerer.
         /// </summary>
         [Test]
-        public void TestNullOfferer()
+        public void TestValidation_HasNullOfferer_ReturnsErrorForOfferer()
         {
             this.auction.Offerer = null;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -86,7 +87,7 @@ namespace UnitTests.ModelTests
         /// Tests the invalid offerer.
         /// </summary>
         [Test]
-        public void TestInvalidOfferer()
+        public void TestValidation_OffererHasNullName_ReturnsErrorForOffererName()
         {
             this.auction.Offerer.Name = null;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -97,7 +98,7 @@ namespace UnitTests.ModelTests
         /// Tests the invalid offerer role.
         /// </summary>
         [Test]
-        public void TestInvalidOffererRole()
+        public void TestValidation_OffererHasWrongRole_ReturnsErrorForOfferer()
         {
             this.auction.Offerer.Role = Role.Bidder;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -108,7 +109,7 @@ namespace UnitTests.ModelTests
         /// Tests the offerer with both roles.
         /// </summary>
         [Test]
-        public void TestOffererWithBothRoles()
+        public void TestValidation_OffererHasBothRoles_ReturnsNoErrors()
         {
             this.auction.Offerer.Role = Role.Bidder | Role.Offerer;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -116,10 +117,22 @@ namespace UnitTests.ModelTests
         }
 
         /// <summary>
+        /// Tests the validation offerer has invalid role returns error for offerer role.
+        /// </summary>
+        [Test]
+        public void TestValidation_OffererHasInvalidRole_ReturnsErrorForOffererRole()
+        {
+            var invalidRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
+            this.auction.Offerer.Role = (Role)invalidRoleValue;
+            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            result.ShouldHaveValidationErrorFor(auction => auction.Offerer.Role);
+        }
+
+        /// <summary>
         /// Tests the null product.
         /// </summary>
         [Test]
-        public void TestNullProduct()
+        public void TestValidation_HasNullProduct_ReturnsErrorForProduct()
         {
             this.auction.Product = null;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -130,7 +143,7 @@ namespace UnitTests.ModelTests
         /// Tests the invalid product.
         /// </summary>
         [Test]
-        public void TestInvalidProduct()
+        public void TestValidation_ProductHasNullName_ReturnsErrorForProductName()
         {
             this.auction.Product.Name = null;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -141,7 +154,7 @@ namespace UnitTests.ModelTests
         /// Tests the negative start price.
         /// </summary>
         [Test]
-        public void TestNegativeStartPrice()
+        public void TestValidation_HasNegativeStartPrice_ReturnsErrorForStartPrice()
         {
             this.auction.StartPrice = -1.7m;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -152,7 +165,7 @@ namespace UnitTests.ModelTests
         /// Tests the invalid currency.
         /// </summary>
         [Test]
-        public void TestInvalidCurrency()
+        public void TestValidation_HasInvalidCurrency_ReturnsErrorForCurrency()
         {
             this.auction.Currency = (Currency)300;
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
@@ -163,7 +176,7 @@ namespace UnitTests.ModelTests
         /// Tests the start time is default.
         /// </summary>
         [Test]
-        public void TestStartTimeIsDefault()
+        public void TestValidation_StartTimeIsDefault_ReturnsErrorForStartTime()
         {
             this.auction.StartTime = default;
             this.auction.EndTime = DateTime.Now.AddDays(10);
@@ -175,7 +188,7 @@ namespace UnitTests.ModelTests
         /// Tests the end time is default.
         /// </summary>
         [Test]
-        public void TestEndTimeIsDefault()
+        public void TestValidation_EndTimeIsDefault_ReturnsErrorForEndTime()
         {
             this.auction.StartTime = DateTime.Now.AddDays(10);
             this.auction.EndTime = default;
@@ -187,7 +200,7 @@ namespace UnitTests.ModelTests
         /// Tests the start time after end time.
         /// </summary>
         [Test]
-        public void TestStartTimeAfterEndTime()
+        public void TestValidation_StartTimeIsAfterEndTime_ReturnsErrorForEndTime()
         {
             this.auction.StartTime = DateTime.Now.AddDays(10);
             this.auction.EndTime = DateTime.Now.AddDays(2);
@@ -199,7 +212,7 @@ namespace UnitTests.ModelTests
         /// Tests the is finished is false after end date.
         /// </summary>
         [Test]
-        public void TestIsFinishedIsFalseAfterEndDate()
+        public void TestValidation_IsFinishedFalseAfterEndTimePassed_ReturnsErrorForIsFinished()
         {
             this.auction.StartTime = DateTime.Now.AddDays(-2);
             this.auction.EndTime = DateTime.Now.AddDays(-1);
@@ -213,7 +226,7 @@ namespace UnitTests.ModelTests
         /// Tests the is finished is true before start date.
         /// </summary>
         [Test]
-        public void TestIsFinishedIsTrueBeforeStartDate()
+        public void TestValidation_IsFinishedBeforeStartTimePassed_ReturnsErrorForIsfinished()
         {
             this.auction.StartTime = DateTime.Now.AddDays(2);
             this.auction.EndTime = DateTime.Now.AddDays(10);

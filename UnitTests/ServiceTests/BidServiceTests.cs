@@ -32,6 +32,11 @@ namespace UnitTests.ServiceTests
         private IBidService bidService;
 
         /// <summary>
+        /// The auction service.
+        /// </summary>
+        private IAuctionService auctionService;
+
+        /// <summary>
         /// The bid repository.
         /// </summary>
         private IBidRepository bidRepository;
@@ -57,8 +62,11 @@ namespace UnitTests.ServiceTests
 
             this.mocks = new MockRepository();
             this.bidRepository = this.mocks.StrictMock<IBidRepository>();
-
             this.kernel.Rebind<IBidRepository>().ToConstant(this.bidRepository);
+
+            this.auctionService = this.mocks.StrictMock<IAuctionService>();
+            this.kernel.Rebind<IAuctionService>().ToConstant(this.auctionService);
+
             this.bidService = this.kernel.Get<IBidService>();
 
             var auction = new Auction
@@ -107,6 +115,7 @@ namespace UnitTests.ServiceTests
         {
             using (this.mocks.Record())
             {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
                 this.bidRepository.Expect(repo => repo.Insert(this.bid));
             }
 
@@ -124,6 +133,7 @@ namespace UnitTests.ServiceTests
             this.bid.Bidder = null;
             using (this.mocks.Record())
             {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
                 this.bidRepository.Expect(repo => repo.Insert(this.bid));
             }
 
@@ -133,14 +143,52 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the add bid with invalid bidder.
+        /// Tests the name of the add bid with invalid bidder null.
         /// </summary>
         [Test]
-        public void TestAddBidWithInvalidBidder()
+        public void TestAddBidWithInvalidBidderNullName()
         {
             this.bid.Bidder.Name = null;
             using (this.mocks.Record())
             {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with invalid bidder role.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithInvalidBidderRole()
+        {
+            var maxRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
+            this.bid.Bidder.Role = (Role)maxRoleValue;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with wrong bidder role.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithWrongBidderRole()
+        {
+            this.bid.Bidder.Role = Role.Offerer;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
                 this.bidRepository.Expect(repo => repo.Insert(this.bid));
             }
 
@@ -158,12 +206,111 @@ namespace UnitTests.ServiceTests
             this.bid.Price = -19.3m;
             using (this.mocks.Record())
             {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
                 this.bidRepository.Expect(repo => repo.Insert(this.bid));
             }
 
             ValidationResult result = this.bidService.Insert(this.bid);
 
             Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with price zero.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithPriceZero()
+        {
+            this.bid.Price = 0;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+        }
+
+        /// <summary>
+        /// Tests the add bid with price too high default price.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithPriceTooHighDefaultPrice()
+        {
+            this.bid.Auction.StartPrice = 10.7m;
+            this.bid.Price = 300.8m;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+        }
+
+        /// <summary>
+        /// Tests the add bid with price too high existing bid.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithPriceTooHighExistingBid()
+        {
+            this.bid.Auction.StartPrice = 10.7m;
+            this.bid.Auction.BidHistory.Add(new Bid { Price = 20.6m});
+            this.bid.Price = 40.8m;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsTrue(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with previous price.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithPreviousPrice()
+        {
+            this.bid.Auction.StartPrice = 10.7m;
+            this.bid.Auction.BidHistory.Add(new Bid { Price = 20.6m });
+            this.bid.Price = 20.6m;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with valid price.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithValidPrice()
+        {
+            this.bid.Auction.StartPrice = 10.8m;
+            this.bid.Price = 20.8m;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsTrue(result.IsValid);
         }
 
         /// <summary>
@@ -175,6 +322,60 @@ namespace UnitTests.ServiceTests
             this.bid.Currency = Currency.Euro;
             using (this.mocks.Record())
             {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with invalid currency.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithInvalidCurrency()
+        {
+            var maxRoleValue = Enum.GetValues(typeof(Currency)).Cast<int>().Max() + 1;
+            this.bid.Currency = (Currency)maxRoleValue;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with null auction.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithNullAuction()
+        {
+            this.bid.Auction = null;
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add bid with nonexisting auction.
+        /// </summary>
+        [Test]
+        public void TestAddBidWithNonexistingAuction()
+        {
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(null);
                 this.bidRepository.Expect(repo => repo.Insert(this.bid));
             }
 

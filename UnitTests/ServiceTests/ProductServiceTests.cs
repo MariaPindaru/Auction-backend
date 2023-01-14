@@ -82,7 +82,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add valid product.
         /// </summary>
         [Test]
-        public void TestAddValidProduct()
+        public void TestAdd_ValidProduct_ReturnsNoError()
         {
             using (this.mocks.Record())
             {
@@ -98,7 +98,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the add product null.
         /// </summary>
         [Test]
-        public void TestAddProductNullName()
+        public void TestAdd_HasNullName_ReturnsErrorForName()
         {
             this.product.Name = null;
 
@@ -116,7 +116,7 @@ namespace UnitTests.ServiceTests
         /// Tests the short name of the add product.
         /// </summary>
         [Test]
-        public void TestAddProductShortName()
+        public void TestAdd_NameIsTooShort_ReturnsErrorForName()
         {
             this.product.Name = "E";
 
@@ -134,7 +134,7 @@ namespace UnitTests.ServiceTests
         /// Tests the long name of the add product.
         /// </summary>
         [Test]
-        public void TestAddProductLongName()
+        public void TestAdd_NameIsTooLong_ReturnsErrorForName()
         {
             string longString = new string('*', 101);
             this.product.Name = longString;
@@ -153,7 +153,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add product null description.
         /// </summary>
         [Test]
-        public void TestAddProductNullDescription()
+        public void TestAdd_DescriptionIsNull_ReturnsErrorForDescription()
         {
             this.product.Description = null;
 
@@ -171,7 +171,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add product short description.
         /// </summary>
         [Test]
-        public void TestAddProductShortDescription()
+        public void TestAdd_DescriptionIsTooShort_ReturnsErrorForDescription()
         {
             this.product.Description = "E";
 
@@ -189,7 +189,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add product long description.
         /// </summary>
         [Test]
-        public void TestAddProductLongDescription()
+        public void TestAdd_DescriptionIsTooLong_ReturnsErrorForDescription()
         {
             string longString = new string('*', 501);
             this.product.Description = longString;
@@ -208,7 +208,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add product null category.
         /// </summary>
         [Test]
-        public void TestAddProductNullCategory()
+        public void TestAdd_CategoryIsNull_ReturnsErrorForCategory()
         {
             this.product.Category = null;
 
@@ -226,7 +226,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the add product null category.
         /// </summary>
         [Test]
-        public void TestAddProductNullCategoryName()
+        public void TestAdd_CategoryNameIsNull_ReturnsErrorForCategoryName()
         {
             this.product.Category.Name = null;
 
@@ -244,9 +244,9 @@ namespace UnitTests.ServiceTests
         /// Tests the add product null auction.
         /// </summary>
         [Test]
-        public void TestAddProductNullAuction() // TODO:
+        public void TestAdd_AuctionIsNull_ReturnsNoError() 
         {
-            this.product.Category.Name = null;
+            this.product.Auction = null;
 
             using (this.mocks.Record())
             {
@@ -255,32 +255,14 @@ namespace UnitTests.ServiceTests
 
             ValidationResult result = this.productService.Insert(this.product);
 
-            Assert.IsFalse(result.IsValid);
-        }
-
-        /// <summary>
-        /// Tests the add product invalid auction.
-        /// </summary>
-        [Test]
-        public void TestAddProductInvalidAuction() // TODO:
-        {
-            this.product.Category.Name = null;
-
-            using (this.mocks.Record())
-            {
-                this.productRepository.Expect(repo => repo.Insert(this.product));
-            }
-
-            ValidationResult result = this.productService.Insert(this.product);
-
-            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.IsValid);
         }
 
         /// <summary>
         /// Tests the update valid product.
         /// </summary>
         [Test]
-        public void TestUpdateValidProduct()
+        public void TestUpdate_ValidProduct_ReturnsNoError()
         {
             using (this.mocks.Record())
             {
@@ -296,7 +278,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the update product null.
         /// </summary>
         [Test]
-        public void TestUpdateProductNullName()
+        public void TestUpdate_HasNullName_ReturnsErrorForName()
         {
             this.product.Name = null;
 
@@ -314,7 +296,7 @@ namespace UnitTests.ServiceTests
         /// Tests the short name of the update product.
         /// </summary>
         [Test]
-        public void TestUpdateProductShortName()
+        public void TestUpdate_NameIsTooShort__ReturnsErrorForName()
         {
             this.product.Name = "E";
 
@@ -332,7 +314,7 @@ namespace UnitTests.ServiceTests
         /// Tests the long name of the update product.
         /// </summary>
         [Test]
-        public void TestUpdateProductLongName()
+        public void TestUpdate_NameIsTooLong__ReturnsErrorForName()
         {
             string longString = new string('*', 101);
             this.product.Name = longString;
@@ -351,7 +333,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update product null description.
         /// </summary>
         [Test]
-        public void TestUpdateProductNullDescription()
+        public void TestUpdate_DescriptionIsNull_ReturnsErrorForDescription()
         {
             this.product.Description = null;
 
@@ -369,7 +351,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update product short description.
         /// </summary>
         [Test]
-        public void TestUpdateProductShortDescription()
+        public void TestUpdate_DescriptionIsTooShort_ReturnsErrorForDescription()
         {
             this.product.Description = "E";
 
@@ -387,7 +369,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update product long description.
         /// </summary>
         [Test]
-        public void TestUpdateProductLongDescription()
+        public void TestUpdate_DescriptionIsTooLong_ReturnsErrorForDescription()
         {
             string longString = new string('*', 501);
             this.product.Description = longString;
@@ -406,7 +388,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update product null category.
         /// </summary>
         [Test]
-        public void TestUpdateProductNullCategory()
+        public void TestUpdate_CategoryIsNull_ReturnsErrorForCategory()
         {
             this.product.Category = null;
 
@@ -424,7 +406,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the update product null category.
         /// </summary>
         [Test]
-        public void TestUpdateProductNullCategoryName()
+        public void TestUpdate_CategoryNameIsNull_ReturnsErrorForCategoryName()
         {
             this.product.Category.Name = null;
 
@@ -442,7 +424,7 @@ namespace UnitTests.ServiceTests
         /// Tests the delete product.
         /// </summary>
         [Test]
-        public void TestDeleteProduct()
+        public void TestDelete_ValidProduct_ReturnsNoError()
         {
             this.product.Category.Name = null;
 
@@ -458,7 +440,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get products.
         /// </summary>
         [Test]
-        public void TestGetProducts()
+        public void TestGetAll_ReturnsCurrentProduct()
         {
             using (this.mocks.Record())
             {
@@ -475,7 +457,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get product by identifier.
         /// </summary>
         [Test]
-        public void TestGetProductById()
+        public void TestGetById_ReturnsCurrentProduct()
         {
             using (this.mocks.Record())
             {
@@ -491,7 +473,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add product with identical description.
         /// </summary>
         [Test]
-        public void TestAddProductWithIdenticalDescription()
+        public void TestAdd_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsErrorForDescription()
         {
             using (this.mocks.Record())
             {
@@ -521,7 +503,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add product with similar description.
         /// </summary>
         [Test]
-        public void TestAddProducTWithSimilarDescription()
+        public void TestAdd_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsNoError()
         {
             using (this.mocks.Record())
             {

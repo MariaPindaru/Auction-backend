@@ -94,7 +94,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add valid user score.
         /// </summary>
         [Test]
-        public void TestAddValidUserScore()
+        public void TestAdd_ValidUserScore_ReturnsNoError()
         {
             using (this.mocks.Record())
             {
@@ -110,7 +110,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add user score with null scoring user.
         /// </summary>
         [Test]
-        public void TestAddUserScoreWithNullScoringUser()
+        public void TestAdd_NullScoringUser_ReturnsErrorForNullScoringUser()
         {
             this.userScore.ScoringUser = null;
             using (this.mocks.Record())
@@ -127,10 +127,10 @@ namespace UnitTests.ServiceTests
         /// Tests the add user score with invalid scoring user.
         /// </summary>
         [Test]
-        public void TestAddUserScoreWithInvalidScoringUser()
+        public void TestAdd_ScoringUserHasInvalidRole_ReturnsErrorForScoringUserRole()
         {
-            var maxRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
-            this.userScore.ScoringUser.Role = (Role)maxRoleValue;
+            var invalidRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
+            this.userScore.ScoringUser.Role = (Role)invalidRoleValue;
             using (this.mocks.Record())
             {
                 this.userScoreRepository.Expect(repo => repo.Insert(this.userScore));
@@ -145,7 +145,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add user score with null scored user.
         /// </summary>
         [Test]
-        public void TestAddUserScoreWithNullScoredUser()
+        public void TestAdd_NullScoredUser_ReturnsErrorForNullScoredUser()
         {
             this.userScore.ScoredUser = null;
             using (this.mocks.Record())
@@ -162,10 +162,10 @@ namespace UnitTests.ServiceTests
         /// Tests the add user score with invalid scored user.
         /// </summary>
         [Test]
-        public void TestAddUserScoreWithInvalidScoredUser()
+        public void TestAdd_ScoredUserHasInvalidRole_ReturnsErrorForScoredUserRole()
         {
-            var maxRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
-            this.userScore.ScoredUser.Role = (Role)maxRoleValue;
+            var invalidRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
+            this.userScore.ScoredUser.Role = (Role)invalidRoleValue;
             using (this.mocks.Record())
             {
                 this.userScoreRepository.Expect(repo => repo.Insert(this.userScore));
@@ -180,7 +180,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add user score with negative score.
         /// </summary>
         [Test]
-        public void TestAddUserScoreWithNegativeScore()
+        public void TestAdd_NegativeScore_ReturnsErrorForScore()
         {
             this.userScore.Score = -2;
             using (this.mocks.Record())
@@ -197,7 +197,24 @@ namespace UnitTests.ServiceTests
         /// Tests the add user score with score too high.
         /// </summary>
         [Test]
-        public void TestAddUserScoreWithScoreTooHigh()
+        public void TestAdd_ScoreIsTooHigh_ReturnsErrorForScore()
+        {
+            this.userScore.Score = 232;
+            using (this.mocks.Record())
+            {
+                this.userScoreRepository.Expect(repo => repo.Insert(this.userScore));
+            }
+
+            ValidationResult result = this.userScoreService.Insert(this.userScore);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add user score with score zero.
+        /// </summary>
+        [Test]
+        public void TestAdd_ScoreZero_ReturnErrorForScore()
         {
             this.userScore.Score = 232;
             using (this.mocks.Record())
@@ -214,7 +231,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update valid user score.
         /// </summary>
         [Test]
-        public void TestUpdateValidUserScore()
+        public void TestUpdate_ValidUserScore_ReturnsNoError()
         {
             using (this.mocks.Record())
             {
@@ -230,7 +247,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update user with negative score.
         /// </summary>
         [Test]
-        public void TestUpdateUserWithNegativeScore()
+        public void TestUpdate_NegativeScore_ReturnsErrorForScore()
         {
             this.userScore.Score = -9;
             using (this.mocks.Record())
@@ -244,27 +261,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the add user score with score zero.
-        /// </summary>
-        [Test]
-        public void TestAddUserScoreWithScoreZero()
-        {
-            this.userScore.Score = 232;
-            using (this.mocks.Record())
-            {
-                this.userScoreRepository.Expect(repo => repo.Insert(this.userScore));
-            }
-
-            ValidationResult result = this.userScoreService.Insert(this.userScore);
-
-            Assert.IsFalse(result.IsValid);
-        }
-
-        /// <summary>
         /// Tests the get user scores.
         /// </summary>
         [Test]
-        public void TestGetUserScores()
+        public void TestGetAll_ReturnsCurrentUserScore()
         {
             using (this.mocks.Record())
             {
@@ -281,7 +281,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get user score by identifier.
         /// </summary>
         [Test]
-        public void TestGetUserScoreById()
+        public void TestGetById_ReturnsCurrentUserScore()
         {
             using (this.mocks.Record())
             {

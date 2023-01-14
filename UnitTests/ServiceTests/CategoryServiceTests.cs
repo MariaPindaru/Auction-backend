@@ -67,7 +67,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add valid category.
         /// </summary>
         [Test]
-        public void TestAddValidCategory()
+        public void TestAdd_ValidCategoy_ReturnsNoError()
         {
             this.category.Name = "Electronics";
 
@@ -85,7 +85,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the add category with null.
         /// </summary>
         [Test]
-        public void TestAddCategoryWithNullName()
+        public void TestAdd_HasNullName_ReturnsErrorForName()
         {
             this.category.Name = null;
 
@@ -103,7 +103,7 @@ namespace UnitTests.ServiceTests
         /// Tests the short name of the add category with.
         /// </summary>
         [Test]
-        public void TestAddCategoryWithShortName()
+        public void TestAdd_NameIsTooShort_ReturnsErrorForName()
         {
             this.category.Name = "E";
 
@@ -121,7 +121,7 @@ namespace UnitTests.ServiceTests
         /// Tests the long name of the add category with.
         /// </summary>
         [Test]
-        public void TestAddCategoryWithLongName()
+        public void TestAdd_NameIsTooLong_ReturnsErrorForName()
         {
             string longString = new string('*', 31);
             this.category.Name = longString;
@@ -140,7 +140,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update valid category.
         /// </summary>
         [Test]
-        public void TestUpdateValidCategory()
+        public void TestUpdate_ValidCategory_ReturnsNoError()
         {
             this.category.Id = 1;
             this.category.Name = "ValidName";
@@ -159,7 +159,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the update category with null.
         /// </summary>
         [Test]
-        public void TestUpdateCategoryWithNullName()
+        public void TestUpdate_HasNullName_ReturnsErrorForName()
         {
             this.category.Name = null;
 
@@ -177,7 +177,7 @@ namespace UnitTests.ServiceTests
         /// Tests the short name of the update category with.
         /// </summary>
         [Test]
-        public void TestUpdateCategoryWithShortName()
+        public void TestUpdate_NameIsTooShort_ReturnsErrorForName()
         {
             this.category.Name = "E";
 
@@ -195,7 +195,7 @@ namespace UnitTests.ServiceTests
         /// Tests the long name of the update category with.
         /// </summary>
         [Test]
-        public void TestUpdateCategoryWithLongName()
+        public void TestUpdate_NameIsTooLong_ReturnsErrorForName()
         {
             string longString = new string('*', 31);
             this.category.Name = longString;
@@ -214,7 +214,7 @@ namespace UnitTests.ServiceTests
         /// Tests the delete valid category.
         /// </summary>
         [Test]
-        public void TestDeleteValidCategory()
+        public void TestDelete_ValidCategory_ReturnsNoError()
         {
             this.category.Id = 1;
             this.category.Name = "ValidName";
@@ -231,7 +231,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get categories.
         /// </summary>
         [Test]
-        public void TestGetCategories()
+        public void TestGetAll_ReturnsCurrentBid()
         {
             using (this.mocks.Record())
             {
@@ -248,7 +248,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get category by identifier.
         /// </summary>
         [Test]
-        public void TestGetCategoryById()
+        public void TestGetById_ReturnsCurrentBid()
         {
             using (this.mocks.Record())
             {

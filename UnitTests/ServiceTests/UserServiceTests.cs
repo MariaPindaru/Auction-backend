@@ -77,7 +77,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add valid user.
         /// </summary>
         [Test]
-        public void TestAddValidUser()
+        public void TestAdd_ValidUser_ReturnsNoError()
         {
             this.user.Name = "Username";
             this.user.Role = Role.Bidder;
@@ -96,7 +96,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the add user null.
         /// </summary>
         [Test]
-        public void TestAddUserWithNullName()
+        public void TestAdd_NullName_ReturnsErrorForName()
         {
             this.user.Name = null;
             this.user.Role = Role.Bidder;
@@ -115,7 +115,7 @@ namespace UnitTests.ServiceTests
         /// Tests the short name of the add user with.
         /// </summary>
         [Test]
-        public void TestAddUserWithShortName()
+        public void TestAdd_NameIsTooShort_ReturnsErrorForName()
         {
             this.user.Name = "U";
             this.user.Role = Role.Bidder;
@@ -134,7 +134,7 @@ namespace UnitTests.ServiceTests
         /// Tests the long name of the add user.
         /// </summary>
         [Test]
-        public void TestAddUserWithLongName()
+        public void TestAdd_NameIsTooLong_ReturnsErrorForName()
         {
             string longString = new string('*', 51);
             this.user.Name = longString;
@@ -154,7 +154,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add user invalid role.
         /// </summary>
         [Test]
-        public void TestAddUserWithInvalidRole()
+        public void TestAdd_InvalidRole_ReturnsErrorForUserRole()
         {
             this.user.Name = "Username";
             this.user.Role = (Role)200;
@@ -173,7 +173,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update valid user.
         /// </summary>
         [Test]
-        public void TestUpdateValidUser()
+        public void TestUpdate_ValidUser_ReturnsNoError()
         {
             this.user.Name = "Username";
             this.user.Role = Role.Bidder;
@@ -192,7 +192,7 @@ namespace UnitTests.ServiceTests
         /// Tests the name of the update user with null.
         /// </summary>
         [Test]
-        public void TestUpdateUserWithNullName()
+        public void TestUpdat_NullName_ReturnsErrorForName()
         {
             this.user.Name = null;
             using (this.mocks.Record())
@@ -210,7 +210,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get users.
         /// </summary>
         [Test]
-        public void TestGetUsers()
+        public void TestGetAll_ReturnsCurrentUser()
         {
             using (this.mocks.Record())
             {
@@ -227,7 +227,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get user by identifier.
         /// </summary>
         [Test]
-        public void TestGetUserById()
+        public void TestGetUserById_ReturnsCurrentUser()
         {
             using (this.mocks.Record())
             {
@@ -243,7 +243,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get user seriosity score.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScoreDefault()
+        public void TestGetUserSeriosityScore_HasZeroScores_ReturnsDefaultScore()
         {
             using (this.mocks.Record())
             {
@@ -263,7 +263,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get user seriosity score median odd.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScoreMedianOdd()
+        public void TestGetUserSeriosityScore_HasOddNumberOfScores_ReturnsMedianForOddCount()
         {
             this.user.ReceivedUserScores = new HashSet<UserScore>
             {
@@ -308,7 +308,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get user seriosity score median even.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScoreMedianEven()
+        public void TestGetUserSeriosityScore_HasEvenNumberOfScores_ReutnrsMedianForEvenCount()
         {
             this.user.ReceivedUserScores = new HashSet<UserScore>
             {
@@ -358,7 +358,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get user seriosity score no score in last three months.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScoreNoScoreLastThreeMonths()
+        public void TestGetUserSeriosityScore_HasNoScoresInTheLastThreeMonths_ReturnsDefaultScore()
         {
             this.user.ReceivedUserScores = new HashSet<UserScore>
             {
@@ -389,7 +389,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get user seriosity score null.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScoreNull()
+        public void TestGetUserSeriosityScore_UserDoesNotExist_ReturnsNull()
         {
             using (this.mocks.Record())
             {

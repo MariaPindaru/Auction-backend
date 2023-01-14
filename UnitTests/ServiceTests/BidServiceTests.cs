@@ -210,7 +210,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with negative price.
         /// </summary>
         [Test]
-        public void TestAddBidWithNegativePrice()
+        public void TestAdd_HasNegativePrice_ReturnsErrorForPrice()
         {
             this.bid.Price = -19.3m;
             using (this.mocks.Record())
@@ -228,7 +228,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with price zero.
         /// </summary>
         [Test]
-        public void TestAddBidWithPriceZero()
+        public void TestAdd_HasPriceZero_ReturnsErrorForPrice()
         {
             this.bid.Price = 0;
             using (this.mocks.Record())
@@ -247,7 +247,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with price too high default price.
         /// </summary>
         [Test]
-        public void TestAddBidWithPriceTooHighDefaultPrice()
+        public void TestAdd_HasPriceTooHigh_LastPriceIsStartPrice_ReturnsErrorForPrice()
         {
             this.bid.Auction.StartPrice = 10.7m;
             this.bid.Price = 300.8m;
@@ -267,7 +267,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with price too high existing bid.
         /// </summary>
         [Test]
-        public void TestAddBidWithPriceTooHighExistingBid()
+        public void TestAdd_HasPriceTooHigh_LastPriceIsAnotherBid_ReturnsErrorForPrice()
         {
             this.bid.Auction.StartPrice = 10.7m;
             this.bid.Auction.BidHistory.Add(new Bid { Price = 20.6m});
@@ -287,7 +287,26 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with previous price.
         /// </summary>
         [Test]
-        public void TestAddBidWithPreviousPrice()
+        public void TestAdd_PriceIsEqualWithTheLastOne_LastPriceIsStartPrice_ReturnsErrorForPrice()
+        {
+            this.bid.Auction.StartPrice = 10.7m;
+            this.bid.Price = 10.7m;
+            using (this.mocks.Record())
+            {
+                this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
+                this.bidRepository.Expect(repo => repo.Insert(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Insert(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add price is equal with the last one last price is a bid returns error for price.
+        /// </summary>
+        [Test]
+        public void TestAdd_PriceIsEqualWithTheLastOne_LastPriceIsABid_ReturnsErrorForPrice()
         {
             this.bid.Auction.StartPrice = 10.7m;
             this.bid.Auction.BidHistory.Add(new Bid { Price = 20.6m });
@@ -307,7 +326,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with valid price.
         /// </summary>
         [Test]
-        public void TestAddBidWithValidPrice()
+        public void TestAdd_HasValidPrice_ReturnsNoError()
         {
             this.bid.Auction.StartPrice = 10.8m;
             this.bid.Price = 20.8m;
@@ -326,7 +345,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with different currency than auction.
         /// </summary>
         [Test]
-        public void TestAddBidWithDifferentCurrencyThanAuction()
+        public void TestAdd_HasDifferentCurrencyThanAuction_ReturnsErrorForCurrency()
         {
             this.bid.Currency = Currency.Euro;
             using (this.mocks.Record())
@@ -344,10 +363,10 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with invalid currency.
         /// </summary>
         [Test]
-        public void TestAddBidWithInvalidCurrency()
+        public void TestAdd_HasInvlidCurrency_ReturnsErrorForCurrancy()
         {
-            var maxRoleValue = Enum.GetValues(typeof(Currency)).Cast<int>().Max() + 1;
-            this.bid.Currency = (Currency)maxRoleValue;
+            var invalidCurrencyValue = Enum.GetValues(typeof(Currency)).Cast<int>().Max() + 1;
+            this.bid.Currency = (Currency)invalidCurrencyValue;
             using (this.mocks.Record())
             {
                 this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
@@ -363,7 +382,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with null auction.
         /// </summary>
         [Test]
-        public void TestAddBidWithNullAuction()
+        public void TestAdd_HasNullAuction_ReturnsErrorForAuction()
         {
             this.bid.Auction = null;
             using (this.mocks.Record())
@@ -380,7 +399,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with nonexisting auction.
         /// </summary>
         [Test]
-        public void TestAddBidWithNonexistingAuction()
+        public void TestAdd_AuctionDoesNotExist_ReturnsErrorForAuction()
         {
             using (this.mocks.Record())
             {
@@ -397,7 +416,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update valid bid.
         /// </summary>
         [Test]
-        public void TestUpdateValidBid()
+        public void TestUpdate_ValidBid_ReturnNoError()
         {
             using (this.mocks.Record())
             {
@@ -413,7 +432,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update bid with null bidder.
         /// </summary>
         [Test]
-        public void TestUpdateBidWithNullBidder()
+        public void TestUpdate_HasNullOfferer_ReturnsErrorForOfferer()
         {
             this.bid.Bidder = null;
             using (this.mocks.Record())
@@ -430,7 +449,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update bid with invalid bidder.
         /// </summary>
         [Test]
-        public void TestUpdateBidWithInvalidBidder()
+        public void TestUpdate_OffererHasNullName_ReturnsErrorForOffererName()
         {
             this.bid.Bidder.Name = null;
             using (this.mocks.Record())
@@ -447,7 +466,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get bids.
         /// </summary>
         [Test]
-        public void TestGetBids()
+        public void TestGet_ReturnsCurrentBid()
         {
             using (this.mocks.Record())
             {
@@ -464,7 +483,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get bid by identifier.
         /// </summary>
         [Test]
-        public void TestGetBidById()
+        public void TestGetById_ReturnsCurrentBid()
         {
             using (this.mocks.Record())
             {
@@ -474,6 +493,20 @@ namespace UnitTests.ServiceTests
             var product = this.bidService.GetByID(10);
 
             Assert.AreEqual(product, this.bid);
+        }
+
+        /// <summary>
+        /// Tests the delete valid bid.
+        /// </summary>
+        [Test]
+        public void TestDelete_ValidBid()
+        {
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.Delete(this.bid));
+            }
+
+            this.bidService.Delete(this.bid);
         }
     }
 }

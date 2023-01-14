@@ -43,26 +43,24 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
 
             Auction auction = entity.Auction;
-            if (auction != null && this.auctionService.GetByID(auction.Id) == null)
+            if (auction != null)
             {
-                validationFailures.Add(new ValidationFailure("Auction", "The auction doesn't exist, the bid cannot be added."));
-            }
-
-            if (auction != null && auction.BidHistory != null)
-            {
-                var lastPrice = auction.StartPrice;
-                if (auction.BidHistory.Count > 0)
+                if (this.auctionService.GetByID(auction.Id) == null)
                 {
-                    lastPrice = auction.BidHistory[auction.BidHistory.Count - 1].Price;
+                    validationFailures.Add(new ValidationFailure("Auction", "The auction doesn't exist, the bid cannot be added."));
                 }
+                else if (auction.BidHistory != null)
+                {
+                    var lastPrice = auction.BidHistory.Count == 0 ? auction.StartPrice : auction.BidHistory[auction.BidHistory.Count - 1].Price;
 
-                if (lastPrice == entity.Price)
-                {
-                    validationFailures.Add(new ValidationFailure("Price", "The bid price must be higher than the previous one."));
-                }
-                else if (3 * lastPrice < entity.Price)
-                {
-                    validationFailures.Add(new ValidationFailure("Price", "The bid price cannot be mode than 300% higher than the previous one."));
+                    if (lastPrice == entity.Price)
+                    {
+                        validationFailures.Add(new ValidationFailure("Price", "The bid price must be higher than the previous one."));
+                    }
+                    else if (3 * lastPrice < entity.Price)
+                    {
+                        validationFailures.Add(new ValidationFailure("Price", "The bid price cannot be mode than 300% higher than the previous one."));
+                    }
                 }
             }
 

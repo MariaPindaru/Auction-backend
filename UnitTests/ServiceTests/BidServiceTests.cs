@@ -111,7 +111,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add valid bid.
         /// </summary>
         [Test]
-        public void TestAddValidBid()
+        public void TestAdd_ValidBid_ReturnsNoError()
         {
             using (this.mocks.Record())
             {
@@ -128,7 +128,7 @@ namespace UnitTests.ServiceTests
         /// Tests the add bid with null bidder.
         /// </summary>
         [Test]
-        public void TestAddBidWithNullBidder()
+        public void TestAdd_HasNullBidder_ReturnsErrorForBidder()
         {
             this.bid.Bidder = null;
             using (this.mocks.Record())
@@ -140,13 +140,15 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.bidService.Insert(this.bid);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Bid.Bidder));
         }
 
         /// <summary>
         /// Tests the name of the add bid with invalid bidder null.
         /// </summary>
         [Test]
-        public void TestAddBidWithInvalidBidderNullName()
+        public void TestAdd_BidderHasNullName_ReturnsErrorForBidderName()
         {
             this.bid.Bidder.Name = null;
             using (this.mocks.Record())
@@ -158,16 +160,18 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.bidService.Insert(this.bid);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, "Bidder.Name");
         }
 
         /// <summary>
         /// Tests the add bid with invalid bidder role.
         /// </summary>
         [Test]
-        public void TestAddBidWithInvalidBidderRole()
+        public void TestAdd_BidderHasInvalidRole_ReturnsErrorForBidderRole()
         {
-            var maxRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
-            this.bid.Bidder.Role = (Role)maxRoleValue;
+            var invalidRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
+            this.bid.Bidder.Role = (Role)invalidRoleValue;
             using (this.mocks.Record())
             {
                 this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
@@ -177,13 +181,16 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.bidService.Insert(this.bid);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 2);
+            Assert.AreEqual(result.Errors.ElementAt(0).PropertyName, "Bidder.Role");
+            Assert.AreEqual(result.Errors.ElementAt(1).PropertyName, "Bidder");
         }
 
         /// <summary>
         /// Tests the add bid with wrong bidder role.
         /// </summary>
         [Test]
-        public void TestAddBidWithWrongBidderRole()
+        public void TestAdd_BidderHasOffererRole_ReturnsErrorForBidderRole()
         {
             this.bid.Bidder.Role = Role.Offerer;
             using (this.mocks.Record())
@@ -195,6 +202,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.bidService.Insert(this.bid);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Bid.Bidder));
         }
 
         /// <summary>

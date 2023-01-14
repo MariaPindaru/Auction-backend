@@ -17,25 +17,25 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public AuctionValidator()
         {
-            this.ClassLevelCascadeMode = CascadeMode.Stop;
-
             this.RuleFor(auction => auction.Offerer)
                 .NotEmpty()
                 .WithMessage("The offerer cannot be null.");
 
-            this.RuleFor(auction => auction.Offerer)
-                .SetValidator(new UserValidator());
+            this.When(auction => auction.Offerer != null,
+                () => RuleFor(auction => auction.Offerer).SetValidator(new UserValidator()));
 
-            this.RuleFor(auction => auction.Offerer)
+            this.When(auction => auction.Offerer != null,
+                () => RuleFor(auction => auction.Offerer)
                 .Must(offerer => offerer.Role.HasFlag(Role.Offerer))
-                .WithMessage("The offerer must have the role of offerer.");
+                .WithMessage("The offerer must have the role of offerer."));
 
             this.RuleFor(auction => auction.Product)
                 .NotEmpty()
                 .WithMessage("The product cannot be null.");
 
-            this.RuleFor(auction => auction.Product)
-                .SetValidator(new ProductValidator());
+            this.When(auction => auction.Offerer != null,
+                () => RuleFor(auction => auction.Product)
+                .SetValidator(new ProductValidator()));
 
             this.RuleFor(auction => auction.StartPrice)
                 .ExclusiveBetween(0.0m, decimal.MaxValue)
@@ -53,9 +53,6 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("End time must be specified.");
 
-            // this.RuleFor(auction => auction.StartTime)
-            //    .GreaterThanOrEqualTo(System.DateTime.Now)
-            //    .WithMessage("Start time cannot be in the past.");
             this.RuleFor(auction => auction.EndTime)
                 .GreaterThan(auction => auction.StartTime)
                 .WithMessage("End time cannot be lower than start time.");

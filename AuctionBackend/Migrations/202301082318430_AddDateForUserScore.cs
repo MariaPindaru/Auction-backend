@@ -1,7 +1,8 @@
 ﻿namespace AuctionBackend.Migrations
 {
     using System.Data.Entity.Migrations;
-    
+
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class AddDateForUserScore : DbMigration
     {
         public override void Up()

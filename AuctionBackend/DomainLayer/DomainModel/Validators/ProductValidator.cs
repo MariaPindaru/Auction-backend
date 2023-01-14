@@ -16,15 +16,17 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public ProductValidator()
         {
-            this.ClassLevelCascadeMode = CascadeMode.Stop;
-
             this.RuleFor(product => product.Name).NotEmpty().WithMessage("Product name cannot be null");
             this.RuleFor(product => product.Name).Length(2, 100).WithMessage("The product name must have between 2 and 100 chars");
 
             this.RuleFor(product => product.Description).NotEmpty().WithMessage("Product description cannot be null");
             this.RuleFor(product => product.Description).Length(3, 500).WithMessage("The product description must have between 3 and 500 chars");
 
-            this.RuleFor(product => product.Category).NotEmpty().SetValidator(new CategoryValidator()).WithMessage("The product must have a valid category.");
+            this.RuleFor(product => product.Category).NotEmpty().WithMessage("The product category cannot be null.").SetValidator(new CategoryValidator());
+
+            this.When(product => product.Category != null,
+                () => RuleFor(product => product.Category)
+                .SetValidator(new CategoryValidator()));
         }
     }
 }

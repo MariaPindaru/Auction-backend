@@ -227,8 +227,10 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.auctionService.Insert(this.auction);
 
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(result.Errors.Count, 1);
-            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.EndTime));
+            Assert.AreEqual(result.Errors.Count, 3);
+            Assert.AreEqual(result.Errors.ElementAt(0).PropertyName, nameof(Auction.EndTime));
+            Assert.AreEqual(result.Errors.ElementAt(1).PropertyName, nameof(Auction.EndTime));
+            Assert.AreEqual(result.Errors.ElementAt(2).PropertyName, nameof(Auction.IsFinished));
         }
 
         /// <summary>
@@ -237,7 +239,7 @@ namespace UnitTests.ServiceTests
         [Test]
         public void TestAdd_EndTimeIsBeforeStartTime_ReturnsErrorForEndTime()
         {
-            this.auction.EndTime = DateTime.Now;
+            this.auction.EndTime = DateTime.Now.AddDays(1);
             this.auction.StartTime = DateTime.Now.AddDays(8);
             using (this.mocks.Record())
             {

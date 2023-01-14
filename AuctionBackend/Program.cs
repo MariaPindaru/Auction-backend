@@ -23,8 +23,39 @@ namespace AuctionBackend
             var kernel = Injector.Kernel;
             var categoryService = kernel.Get<ICategoryService>();
             var productService = kernel.Get<IProductService>();
+            var a = kernel.Get<IAuctionService>();
+            var u = kernel.Get<IUserService>();
 
-            InsertCategory(categoryService, productService);
+            var category = new Category { Name = "CCC" };
+            var o = new User { Name = "AAA", Role = Role.Offerer };
+
+            //var t = categoryService.Insert(category);
+            var t = u.Insert(o);
+            category = categoryService.GetByID(1);
+            var user = u.GetByID(1);
+            var p = productService.GetByID(2);
+
+            var auction = new Auction
+            {
+                Id = 1,
+                Product = new Product
+                {
+                    Name = "haha",
+                    Description = "mare haha",
+                    Offerer = o,
+                    Category = category,
+                },
+                StartPrice = 10.6m,
+                StartTime = DateTime.Now.AddDays(10),
+                EndTime = DateTime.Now.AddDays(20),
+                Currency = Currency.Euro,
+                IsFinished = false
+            };
+            var r = a.Insert(auction);
+
+            //var product 
+
+            //InsertCategory(categoryService, productService);
             Console.ReadKey(true);
         }
 
@@ -34,7 +65,7 @@ namespace AuctionBackend
 
             var categoryP = new Category
             {
-                Name = "cp",
+                Name = "nbbbb",
             };
             categoryP.Children.Add(category);
 

@@ -27,36 +27,5 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         : base(Injector.Get<IProductRepository>(), new ProductValidator())
         {
         }
-
-        public IEnumerable<Product> GetProductsForOfferer(User offerer)
-        {
-            return this.Repository.Get(filter: product => product.Offerer.Id == offerer.Id);
-        }
-
-        /// <summary>
-        /// Descriptions the is duplicate.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns> True if the product owner has another product with a very similar description, false otherwise.</returns>
-        public bool ProductHasDuplicateDescription(Product entity)
-        {
-            if (entity.Offerer != null && entity.Description != null)
-            {
-                var productsWithTheSameOfferer = this.GetProductsForOfferer(entity.Offerer);
-                var newProductDescription = entity.Description;
-                foreach (var previousProduct in productsWithTheSameOfferer)
-                {
-                    var oldProductDescription = previousProduct.Description;
-
-                    var distance = LevenshteinDistance.Calculate(oldProductDescription, newProductDescription);
-                    if (distance < previousProduct.Description.Length / 3)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
     }
 }

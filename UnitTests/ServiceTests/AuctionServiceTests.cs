@@ -576,7 +576,74 @@ namespace UnitTests.ServiceTests
 
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(result.Errors.Count, 1);
-            //Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Offerer));
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Product.Offerer));
+        }
+
+        /// <summary>
+        /// Tests the product has duplicate description description is identical with another one same user returns error for description.
+        /// </summary>
+        [Test]
+        public void TestProductHasDuplicateDescription_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsTrue()
+        {
+            var auctions = new HashSet<Auction>
+            {
+                this.auction,
+            };
+            bool result = this.auctionService.ProductHasDuplicateDescription(this.auction.Product, auctions);
+
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
+        /// Tests the product has duplicate description description is similar with another one same user returns false.
+        /// </summary>
+        [Test]
+        public void TestProductHasDuplicateDescription_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsFalse()
+        {
+            this.auction.Product.Description = "hihi";
+            var copyAuction = this.auction;
+            copyAuction.Product.Description = "haha";
+            var auctions = new HashSet<Auction>
+            {
+                copyAuction,
+            };
+            bool result = this.auctionService.ProductHasDuplicateDescription(this.auction.Product, auctions);
+
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Tests the product has duplicate description offerer is null returns false.
+        /// </summary>
+        [Test]
+        public void TestProductHasDuplicateDescription_OffererIsNull_ReturnsFalse()
+        {
+            this.auction.Product.Offerer = null;
+            var auctions = new HashSet<Auction>
+            {
+                this.auction,
+            };
+
+            bool result = this.auctionService.ProductHasDuplicateDescription(this.auction.Product, auctions);
+
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Tests the product has duplicate description description is null returns false.
+        /// </summary>
+        [Test]
+        public void TestProductHasDuplicateDescription_DescriptionIsNull_ReturnsFalse()
+        {
+            this.auction.Product.Description = null;
+            var auctions = new HashSet<Auction>
+            {
+                this.auction,
+            };
+
+            bool result = this.auctionService.ProductHasDuplicateDescription(this.auction.Product, auctions);
+
+            Assert.IsFalse(result);
         }
     }
 }

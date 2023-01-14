@@ -30,7 +30,19 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
                     entity.Product = product;
                 }
 
-                ctx.Set<Auction>().Add(entity);
+                Category category = ctx.Set<Category>().Find(entity.Product.Category.Id);
+                if (category != null)
+                {
+                    entity.Product.Category = category;
+                }
+
+                User user = ctx.Set<User>().Find(entity.Product.Offerer.Id);
+                if (user != null)
+                {
+                    entity.Product.Offerer = user;
+                }
+
+                ctx.Set<Auction>().Attach(entity);
 
                 ctx.SaveChanges();
             }

@@ -7,6 +7,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Currency enum.
@@ -44,6 +45,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the product.</summary>

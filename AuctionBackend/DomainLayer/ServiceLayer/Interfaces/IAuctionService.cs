@@ -19,5 +19,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
         /// <param name="userId">The user identifier.</param>
         /// <returns> Collection of active auctions which have as offerer the given user. </returns>
         IEnumerable<Auction> GetUserActiveAuctions(int userId);
+        bool ProductHasDuplicateDescription(Product entity, IEnumerable<Auction> activeAuctions);
     }
 }

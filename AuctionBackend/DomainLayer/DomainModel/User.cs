@@ -7,6 +7,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Enum used to define the user's role.
@@ -44,6 +45,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the name.</summary>

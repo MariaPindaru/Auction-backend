@@ -4,7 +4,9 @@
 
 namespace AuctionBackend.DataLayer
 {
+    using System;
     using System.Data.Entity;
+    using System.Data.Entity.ModelConfiguration.Configuration;
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>Class used to declare the application database context.</summary>

@@ -12,6 +12,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
+    using AuctionBackend.DomainLayer.ServiceLayer.Utils;
     using AuctionBackend.Startup;
     using FluentValidation.Results;
 
@@ -23,6 +24,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     public class AuctionService : BaseService<Auction, IAuctionRepository>, IAuctionService
     {
         private IConfiguration appConfiguration;
+        private IProductService productService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuctionService"/> class.
@@ -31,6 +33,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         : base(Injector.Get<IAuctionRepository>(), new AuctionValidator())
         {
             this.appConfiguration = Injector.Get<IConfiguration>();
+            this.productService = Injector.Get<IProductService>();
         }
 
         /// <summary>
@@ -46,23 +49,28 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             if (entity.Product != null && entity.Product.Offerer != null)
             {
                 int offererId = entity.Product.Offerer.Id;
-                var activeAuctionForOfferer = this.GetUserActiveAuctions(offererId).ToList().Count;
+                var activeAuctionForOfferer = this.GetUserActiveAuctions(offererId).ToList();
 
-                if (activeAuctionForOfferer >= this.appConfiguration.MaxActiveAuctions)
+                if (activeAuctionForOfferer.Count >= this.appConfiguration.MaxActiveAuctions)
                 {
                     validationFailures.Add(new ValidationFailure("Offerer", "The offerer has reached the maximum limit of active auctions for the moment."));
                 }
-            }
+                else if (this.ProductHasDuplicateDescription(entity.Product, activeAuctionForOfferer))
+                {
+                    validationFailures.Add(new ValidationFailure("Product", "The product has a very similar description " +
+                        "with another one used by the same user. The description must be changed in order to be added in an auction."));
+                }
 
-            if (entity.StartTime < DateTime.Now)
-            {
-                validationFailures.Add(new ValidationFailure("StartTime", "Start time cannot be in the past."));
-            }
+                else if (entity.StartTime < DateTime.Now)
+                {
+                    validationFailures.Add(new ValidationFailure("StartTime", "Start time cannot be in the past."));
+                }
 
-            if (validationFailures.Count > 0)
-            {
-                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
-                return new ValidationResult(validationFailures);
+                if (validationFailures.Count > 0)
+                {
+                    Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                    return new ValidationResult(validationFailures);
+                }
             }
 
             return base.Insert(entity);
@@ -121,7 +129,28 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                                    auction.StartTime < DateTime.Now &&
                                    auction.EndTime > DateTime.Now &&
                                    !auction.IsFinished,
-                includeProperties: "User");
+                includeProperties: "Product, Product.Offerer");
+        }
+
+        public bool ProductHasDuplicateDescription(Product entity, IEnumerable<Auction> auctions)
+        {
+            if (entity.Offerer != null && entity.Description != null)
+            {
+                var newProductDescription = entity.Description;
+
+                foreach (var auction in auctions)
+                {
+                    var oldProductDescription = auction.Product.Description;
+
+                    var distance = LevenshteinDistance.Calculate(oldProductDescription, newProductDescription);
+                    if (distance < oldProductDescription.Length / 3)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

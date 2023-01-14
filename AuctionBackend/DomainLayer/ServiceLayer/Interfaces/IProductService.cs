@@ -12,6 +12,5 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;AuctionBackend.DomainLayer.DomainModel.Product&gt;" />
     public interface IProductService : IService<Product>
     {
-        bool ProductHasDuplicateDescription(Product entity);
     }
 }

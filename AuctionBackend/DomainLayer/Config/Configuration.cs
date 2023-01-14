@@ -23,7 +23,7 @@ namespace AuctionBackend.DomainLayer.Config
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["MaxActiveAuctions"]);
+                return int.Parse(ConfigurationManager.AppSettings.Get("MaxActiveAuctions"));
             }
         }
 
@@ -37,7 +37,7 @@ namespace AuctionBackend.DomainLayer.Config
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["DefaultScore"]);
+                return int.Parse(ConfigurationManager.AppSettings.Get("DefaultScore"));
             }
         }
     }

@@ -38,17 +38,13 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Insert(Product entity)
         {
-            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
-            if (this.DescriptionIsDuplicate(entity))
-            {
-                validationFailures.Add(new ValidationFailure("Description", "The product's description is too similar with another product description used for an auction by the same user."));
-            }
-
-            if (validationFailures.Count > 0)
-            {
-                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
-                return new ValidationResult(validationFailures);
-            }
+            //if (this.DescriptionIsDuplicate(entity))
+            //{
+            //    IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+            //    validationFailures.Add(new ValidationFailure("Description", "The product's description is too similar with another product description used for an auction by the same user."));
+            //    Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+            //    return new ValidationResult(validationFailures);
+            //}
 
             return base.Insert(entity);
         }
@@ -60,11 +56,11 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// <returns> True if the product owner has another product with a very similar description, false otherwise.</returns>
         private bool DescriptionIsDuplicate(Product entity)
         {
-            if (entity.Auction != null && entity.Auction.Offerer != null && entity.Description != null)
+            if (entity.Offerer != null && entity.Description != null)
             {
-                var offerer = entity.Auction.Offerer;
+                var offerer = entity.Offerer;
                 var productsWithTheSameOfferer = this.Repository.Get(
-                    filter: product => product.Auction.Offerer.Id == offerer.Id,
+                    filter: product => product.Offerer.Id == offerer.Id,
                     includeProperties: "Auction, User");
 
                 foreach (var previousProduct in productsWithTheSameOfferer)

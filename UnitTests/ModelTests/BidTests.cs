@@ -40,11 +40,6 @@ namespace UnitTests.ModelTests
                 StartPrice = 10.3m,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now.AddDays(5),
-                Offerer = new User
-                {
-                    Name = "offerer",
-                    Role = Role.Offerer,
-                },
                 Product = new Product
                 {
                     Name = "product",
@@ -52,6 +47,11 @@ namespace UnitTests.ModelTests
                     Category = new Category
                     {
                         Name = "category",
+                    },
+                    Offerer = new User
+                    {
+                        Name = "offerer",
+                        Role = Role.Offerer,
                     },
                 },
             };

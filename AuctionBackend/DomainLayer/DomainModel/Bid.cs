@@ -5,7 +5,6 @@
 namespace AuctionBackend.DomainLayer.DomainModel
 {
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Class used to define a bid.
@@ -15,7 +14,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -24,6 +22,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <value>
         /// The auction.
         /// </value>
+        [Required]
         public Auction Auction { get; set; }
 
         /// <summary>

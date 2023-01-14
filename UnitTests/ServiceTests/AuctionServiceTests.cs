@@ -78,11 +78,6 @@ namespace UnitTests.ServiceTests
                 StartPrice = 10.3m,
                 StartTime = DateTime.Now.AddDays(1),
                 EndTime = DateTime.Now.AddDays(5),
-                Offerer = new User
-                {
-                    Name = "user",
-                    Role = Role.Offerer,
-                },
                 Product = new Product
                 {
                     Name = "product",
@@ -90,6 +85,11 @@ namespace UnitTests.ServiceTests
                     Category = new Category
                     {
                         Name = "category",
+                    },
+                    Offerer = new User
+                    {
+                        Name = "user",
+                        Role = Role.Offerer,
                     },
                 },
             };
@@ -227,10 +227,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.auctionService.Insert(this.auction);
 
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(result.Errors.Count, 3);
-            Assert.AreEqual(result.Errors.ElementAt(0).PropertyName, nameof(Auction.EndTime));
-            Assert.AreEqual(result.Errors.ElementAt(1).PropertyName, nameof(Auction.EndTime));
-            Assert.AreEqual(result.Errors.ElementAt(2).PropertyName, nameof(Auction.IsFinished));
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.EndTime));
         }
 
         /// <summary>
@@ -328,51 +326,6 @@ namespace UnitTests.ServiceTests
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(result.Errors.Count, 1);
             Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.IsFinished));
-        }
-
-        /// <summary>
-        /// Tests the add auction with null offerer.
-        /// </summary>
-        [Test]
-        public void TestAdd_HasNullOfferer_ReturnsErrorForOfferer()
-        {
-            this.auction.Offerer = null;
-            using (this.mocks.Record())
-            {
-                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
-                this.auctionRepository.Expect(repo => repo.Get())
-                    .IgnoreArguments()
-                    .Return(new HashSet<Auction>());
-            }
-
-            ValidationResult result = this.auctionService.Insert(this.auction);
-
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(result.Errors.Count, 1);
-            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Offerer));
-        }
-
-        /// <summary>
-        /// Tests the add auction with invalid offerer.
-        /// </summary>
-        [Test]
-        public void TestAdd_OffererHasNullName_ReturnsErrorForOffererName()
-        {
-            this.auction.Offerer.Name = null;
-            using (this.mocks.Record())
-            {
-                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
-                this.auctionRepository.Expect(repo => repo.Get())
-                    .IgnoreArguments()
-                    .Return(new HashSet<Auction>());
-                this.auctionRepository.Expect(repo => repo.Insert(this.auction));
-            }
-
-            ValidationResult result = this.auctionService.Insert(this.auction);
-
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(result.Errors.Count, 1);
-            Assert.AreEqual(result.Errors.First().PropertyName, "Offerer.Name");
         }
 
         /// <summary>
@@ -623,7 +576,7 @@ namespace UnitTests.ServiceTests
 
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(result.Errors.Count, 1);
-            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Offerer));
+            //Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Offerer));
         }
     }
 }

@@ -121,6 +121,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Insert(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.ScoringUser));
         }
 
         /// <summary>
@@ -139,6 +141,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Insert(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, "ScoringUser.Role");
         }
 
         /// <summary>
@@ -156,6 +160,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Insert(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.ScoredUser));
         }
 
         /// <summary>
@@ -174,6 +180,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Insert(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, "ScoredUser.Role");
         }
 
         /// <summary>
@@ -191,6 +199,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Insert(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.Score));
         }
 
         /// <summary>
@@ -208,6 +218,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Insert(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.Score));
         }
 
         /// <summary>
@@ -225,6 +237,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Insert(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.Score));
         }
 
         /// <summary>
@@ -258,6 +272,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userScoreService.Update(this.userScore);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.Score));
         }
 
         /// <summary>

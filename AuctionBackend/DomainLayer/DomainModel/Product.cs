@@ -5,7 +5,6 @@
 namespace AuctionBackend.DomainLayer.DomainModel
 {
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>Class used to define a poduct.</summary>
     public class Product
@@ -13,8 +12,16 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the offerer.
+        /// </summary>
+        /// <value>
+        /// The owner.
+        /// </value>
+        [Required]
+        public User Offerer { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
         /// <value>The name.</value>
@@ -32,13 +39,5 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <value>The categories.</value>
         [Required]
         public Category Category { get; set; }
-
-        /// <summary>
-        /// Gets or sets the auction.
-        /// </summary>
-        /// <value>
-        /// The auction.
-        /// </value>
-        public Auction Auction { get; set; }
     }
 }

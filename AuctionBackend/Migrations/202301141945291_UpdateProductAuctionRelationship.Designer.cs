@@ -7,13 +7,13 @@ namespace AuctionBackend.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class AddDateForUserScore : IMigrationMetadata
+    public sealed partial class UpdateProductAuctionRelationship : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDateForUserScore));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateProductAuctionRelationship));
         
         string IMigrationMetadata.Id
         {
-            get { return "202301082318430_AddDateForUserScore"; }
+            get { return "202301141945291_UpdateProductAuctionRelationship"; }
         }
         
         string IMigrationMetadata.Source

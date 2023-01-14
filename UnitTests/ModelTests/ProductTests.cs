@@ -8,6 +8,8 @@ namespace UnitTests.ModelTests
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using FluentValidation.TestHelper;
     using NUnit.Framework;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// ProductTests.
@@ -35,11 +37,17 @@ namespace UnitTests.ModelTests
             {
                 Name = "Category name",
             };
+            User offerer = new User
+            {
+                Role = Role.Offerer,
+                Name = "Offerer",
+            };
             this.product = new Product
             {
                 Name = "Product name",
                 Description = "Product description",
                 Category = category,
+                Offerer = offerer,
             };
         }
 
@@ -142,5 +150,62 @@ namespace UnitTests.ModelTests
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
             result.ShouldHaveValidationErrorFor(product => product.Category.Name);
         }
+
+        /// <summary>
+        /// Tests the null offerer.
+        /// </summary>
+        [Test]
+        public void TestValidation_HasNullOfferer_ReturnsErrorForOfferer()
+        {
+            this.product.Offerer = null;
+            TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
+            result.ShouldHaveValidationErrorFor(product => product.Offerer);
+        }
+
+        /// <summary>
+        /// Tests the invalid offerer.
+        /// </summary>
+        [Test]
+        public void TestValidation_OffererHasNullName_ReturnsErrorForOffererName()
+        {
+            this.product.Offerer.Name = null;
+            TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
+            result.ShouldHaveValidationErrorFor(product => product.Offerer.Name);
+        }
+
+        /// <summary>
+        /// Tests the invalid offerer role.
+        /// </summary>
+        [Test]
+        public void TestValidation_OffererHasWrongRole_ReturnsErrorForOfferer()
+        {
+            this.product.Offerer.Role = Role.Bidder;
+            TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
+            result.ShouldHaveValidationErrorFor(product => product.Offerer);
+        }
+
+        /// <summary>
+        /// Tests the offerer with both roles.
+        /// </summary>
+        [Test]
+        public void TestValidation_OffererHasBothRoles_ReturnsNoErrors()
+        {
+            this.product.Offerer.Role = Role.Bidder | Role.Offerer;
+            TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+
+        /// <summary>
+        /// Tests the validation offerer has invalid role returns error for offerer role.
+        /// </summary>
+        [Test]
+        public void TestValidation_OffererHasInvalidRole_ReturnsErrorForOffererRole()
+        {
+            var invalidRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
+            this.product.Offerer.Role = (Role)invalidRoleValue;
+            TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
+            result.ShouldHaveValidationErrorFor(product => product.Offerer.Role);
+        }
+
     }
 }

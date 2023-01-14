@@ -97,6 +97,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.categoryService.Insert(this.category);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Category.Name));
         }
 
         /// <summary>
@@ -115,6 +117,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.categoryService.Insert(this.category);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Category.Name));
         }
 
         /// <summary>
@@ -134,6 +138,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.categoryService.Insert(this.category);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Category.Name));
         }
 
         /// <summary>
@@ -171,6 +177,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.categoryService.Update(this.category);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Category.Name));
         }
 
         /// <summary>
@@ -189,6 +197,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.categoryService.Update(this.category);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Category.Name));
         }
 
         /// <summary>
@@ -208,13 +218,15 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.categoryService.Update(this.category);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Category.Name));
         }
 
         /// <summary>
         /// Tests the delete valid category.
         /// </summary>
         [Test]
-        public void TestDelete_ValidCategory_ReturnsNoError()
+        public void TestDelete()
         {
             this.category.Id = 1;
             this.category.Name = "ValidName";
@@ -231,7 +243,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get categories.
         /// </summary>
         [Test]
-        public void TestGetAll_ReturnsCurrentBid()
+        public void TestGetAll_ReturnsCurrentCategory()
         {
             using (this.mocks.Record())
             {
@@ -248,7 +260,7 @@ namespace UnitTests.ServiceTests
         /// Tests the get category by identifier.
         /// </summary>
         [Test]
-        public void TestGetById_ReturnsCurrentBid()
+        public void TestGetById_ReturnsCurrentCategory()
         {
             using (this.mocks.Record())
             {

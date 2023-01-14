@@ -24,12 +24,6 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
         {
             using (var ctx = new AppDbContext())
             {
-                User offerer = ctx.Set<User>().Find(entity.Offerer.Id);
-                if (offerer != null)
-                {
-                    entity.Offerer = offerer;
-                }
-
                 Product product = ctx.Set<Product>().Find(entity.Product.Id);
                 if (product != null)
                 {

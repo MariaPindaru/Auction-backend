@@ -6,7 +6,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// UserScore.
@@ -20,7 +19,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// The identifier.
         /// </value>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>

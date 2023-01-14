@@ -13,7 +13,7 @@ namespace AuctionBackend.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202301081046472_Initial"; }
+            get { return "202301141924409_Initial"; }
         }
         
         string IMigrationMetadata.Source

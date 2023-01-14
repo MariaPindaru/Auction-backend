@@ -17,23 +17,11 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public AuctionValidator()
         {
-            this.RuleFor(auction => auction.Offerer)
-                .NotEmpty()
-                .WithMessage("The offerer cannot be null.");
-
-            this.When(auction => auction.Offerer != null,
-                () => RuleFor(auction => auction.Offerer).SetValidator(new UserValidator()));
-
-            this.When(auction => auction.Offerer != null,
-                () => RuleFor(auction => auction.Offerer)
-                .Must(offerer => offerer.Role.HasFlag(Role.Offerer))
-                .WithMessage("The offerer must have the role of offerer."));
-
             this.RuleFor(auction => auction.Product)
                 .NotEmpty()
                 .WithMessage("The product cannot be null.");
 
-            this.When(auction => auction.Offerer != null,
+            this.When(auction => auction.Product != null,
                 () => RuleFor(auction => auction.Product)
                 .SetValidator(new ProductValidator()));
 
@@ -53,19 +41,22 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("End time must be specified.");
 
-            this.RuleFor(auction => auction.EndTime)
+            this.When(auction => auction.EndTime != default,
+                () => RuleFor(auction => auction.EndTime)
                 .GreaterThan(auction => auction.StartTime)
-                .WithMessage("End time cannot be lower than start time.");
+                .WithMessage("End time cannot be lower than start time."));
 
-            this.RuleFor(auction => auction.IsFinished)
+            this.When(auction => auction.StartTime != default,
+                () => RuleFor(auction => auction.IsFinished)
                 .Equal(false)
                 .When(auction => auction.StartTime > System.DateTime.Now)
-                .WithMessage("Auction can't be finished if it hadn't started yet.");
+                .WithMessage("Auction can't be finished if it hadn't started yet."));
 
-            this.RuleFor(auction => auction.IsFinished)
+            this.When(auction => auction.EndTime != default,
+                () => RuleFor(auction => auction.IsFinished)
                 .Equal(true)
                 .When(auction => auction.EndTime < System.DateTime.Now)
-                .WithMessage("Auction must be finished if it is past its end time.");
+                .WithMessage("Auction must be finished if it is past its end time."));
         }
     }
 }

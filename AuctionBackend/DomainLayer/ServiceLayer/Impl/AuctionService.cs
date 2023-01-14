@@ -43,9 +43,9 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         public override ValidationResult Insert(Auction entity)
         {
             IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
-            if (entity.Offerer != null)
+            if (entity.Product != null && entity.Product.Offerer != null)
             {
-                int offererId = entity.Offerer.Id;
+                int offererId = entity.Product.Offerer.Id;
                 var activeAuctionForOfferer = this.GetUserActiveAuctions(offererId).ToList().Count;
 
                 if (activeAuctionForOfferer >= this.appConfiguration.MaxActiveAuctions)
@@ -117,7 +117,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         public IEnumerable<Auction> GetUserActiveAuctions(int userId)
         {
             return this.Repository.Get(
-                filter: auction => auction.Offerer.Id == userId &&
+                filter: auction => auction.Product.Offerer.Id == userId &&
                                    auction.StartTime < DateTime.Now &&
                                    auction.EndTime > DateTime.Now &&
                                    !auction.IsFinished,

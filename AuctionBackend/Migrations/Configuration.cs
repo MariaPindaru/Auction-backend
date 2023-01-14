@@ -1,8 +1,10 @@
 ﻿namespace AuctionBackend.Migrations
 {
+    using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     internal sealed class Configuration : DbMigrationsConfiguration<AuctionBackend.DataLayer.AppDbContext>
     {
         public Configuration()

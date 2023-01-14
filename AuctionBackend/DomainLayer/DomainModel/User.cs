@@ -7,7 +7,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Enum used to define the user's role.
@@ -36,16 +35,15 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// </summary>
         public User()
         {
-            this.AuctionHistory = new HashSet<Auction>();
             this.BidHistory = new HashSet<Bid>();
             this.ReceivedUserScores = new HashSet<UserScore>();
             this.GivenUserScores = new HashSet<UserScore>();
+            this.Products = new HashSet<Product>();
         }
 
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
@@ -59,10 +57,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
         [Required]
         [Range(0, 1)]
         public Role Role { get; set; }
-
-        /// <summary>Gets or sets the started auctions.</summary>
-        /// <value>The started auctions.</value>
-        public virtual ICollection<Auction> AuctionHistory { get; set; }
 
         /// <summary>
         /// Gets or sets the bid history.
@@ -87,5 +81,13 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// The given user scores.
         /// </value>
         public virtual ICollection<UserScore> GivenUserScores { get; set; }
+
+        /// <summary>
+        /// Gets or sets the products.
+        /// </summary>
+        /// <value>
+        /// The products.
+        /// </value>
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

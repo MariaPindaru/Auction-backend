@@ -75,11 +75,6 @@ namespace UnitTests.ServiceTests
                 StartPrice = 10.3m,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now.AddDays(5),
-                Offerer = new User
-                {
-                    Name = "offerer",
-                    Role = Role.Offerer,
-                },
                 Product = new Product
                 {
                     Name = "product",
@@ -87,6 +82,11 @@ namespace UnitTests.ServiceTests
                     Category = new Category
                     {
                         Name = "category",
+                    },
+                    Offerer = new User
+                    {
+                        Name = "offerer",
+                        Role = Role.Offerer,
                     },
                 },
             };
@@ -270,7 +270,7 @@ namespace UnitTests.ServiceTests
         public void TestAdd_HasPriceTooHigh_LastPriceIsAnotherBid_ReturnsErrorForPrice()
         {
             this.bid.Auction.StartPrice = 10.7m;
-            this.bid.Auction.BidHistory.Add(new Bid { Price = 20.6m});
+            this.bid.Auction.BidHistory.Add(new Bid { Price = 20.6m });
             this.bid.Price = 40.8m;
             using (this.mocks.Record())
             {

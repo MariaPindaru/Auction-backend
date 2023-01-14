@@ -70,7 +70,7 @@ namespace UnitTests.ServiceTests
 
             this.userService = this.kernel.Get<IUserService>();
 
-            this.user = new User { Id = 0, };
+            this.user = new User { Id = 0, Role = Role.Offerer};
         }
 
         /// <summary>
@@ -109,6 +109,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Name));
         }
 
         /// <summary>
@@ -128,6 +130,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Name));
         }
 
         /// <summary>
@@ -148,6 +152,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Name));
         }
 
         /// <summary>
@@ -167,6 +173,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userService.Insert(this.user);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Role));
         }
 
         /// <summary>
@@ -203,6 +211,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.userService.Update(this.user);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Name));
         }
 
 

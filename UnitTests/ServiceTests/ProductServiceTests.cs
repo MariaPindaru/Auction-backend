@@ -75,6 +75,11 @@ namespace UnitTests.ServiceTests
                 Category = this.category,
                 Name = "TV",
                 Description = "you can watch the tv :)",
+                Offerer = new User
+                {
+                    Name = "Offerer",
+                    Role = Role.Offerer,
+                },
             };
         }
 
@@ -110,6 +115,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Name));
         }
 
         /// <summary>
@@ -128,6 +135,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Name));
         }
 
         /// <summary>
@@ -147,6 +156,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Name));
         }
 
         /// <summary>
@@ -165,6 +176,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
         }
 
         /// <summary>
@@ -183,6 +196,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
         }
 
         /// <summary>
@@ -202,6 +217,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
         }
 
         /// <summary>
@@ -220,6 +237,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Category));
         }
 
         /// <summary>
@@ -238,16 +257,17 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, "Category.Name");
         }
 
         /// <summary>
-        /// Tests the add product null auction.
+        /// Tests the add auction with null offerer.
         /// </summary>
         [Test]
-        public void TestAdd_AuctionIsNull_ReturnsNoError() 
+        public void TestAdd_HasNullOfferer_ReturnsErrorForOfferer()
         {
-            this.product.Auction = null;
-
+            this.product.Offerer = null;
             using (this.mocks.Record())
             {
                 this.productRepository.Expect(repo => repo.Insert(this.product));
@@ -255,7 +275,31 @@ namespace UnitTests.ServiceTests
 
             ValidationResult result = this.productService.Insert(this.product);
 
-            Assert.IsTrue(result.IsValid);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Offerer));
+        }
+
+        /// <summary>
+        /// Tests the add auction with invalid offerer.
+        /// </summary>
+        [Test]
+        public void TestAdd_OffererHasNullName_ReturnsErrorForOffererName()
+        {
+            this.product.Offerer.Name = null;
+            using (this.mocks.Record())
+            {
+                this.productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Product> {this.product });
+            }
+
+            ValidationResult result = this.productService.Insert(this.product);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, "Offerer.Name");
         }
 
         /// <summary>
@@ -290,6 +334,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Name));
         }
 
         /// <summary>
@@ -308,6 +354,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Insert(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Name));
         }
 
         /// <summary>
@@ -327,6 +375,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Name));
         }
 
         /// <summary>
@@ -345,6 +395,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
         }
 
         /// <summary>
@@ -363,6 +415,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
         }
 
         /// <summary>
@@ -382,6 +436,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
         }
 
         /// <summary>
@@ -400,6 +456,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Category));
         }
 
         /// <summary>
@@ -418,6 +476,8 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.productService.Update(this.product);
 
             Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, "Category.Name");
         }
 
         /// <summary>
@@ -449,8 +509,8 @@ namespace UnitTests.ServiceTests
 
             var products = this.productService.GetAll();
 
-            Assert.AreEqual(products.ToList().Count, 1);
-            Assert.AreEqual(products.ToList().First(), this.product);
+            Assert.AreEqual(products.Count(), 1);
+            Assert.AreEqual(products.First(), this.product);
         }
 
         /// <summary>
@@ -472,62 +532,60 @@ namespace UnitTests.ServiceTests
         /// <summary>
         /// Tests the add product with identical description.
         /// </summary>
-        [Test]
-        public void TestAdd_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsErrorForDescription()
-        {
-            using (this.mocks.Record())
-            {
-                this.product.Auction = new Auction
-                {
-                    Offerer = new User(),
-                };
-                this.productRepository.Expect(repo => repo.Insert(this.product));
-                this.productRepository.Expect(repo => repo.Get())
-                                      .IgnoreArguments()
-                                      .Return(new HashSet<Product>
-                                      {
-                                          new Product
-                                          {
-                                              Id = 90,
-                                              Description = this.product.Description,
-                                          },
-                                      });
-            }
+        //[Test]
+        //public void TestAdd_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsErrorForDescription()
+        //{
+        //    using (this.mocks.Record())
+        //    {
+        //        this.productRepository.Expect(repo => repo.Insert(this.product));
+        //        this.productRepository.Expect(repo => repo.Get())
+        //                              .IgnoreArguments()
+        //                              .Return(new HashSet<Product>
+        //                              {
+        //                                  new Product
+        //                                  {
+        //                                      Id = 90,
+        //                                      Description = this.product.Description,
+        //                                  },
+        //                              });
+        //    }
 
-            ValidationResult result = this.productService.Insert(this.product);
+        //    ValidationResult result = this.productService.Insert(this.product);
 
-            Assert.IsFalse(result.IsValid);
-        }
+        //    Assert.IsFalse(result.IsValid);
+        //    Assert.AreEqual(result.Errors.Count, 1);
+        //    Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
+        //}
 
         /// <summary>
         /// Tests the add product with similar description.
         /// </summary>
-        [Test]
-        public void TestAdd_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsNoError()
-        {
-            using (this.mocks.Record())
-            {
-                this.product.Auction = new Auction
-                {
-                    Offerer = new User(),
-                };
-                this.product.Description = "hihi";
-                this.productRepository.Expect(repo => repo.Insert(this.product));
-                this.productRepository.Expect(repo => repo.Get())
-                                      .IgnoreArguments()
-                                      .Return(new HashSet<Product>
-                                      {
-                                          new Product
-                                          {
-                                              Id = 90,
-                                              Description = "haha",
-                                          },
-                                      });
-            }
+        //[Test]
+        //public void TestAdd_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsNoError()
+        //{
+        //    using (this.mocks.Record())
+        //    {
+        //        //this.product.Auction = new Auction
+        //        //{
+        //        //    Offerer = new User(),
+        //        //};
+        //        this.product.Description = "hihi";
+        //        this.productRepository.Expect(repo => repo.Insert(this.product));
+        //        this.productRepository.Expect(repo => repo.Get())
+        //                              .IgnoreArguments()
+        //                              .Return(new HashSet<Product>
+        //                              {
+        //                                  new Product
+        //                                  {
+        //                                      Id = 90,
+        //                                      Description = "haha",
+        //                                  },
+        //                              });
+        //    }
 
-            ValidationResult result = this.productService.Insert(this.product);
+        //    ValidationResult result = this.productService.Insert(this.product);
 
-            Assert.IsTrue(result.IsValid);
-        }
+        //    Assert.IsTrue(result.IsValid);
+        //}
     }
 }

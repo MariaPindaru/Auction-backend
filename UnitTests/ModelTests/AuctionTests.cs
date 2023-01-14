@@ -5,7 +5,6 @@
 namespace UnitTests.ModelTests
 {
     using System;
-    using System.Linq;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using FluentValidation.TestHelper;
@@ -48,12 +47,12 @@ namespace UnitTests.ModelTests
                 Name = "Product name",
                 Description = "Product description",
                 Category = category,
+                Offerer = offrer,
             };
 
             this.auction = new Auction
             {
                 IsFinished = false,
-                Offerer = offrer,
                 Product = product,
                 Currency = Currency.Euro,
                 StartPrice = 10.5m,
@@ -70,62 +69,6 @@ namespace UnitTests.ModelTests
         {
             TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
             result.ShouldNotHaveAnyValidationErrors();
-        }
-
-        /// <summary>
-        /// Tests the null offerer.
-        /// </summary>
-        [Test]
-        public void TestValidation_HasNullOfferer_ReturnsErrorForOfferer()
-        {
-            this.auction.Offerer = null;
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
-            result.ShouldHaveValidationErrorFor(auction => auction.Offerer);
-        }
-
-        /// <summary>
-        /// Tests the invalid offerer.
-        /// </summary>
-        [Test]
-        public void TestValidation_OffererHasNullName_ReturnsErrorForOffererName()
-        {
-            this.auction.Offerer.Name = null;
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
-            result.ShouldHaveValidationErrorFor(auction => auction.Offerer.Name);
-        }
-
-        /// <summary>
-        /// Tests the invalid offerer role.
-        /// </summary>
-        [Test]
-        public void TestValidation_OffererHasWrongRole_ReturnsErrorForOfferer()
-        {
-            this.auction.Offerer.Role = Role.Bidder;
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
-            result.ShouldHaveValidationErrorFor(auction => auction.Offerer);
-        }
-
-        /// <summary>
-        /// Tests the offerer with both roles.
-        /// </summary>
-        [Test]
-        public void TestValidation_OffererHasBothRoles_ReturnsNoErrors()
-        {
-            this.auction.Offerer.Role = Role.Bidder | Role.Offerer;
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
-            result.ShouldNotHaveAnyValidationErrors();
-        }
-
-        /// <summary>
-        /// Tests the validation offerer has invalid role returns error for offerer role.
-        /// </summary>
-        [Test]
-        public void TestValidation_OffererHasInvalidRole_ReturnsErrorForOffererRole()
-        {
-            var invalidRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
-            this.auction.Offerer.Role = (Role)invalidRoleValue;
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
-            result.ShouldHaveValidationErrorFor(auction => auction.Offerer.Role);
         }
 
         /// <summary>

@@ -3,7 +3,6 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class Initial : DbMigration
     {
         public override void Up()
@@ -19,12 +18,13 @@
                         EndTime = c.DateTime(nullable: false),
                         IsFinished = c.Boolean(nullable: false),
                         Offerer_Id = c.Int(nullable: false),
+                        Product_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.Offerer_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Products", t => t.Id)
-                .Index(t => t.Id)
-                .Index(t => t.Offerer_Id);
+                .ForeignKey("dbo.Products", t => t.Product_Id, cascadeDelete: true)
+                .Index(t => t.Offerer_Id)
+                .Index(t => t.Product_Id);
             
             CreateTable(
                 "dbo.Bids",
@@ -58,12 +58,13 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Score = c.Int(nullable: false),
+                        Date = c.DateTime(nullable: false),
                         ScoringUser_Id = c.Int(nullable: false),
                         ScoredUser_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.ScoringUser_Id, cascadeDelete: false)
-                .ForeignKey("dbo.Users", t => t.ScoredUser_Id, cascadeDelete: false)
+                .ForeignKey("dbo.Users", t => t.ScoringUser_Id)
+                .ForeignKey("dbo.Users", t => t.ScoredUser_Id)
                 .Index(t => t.ScoringUser_Id)
                 .Index(t => t.ScoredUser_Id);
             
@@ -106,7 +107,7 @@
         
         public override void Down()
         {
-            DropForeignKey("dbo.Auctions", "Id", "dbo.Products");
+            DropForeignKey("dbo.Auctions", "Product_Id", "dbo.Products");
             DropForeignKey("dbo.Products", "Category_Id", "dbo.Categories");
             DropForeignKey("dbo.ParentChildCategory", "ParentId", "dbo.Categories");
             DropForeignKey("dbo.ParentChildCategory", "ChildId", "dbo.Categories");
@@ -122,8 +123,8 @@
             DropIndex("dbo.UserScores", new[] { "ScoringUser_Id" });
             DropIndex("dbo.Bids", new[] { "Bidder_Id" });
             DropIndex("dbo.Bids", new[] { "Auction_Id" });
+            DropIndex("dbo.Auctions", new[] { "Product_Id" });
             DropIndex("dbo.Auctions", new[] { "Offerer_Id" });
-            DropIndex("dbo.Auctions", new[] { "Id" });
             DropTable("dbo.ParentChildCategory");
             DropTable("dbo.Categories");
             DropTable("dbo.Products");

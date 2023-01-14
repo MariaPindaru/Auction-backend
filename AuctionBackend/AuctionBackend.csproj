@@ -247,13 +247,13 @@
     <Compile Include="DomainLayer\DomainModel\Validators\ProductValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserValidator.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Utils\LevenshteinDistance.cs" />
-    <Compile Include="Migrations\202301081046472_Initial.cs" />
-    <Compile Include="Migrations\202301081046472_Initial.designer.cs">
-      <DependentUpon>202301081046472_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202301141924409_Initial.cs" />
+    <Compile Include="Migrations\202301141924409_Initial.designer.cs">
+      <DependentUpon>202301141924409_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202301082318430_AddDateForUserScore.cs" />
-    <Compile Include="Migrations\202301082318430_AddDateForUserScore.designer.cs">
-      <DependentUpon>202301082318430_AddDateForUserScore.cs</DependentUpon>
+    <Compile Include="Migrations\202301141945291_UpdateProductAuctionRelationship.cs" />
+    <Compile Include="Migrations\202301141945291_UpdateProductAuctionRelationship.designer.cs">
+      <DependentUpon>202301141945291_UpdateProductAuctionRelationship.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -279,14 +279,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202301081046472_Initial.resx">
-      <DependentUpon>202301081046472_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202301141924409_Initial.resx">
+      <DependentUpon>202301141924409_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301082318430_AddDateForUserScore.resx">
-      <DependentUpon>202301082318430_AddDateForUserScore.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202301141945291_UpdateProductAuctionRelationship.resx">
+      <DependentUpon>202301141945291_UpdateProductAuctionRelationship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

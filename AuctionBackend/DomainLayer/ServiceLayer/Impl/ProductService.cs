@@ -5,7 +5,6 @@
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
-    using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
@@ -29,24 +28,9 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         {
         }
 
-        /// <summary>
-        /// Inserts the specified entity.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns>
-        /// The validation result.
-        /// </returns>
-        public override ValidationResult Insert(Product entity)
+        public IEnumerable<Product> GetProductsForOfferer(User offerer)
         {
-            if (this.DescriptionIsDuplicate(entity))
-            {
-                IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
-                validationFailures.Add(new ValidationFailure("Description", "The product's description is too similar with another product description used for an auction by the same user."));
-                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
-                return new ValidationResult(validationFailures);
-            }
-
-            return base.Insert(entity);
+            return this.Repository.Get(filter: product => product.Offerer.Id == offerer.Id);
         }
 
         /// <summary>
@@ -54,18 +38,17 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns> True if the product owner has another product with a very similar description, false otherwise.</returns>
-        private bool DescriptionIsDuplicate(Product entity)
+        public bool ProductHasDuplicateDescription(Product entity)
         {
             if (entity.Offerer != null && entity.Description != null)
             {
-                var offerer = entity.Offerer;
-                var productsWithTheSameOfferer = this.Repository.Get(
-                    filter: product => product.Offerer.Id == offerer.Id,
-                    includeProperties: "Auction, User");
-
+                var productsWithTheSameOfferer = this.GetProductsForOfferer(entity.Offerer);
+                var newProductDescription = entity.Description;
                 foreach (var previousProduct in productsWithTheSameOfferer)
                 {
-                    var distance = LevenshteinDistance.Calculate(previousProduct.Description, entity.Description);
+                    var oldProductDescription = previousProduct.Description;
+
+                    var distance = LevenshteinDistance.Calculate(oldProductDescription, newProductDescription);
                     if (distance < previousProduct.Description.Length / 3)
                     {
                         return true;

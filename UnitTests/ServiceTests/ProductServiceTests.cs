@@ -292,7 +292,7 @@ namespace UnitTests.ServiceTests
                 this.productRepository.Expect(repo => repo.Insert(this.product));
                 this.productRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
-                    .Return(new HashSet<Product> {this.product });
+                    .Return(new HashSet<Product> { this.product });
             }
 
             ValidationResult result = this.productService.Insert(this.product);
@@ -342,7 +342,7 @@ namespace UnitTests.ServiceTests
         /// Tests the short name of the update product.
         /// </summary>
         [Test]
-        public void TestUpdate_NameIsTooShort__ReturnsErrorForName()
+        public void TestUpdate_NameIsTooShort_ReturnsErrorForName()
         {
             this.product.Name = "E";
 
@@ -530,14 +530,13 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the add product with identical description.
+        /// Tests the product has duplicate description description is identical with another one same user returns error for description.
         /// </summary>
         [Test]
-        public void TestAdd_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsErrorForDescription()
+        public void TestProductHasDuplicateDescription_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsTrue()
         {
             using (this.mocks.Record())
             {
-                this.productRepository.Expect(repo => repo.Insert(this.product));
                 this.productRepository.Expect(repo => repo.Get())
                                       .IgnoreArguments()
                                       .Return(new HashSet<Product>
@@ -546,27 +545,25 @@ namespace UnitTests.ServiceTests
                                           {
                                               Id = 90,
                                               Description = this.product.Description,
+                                              Offerer = this.product.Offerer,
                                           },
                                       });
             }
 
-            ValidationResult result = this.productService.Insert(this.product);
+            bool result = this.productService.ProductHasDuplicateDescription(this.product);
 
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(result.Errors.Count, 1);
-            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
+            Assert.IsTrue(result);
         }
 
         /// <summary>
-        /// Tests the add product with similar description.
+        /// Tests the product has duplicate description description is similar with another one same user returns false.
         /// </summary>
         [Test]
-        public void TestAdd_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsNoError()
+        public void TestProductHasDuplicateDescription_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsFalse()
         {
             using (this.mocks.Record())
             {
                 this.product.Description = "hihi";
-                this.productRepository.Expect(repo => repo.Insert(this.product));
                 this.productRepository.Expect(repo => repo.Get())
                                       .IgnoreArguments()
                                       .Return(new HashSet<Product>
@@ -575,13 +572,70 @@ namespace UnitTests.ServiceTests
                                           {
                                               Id = 90,
                                               Description = "haha",
+                                              Offerer = this.product.Offerer,
                                           },
                                       });
             }
 
-            ValidationResult result = this.productService.Insert(this.product);
+            bool result = this.productService.ProductHasDuplicateDescription(this.product);
 
-            Assert.IsTrue(result.IsValid);
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Tests the product has duplicate description offerer is null returns false.
+        /// </summary>
+        [Test]
+        public void TestProductHasDuplicateDescription_OffererIsNull_ReturnsFalse()
+        {
+            this.product.Offerer = null;
+            using (this.mocks.Record())
+            {
+                this.product.Description = "hihi";
+                this.productRepository.Expect(repo => repo.Get())
+                                      .IgnoreArguments()
+                                      .Return(new HashSet<Product>
+                                      {
+                                          new Product
+                                          {
+                                              Id = 90,
+                                              Description = "haha",
+                                              Offerer = this.product.Offerer,
+                                          },
+                                      });
+            }
+
+            bool result = this.productService.ProductHasDuplicateDescription(this.product);
+
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Tests the product has duplicate description description is null returns false.
+        /// </summary>
+        [Test]
+        public void TestProductHasDuplicateDescription_DescriptionIsNull_ReturnsFalse()
+        {
+            this.product.Offerer = null;
+            using (this.mocks.Record())
+            {
+                this.product.Description = "hihi";
+                this.productRepository.Expect(repo => repo.Get())
+                                      .IgnoreArguments()
+                                      .Return(new HashSet<Product>
+                                      {
+                                          new Product
+                                          {
+                                              Id = 90,
+                                              Description = "haha",
+                                              Offerer = this.product.Offerer,
+                                          },
+                                      });
+            }
+
+            bool result = this.productService.ProductHasDuplicateDescription(this.product);
+
+            Assert.IsFalse(result);
         }
     }
 }

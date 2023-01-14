@@ -38,13 +38,13 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Insert(Product entity)
         {
-            //if (this.DescriptionIsDuplicate(entity))
-            //{
-            //    IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
-            //    validationFailures.Add(new ValidationFailure("Description", "The product's description is too similar with another product description used for an auction by the same user."));
-            //    Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
-            //    return new ValidationResult(validationFailures);
-            //}
+            if (this.DescriptionIsDuplicate(entity))
+            {
+                IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+                validationFailures.Add(new ValidationFailure("Description", "The product's description is too similar with another product description used for an auction by the same user."));
+                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                return new ValidationResult(validationFailures);
+            }
 
             return base.Insert(entity);
         }

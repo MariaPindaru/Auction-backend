@@ -532,60 +532,56 @@ namespace UnitTests.ServiceTests
         /// <summary>
         /// Tests the add product with identical description.
         /// </summary>
-        //[Test]
-        //public void TestAdd_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsErrorForDescription()
-        //{
-        //    using (this.mocks.Record())
-        //    {
-        //        this.productRepository.Expect(repo => repo.Insert(this.product));
-        //        this.productRepository.Expect(repo => repo.Get())
-        //                              .IgnoreArguments()
-        //                              .Return(new HashSet<Product>
-        //                              {
-        //                                  new Product
-        //                                  {
-        //                                      Id = 90,
-        //                                      Description = this.product.Description,
-        //                                  },
-        //                              });
-        //    }
+        [Test]
+        public void TestAdd_DescriptionIsIdenticalWithAnotherOne_SameUser_ReturnsErrorForDescription()
+        {
+            using (this.mocks.Record())
+            {
+                this.productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Get())
+                                      .IgnoreArguments()
+                                      .Return(new HashSet<Product>
+                                      {
+                                          new Product
+                                          {
+                                              Id = 90,
+                                              Description = this.product.Description,
+                                          },
+                                      });
+            }
 
-        //    ValidationResult result = this.productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
-        //    Assert.IsFalse(result.IsValid);
-        //    Assert.AreEqual(result.Errors.Count, 1);
-        //    Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
-        //}
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Product.Description));
+        }
 
         /// <summary>
         /// Tests the add product with similar description.
         /// </summary>
-        //[Test]
-        //public void TestAdd_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsNoError()
-        //{
-        //    using (this.mocks.Record())
-        //    {
-        //        //this.product.Auction = new Auction
-        //        //{
-        //        //    Offerer = new User(),
-        //        //};
-        //        this.product.Description = "hihi";
-        //        this.productRepository.Expect(repo => repo.Insert(this.product));
-        //        this.productRepository.Expect(repo => repo.Get())
-        //                              .IgnoreArguments()
-        //                              .Return(new HashSet<Product>
-        //                              {
-        //                                  new Product
-        //                                  {
-        //                                      Id = 90,
-        //                                      Description = "haha",
-        //                                  },
-        //                              });
-        //    }
+        [Test]
+        public void TestAdd_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsNoError()
+        {
+            using (this.mocks.Record())
+            {
+                this.product.Description = "hihi";
+                this.productRepository.Expect(repo => repo.Insert(this.product));
+                this.productRepository.Expect(repo => repo.Get())
+                                      .IgnoreArguments()
+                                      .Return(new HashSet<Product>
+                                      {
+                                          new Product
+                                          {
+                                              Id = 90,
+                                              Description = "haha",
+                                          },
+                                      });
+            }
 
-        //    ValidationResult result = this.productService.Insert(this.product);
+            ValidationResult result = this.productService.Insert(this.product);
 
-        //    Assert.IsTrue(result.IsValid);
-        //}
+            Assert.IsTrue(result.IsValid);
+        }
     }
 }

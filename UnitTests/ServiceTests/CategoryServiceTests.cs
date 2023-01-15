@@ -270,5 +270,21 @@ namespace UnitTests.ServiceTests
             var category = this.categoryService.GetByID(10);
             Assert.AreEqual(category, this.category);
         }
+
+        /// <summary>
+        /// Tests the get by identifier null identifier returns null.
+        /// </summary>
+        [Test]
+        public void TestGetById_NullId_ReturnsNull()
+        {
+            using (this.mocks.Record())
+            {
+                this.categoryRepository.Expect(repo => repo.GetByID(null)).Return(null);
+            }
+
+            var result = this.categoryService.GetByID(null);
+
+            Assert.AreEqual(result, null);
+        }
     }
 }

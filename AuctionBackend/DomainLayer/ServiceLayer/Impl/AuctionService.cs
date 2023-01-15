@@ -57,8 +57,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 }
                 else if (this.ProductHasDuplicateDescription(entity.Product, activeAuctionForOfferer))
                 {
-                    validationFailures.Add(new ValidationFailure("Product", "The product has a very similar description " +
-                        "with another one used by the same user. The description must be changed in order to be added in an auction."));
+                    validationFailures.Add(new ValidationFailure("Product", "The product has a very similar description with another one used by the same user. The description must be changed in order to be added in an auction."));
                 }
 
                 else if (entity.StartTime < DateTime.Now)
@@ -99,10 +98,18 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                     validationFailures.Add(new ValidationFailure(nameof(Auction.IsFinished), "The auction with has been finished so it cannot be updated."));
                 }
 
-                if (auction.EndTime < DateTime.Now)
+                else if (auction.EndTime < DateTime.Now)
                 {
                     Logger.Info("The end time for the auction has been past so only the 'IsFinished' field will be updated into the database.");
                     entity.IsFinished = true;
+                }
+
+                else if (auction.BidHistory.Count > 0)
+                {
+                    if (auction.BidHistory.ElementAt(0).Currency != entity.Currency)
+                    {
+                        validationFailures.Add(new ValidationFailure(nameof(Auction.Currency), "The currency of an auction cannot be change because it already has bids."));
+                    }
                 }
             }
 
@@ -136,11 +143,11 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         {
             if (entity.Offerer != null && entity.Description != null)
             {
-                var newProductDescription = entity.Description;
+                var newProductDescription = this.GetDescriptionWithoutUnusefulData(entity.Description);
 
                 foreach (var auction in auctions)
                 {
-                    var oldProductDescription = auction.Product.Description;
+                    var oldProductDescription = this.GetDescriptionWithoutUnusefulData(auction.Product.Description);
 
                     var distance = LevenshteinDistance.Calculate(oldProductDescription, newProductDescription);
                     if (distance < oldProductDescription.Length / 3)
@@ -151,6 +158,14 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             }
 
             return false;
+        }
+
+        private string GetDescriptionWithoutUnusefulData(string description)
+        {
+            char[] onlyLetters = description.Where(c => char.IsLetter(c)).ToArray();
+            description = new string(onlyLetters);
+            description = description.ToLower();
+            return description;
         }
     }
 }

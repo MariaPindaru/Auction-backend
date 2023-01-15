@@ -277,6 +277,44 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the update score is too high returns error for score.
+        /// </summary>
+        [Test]
+        public void TestUpdate_ScoreIsTooHigh_ReturnsErrorForScore()
+        {
+            this.userScore.Score = 232;
+            using (this.mocks.Record())
+            {
+                this.userScoreRepository.Expect(repo => repo.Update(this.userScore));
+            }
+
+            ValidationResult result = this.userScoreService.Update(this.userScore);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.Score));
+        }
+
+        /// <summary>
+        /// Tests the update user score with score zero.
+        /// </summary>
+        [Test]
+        public void TestUpdate_ScoreZero_ReturnErrorForScore()
+        {
+            this.userScore.Score = 232;
+            using (this.mocks.Record())
+            {
+                this.userScoreRepository.Expect(repo => repo.Update(this.userScore));
+            }
+
+            ValidationResult result = this.userScoreService.Update(this.userScore);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.Score));
+        }
+
+        /// <summary>
         /// Tests the get user scores.
         /// </summary>
         [Test]
@@ -304,9 +342,25 @@ namespace UnitTests.ServiceTests
                 this.userScoreRepository.Expect(repo => repo.GetByID(10)).Return(this.userScore);
             }
 
-            var product = this.userScoreService.GetByID(10);
+            var score = this.userScoreService.GetByID(10);
 
-            Assert.AreEqual(product, this.userScore);
+            Assert.AreEqual(score, this.userScore);
+        }
+
+        /// <summary>
+        /// Tests the get by identifier null identifier returns null.
+        /// </summary>
+        [Test]
+        public void TestGetById_NullId_ReturnsNull()
+        {
+            using (this.mocks.Record())
+            {
+                this.userScoreRepository.Expect(repo => repo.GetByID(null)).Return(null);
+            }
+
+            var score = this.userScoreService.GetByID(null);
+
+            Assert.AreEqual(score, null);
         }
     }
 }

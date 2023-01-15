@@ -21,20 +21,17 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("The auction cannot be null.");
 
-            this.When(bid => bid.Auction != null,
-                () => RuleFor(bid => bid.Auction)
+            this.When(bid => bid.Auction != null, () => this.RuleFor(bid => bid.Auction)
                 .SetValidator(new AuctionValidator()));
 
             this.RuleFor(bid => bid.Bidder)
                 .NotEmpty()
                 .WithMessage("The bidder cannot be null.");
 
-            this.When(bid => bid.Bidder != null,
-                () => RuleFor(bid => bid.Bidder)
+            this.When(bid => bid.Bidder != null, () => this.RuleFor(bid => bid.Bidder)
                 .SetValidator(new UserValidator()));
 
-            this.When(bid => bid.Bidder != null,
-                () => RuleFor(bid => bid.Bidder)
+            this.When(bid => bid.Bidder != null, () => this.RuleFor(bid => bid.Bidder)
                 .Must(bidder => bidder.Role.HasFlag(Role.Bidder))
                 .WithMessage("The bidder must have the bidder role."));
 
@@ -46,8 +43,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .InclusiveBetween(0.1m, decimal.MaxValue)
                 .WithMessage("The price must be in range 0 and decimal max value.");
 
-            this.When(bid => bid.Auction != null,
-                () => RuleFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency })
+            this.When(bid => bid.Auction != null, () => this.RuleFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency })
                         .Must(x => x.BidCurrency == x.AuctionCurrency)
                         .WithMessage("The currency must be the same as it is defined in auction."));
         }

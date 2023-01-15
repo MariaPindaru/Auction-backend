@@ -1,4 +1,7 @@
-﻿
+﻿// <copyright file="UserScoreService.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
+
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System;

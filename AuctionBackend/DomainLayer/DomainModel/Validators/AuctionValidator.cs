@@ -21,8 +21,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("The product cannot be null.");
 
-            this.When(auction => auction.Product != null,
-                () => RuleFor(auction => auction.Product)
+            this.When(auction => auction.Product != null, () => this.RuleFor(auction => auction.Product)
                 .SetValidator(new ProductValidator()));
 
             this.RuleFor(auction => auction.StartPrice)
@@ -41,19 +40,16 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("End time must be specified.");
 
-            this.When(auction => auction.EndTime != default,
-                () => RuleFor(auction => auction.EndTime)
+            this.When(auction => auction.EndTime != default, () => this.RuleFor(auction => auction.EndTime)
                 .GreaterThan(auction => auction.StartTime)
                 .WithMessage("End time cannot be lower than start time."));
 
-            this.When(auction => auction.StartTime != default,
-                () => RuleFor(auction => auction.IsFinished)
+            this.When(auction => auction.StartTime != default, () => this.RuleFor(auction => auction.IsFinished)
                 .Equal(false)
                 .When(auction => auction.StartTime > System.DateTime.Now)
                 .WithMessage("Auction can't be finished if it hadn't started yet."));
 
-            this.When(auction => auction.EndTime != default,
-                () => RuleFor(auction => auction.IsFinished)
+            this.When(auction => auction.EndTime != default, () => this.RuleFor(auction => auction.IsFinished)
                 .Equal(true)
                 .When(auction => auction.EndTime < System.DateTime.Now)
                 .WithMessage("Auction must be finished if it is past its end time."));

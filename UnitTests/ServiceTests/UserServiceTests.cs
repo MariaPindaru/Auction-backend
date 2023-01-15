@@ -70,7 +70,7 @@ namespace UnitTests.ServiceTests
 
             this.userService = this.kernel.Get<IUserService>();
 
-            this.user = new User { Id = 0, Role = Role.Offerer};
+            this.user = new User { Id = 0, Role = Role.Offerer };
         }
 
         /// <summary>
@@ -215,7 +215,6 @@ namespace UnitTests.ServiceTests
             Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Name));
         }
 
-
         /// <summary>
         /// Tests the get users.
         /// </summary>
@@ -247,6 +246,22 @@ namespace UnitTests.ServiceTests
             var product = this.userService.GetByID(10);
 
             Assert.AreEqual(product, this.user);
+        }
+
+        /// <summary>
+        /// Tests the get by identifier null identifier returns null.
+        /// </summary>
+        [Test]
+        public void TestGetById_NullId_ReturnsNull()
+        {
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.GetByID(null)).Return(null);
+            }
+
+            var result = this.userService.GetByID(null);
+
+            Assert.AreEqual(result, null);
         }
 
         /// <summary>

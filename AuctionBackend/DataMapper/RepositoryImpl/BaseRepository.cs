@@ -36,9 +36,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
         {
             using (AppDbContext ctx = new AppDbContext())
             {
-                var dbSet = ctx.Set<T>();
-
-                IQueryable<T> query = dbSet;
+                IQueryable<T> query = ctx.Set<T>();
 
                 foreach (var includeProperty in includeProperties.Split(
                    new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
@@ -70,8 +68,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
         {
             using (var ctx = new AppDbContext())
             {
-                var dbSet = ctx.Set<T>();
-                dbSet.Attach(entity);
+                ctx.Set<T>().Attach(entity);
 
                 ctx.SaveChanges();
             }
@@ -85,8 +82,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
         {
             using (var ctx = new AppDbContext())
             {
-                var dbSet = ctx.Set<T>();
-                dbSet.Attach(item);
+                ctx.Set<T>().Attach(item);
                 ctx.Entry(item).State = EntityState.Modified;
 
                 ctx.SaveChanges();

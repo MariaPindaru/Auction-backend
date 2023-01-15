@@ -1,4 +1,8 @@
-﻿namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
+﻿// <copyright file="UserScoreRepository.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
+
+namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
 {
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
     using AuctionBackend.DomainLayer.DomainModel;

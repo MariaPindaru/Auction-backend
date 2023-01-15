@@ -1,4 +1,8 @@
-﻿namespace AuctionBackend.Migrations
+﻿// <copyright file="Configuration.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
+
+namespace AuctionBackend.Migrations
 {
     using System;
     using System.Data.Entity;

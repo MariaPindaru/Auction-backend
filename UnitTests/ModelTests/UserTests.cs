@@ -4,12 +4,12 @@
 
 namespace UnitTests.ModelTests
 {
+    using System;
+    using System.Linq;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.Validators;
     using FluentValidation.TestHelper;
     using NUnit.Framework;
-    using System;
-    using System.Linq;
 
     /// <summary>
     /// UserTests.

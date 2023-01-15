@@ -156,7 +156,7 @@ namespace UnitTests.ModelTests
         {
             this.bid.Currency = Currency.Euro;
             TestValidationResult<Bid> result = this.bidValidator.TestValidate(this.bid);
-            result.ShouldHaveValidationErrorFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency});
+            result.ShouldHaveValidationErrorFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency });
         }
     }
 }

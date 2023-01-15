@@ -496,6 +496,22 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the get by identifier null identifier returns null.
+        /// </summary>
+        [Test]
+        public void TestGetById_NullId_ReturnsNull()
+        {
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.GetByID(null)).Return(null);
+            }
+
+            var result = this.bidService.GetByID(null);
+
+            Assert.AreEqual(result, null);
+        }
+
+        /// <summary>
         /// Tests the delete valid bid.
         /// </summary>
         [Test]

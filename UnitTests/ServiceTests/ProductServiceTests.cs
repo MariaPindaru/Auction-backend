@@ -528,5 +528,21 @@ namespace UnitTests.ServiceTests
 
             Assert.AreEqual(product, this.product);
         }
+
+        /// <summary>
+        /// Tests the get by identifier null identifier returns null.
+        /// </summary>
+        [Test]
+        public void TestGetById_NullId_ReturnsNull()
+        {
+            using (this.mocks.Record())
+            {
+                this.productRepository.Expect(repo => repo.GetByID(null)).Return(null);
+            }
+
+            var result = this.productService.GetByID(null);
+
+            Assert.AreEqual(result, null);
+        }
     }
 }

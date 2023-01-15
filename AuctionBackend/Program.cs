@@ -49,7 +49,7 @@ namespace AuctionBackend
                 StartTime = DateTime.Now.AddDays(10),
                 EndTime = DateTime.Now.AddDays(20),
                 Currency = Currency.Euro,
-                IsFinished = false
+                IsFinished = false,
             };
             var r = a.Insert(auction);
 

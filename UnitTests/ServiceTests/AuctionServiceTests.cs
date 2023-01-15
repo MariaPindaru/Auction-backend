@@ -492,6 +492,24 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the update when auction has bids but changes currency returns error for currency.
+        /// </summary>
+        [Test]
+        public void TestUpdate_HasBidsButChangesCurrency_ReturnsErrorForCurrency()
+        {
+            this.auction.Currency = Currency.Euro;
+            this.auction.BidHistory.Add(new Bid { Currency = Currency.Dolar });
+            using (this.mocks.Record())
+            {
+                this.auctionRepository.Expect(repo => repo.GetByID(10)).Return(this.auction);
+                this.auctionRepository.Expect(repo => repo.Update(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Update(this.auction);
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
         /// Tests the delete auction.
         /// </summary>
         [Test]
@@ -552,6 +570,22 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the get by identifier null identifier returns null.
+        /// </summary>
+        [Test]
+        public void TestGetById_NullId_ReturnsNull()
+        {
+            using (this.mocks.Record())
+            {
+                this.auctionRepository.Expect(repo => repo.GetByID(null)).Return(null);
+            }
+
+            var score = this.auctionService.GetByID(null);
+
+            Assert.AreEqual(score, null);
+        }
+
+        /// <summary>
         /// Tests the add auction maximum limit achived.
         /// </summary>
         [Test]
@@ -601,8 +635,69 @@ namespace UnitTests.ServiceTests
         public void TestProductHasDuplicateDescription_DescriptionIsSimilarWithAnotherOne_SameUser_ReturnsFalse()
         {
             this.auction.Product.Description = "hihi";
-            var copyAuction = this.auction;
+            var copyAuction = new Auction
+            {
+                Id = 10,
+                IsFinished = false,
+                Currency = Currency.Dolar,
+                StartPrice = 10.3m,
+                StartTime = DateTime.Now.AddDays(1),
+                EndTime = DateTime.Now.AddDays(5),
+                Product = new Product
+                {
+                    Name = "product",
+                    Description = "haha",
+                    Category = new Category
+                    {
+                        Name = "category",
+                    },
+                    Offerer = new User
+                    {
+                        Name = "user",
+                        Role = Role.Offerer,
+                    },
+                },
+            };
             copyAuction.Product.Description = "haha";
+            var auctions = new HashSet<Auction>
+            {
+                copyAuction,
+            };
+            bool result = this.auctionService.ProductHasDuplicateDescription(this.auction.Product, auctions);
+
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Tests the product has duplicate description description has extra characters returns false.
+        /// </summary>
+        [Test]
+        public void TestProductHasDuplicateDescription_DescriptionHasExtraCharacters_ReturnsFalse()
+        {
+            var copyAuction = new Auction
+            {
+                Id = 10,
+                IsFinished = false,
+                Currency = Currency.Dolar,
+                StartPrice = 10.3m,
+                StartTime = DateTime.Now.AddDays(1),
+                EndTime = DateTime.Now.AddDays(5),
+                Product = new Product
+                {
+                    Name = "product",
+                    Description = "haha",
+                    Category = new Category
+                    {
+                        Name = "category",
+                    },
+                    Offerer = new User
+                    {
+                        Name = "user",
+                        Role = Role.Offerer,
+                    },
+                },
+            };
+            this.auction.Product.Description = "????????hihi!!!";
             var auctions = new HashSet<Auction>
             {
                 copyAuction,

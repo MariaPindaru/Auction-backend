@@ -1,4 +1,8 @@
-﻿namespace AuctionBackend.Migrations
+﻿// <copyright file="202301141945291_UpdateProductAuctionRelationship.cs" company="Transilvania University of Brasov">
+// Maria Pindaru
+// </copyright>
+
+namespace AuctionBackend.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

@@ -21,16 +21,14 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("The scoring user cannot be null.");
 
-            this.When(userScore => userScore.ScoringUser != null,
-                () => RuleFor(userScore => userScore.ScoringUser)
+            this.When(userScore => userScore.ScoringUser != null, () => this.RuleFor(userScore => userScore.ScoringUser)
                 .SetValidator(new UserValidator()));
 
             this.RuleFor(userScore => userScore.ScoredUser)
                 .NotEmpty()
                 .WithMessage("The scored user cannot be null.");
 
-            this.When(userScore => userScore.ScoredUser != null,
-                () => RuleFor(userScore => userScore.ScoredUser)
+            this.When(userScore => userScore.ScoredUser != null, () => this.RuleFor(userScore => userScore.ScoredUser)
                 .SetValidator(new UserValidator()));
 
             this.RuleFor(userScore => userScore.Score).InclusiveBetween(1, 10)

@@ -214,6 +214,7 @@
     <Compile Include="DataMapper\RepositoryImpl\BidRepository.cs" />
     <Compile Include="DataMapper\RepositoryImpl\CategoryRepository.cs" />
     <Compile Include="DataMapper\RepositoryImpl\UserScoreRepository.cs" />
+    <Compile Include="DataMapper\RepositoryImpl\UserSuspensionRepository.cs" />
     <Compile Include="DomainLayer\DomainModel\RepositoryInterfaces\IAuctionRepository.cs" />
     <Compile Include="DomainLayer\DomainModel\RepositoryInterfaces\IBidRepository.cs" />
     <Compile Include="DomainLayer\DomainModel\RepositoryInterfaces\ICategoryRepository.cs" />
@@ -225,9 +226,11 @@
     <Compile Include="DomainLayer\DomainModel\RepositoryInterfaces\IUserScoreRepository.cs" />
     <Compile Include="DomainLayer\Config\Configuration.cs" />
     <Compile Include="DomainLayer\Config\IConfiguration.cs" />
+    <Compile Include="DomainLayer\DomainModel\RepositoryInterfaces\IUserSuspensionRepository.cs" />
     <Compile Include="DomainLayer\DomainModel\UserScore.cs" />
     <Compile Include="DomainLayer\DomainModel\UserSuspension.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserScoreValidator.cs" />
+    <Compile Include="DomainLayer\DomainModel\Validators\UserSuspensionValidator.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\AuctionService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\BaseService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\BidService.cs" />
@@ -235,6 +238,7 @@
     <Compile Include="DomainLayer\ServiceLayer\Impl\ProductService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\UserScoreService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\UserService.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Impl\UserSuspensionService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IAuctionService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\IBidService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Interfaces\ICategoryService.cs" />
@@ -252,6 +256,7 @@
     <Compile Include="DomainLayer\DomainModel\Validators\CategoryValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\ProductValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserValidator.cs" />
+    <Compile Include="DomainLayer\ServiceLayer\Interfaces\IUserSuspensionService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Utils\LevenshteinDistance.cs" />
     <Compile Include="Migrations\202301151030154_Initial.cs" />
     <Compile Include="Migrations\202301151030154_Initial.designer.cs">

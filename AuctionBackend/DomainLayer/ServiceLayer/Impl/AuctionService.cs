@@ -78,29 +78,26 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Update(Auction entity)
         {
-            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+            IEnumerable<ValidationFailure> validationFailures = new List<ValidationFailure>();
 
             Auction auction = this.Repository.GetByID(entity.Id);
             if (auction is null)
             {
-                validationFailures.Add(new ValidationFailure("Id", "The auction's id is not valid so the object cannot be updated."));
+                validationFailures.Append(new ValidationFailure("Id", "The auction's id is not valid so the object cannot be updated."));
             }
             else
             {
                 if (auction.IsFinished)
                 {
-                    validationFailures.Add(new ValidationFailure(nameof(Auction.IsFinished), "The auction with has been finished so it cannot be updated."));
+                    validationFailures.Append(new ValidationFailure(nameof(Auction.IsFinished), "The auction with has been finished so it cannot be updated."));
                 }
-                else if (auction.BidHistory.Count > 0)
+                else if (auction.BidHistory.Count > 0 && auction.BidHistory.ElementAt(0).Currency != entity.Currency)
                 {
-                    if (auction.BidHistory.ElementAt(0).Currency != entity.Currency)
-                    {
-                        validationFailures.Add(new ValidationFailure(nameof(Auction.Currency), "The currency of an auction cannot be change because it already has bids."));
-                    }
+                    validationFailures.Append(new ValidationFailure(nameof(Auction.Currency), "The currency of an auction cannot be change because it already has bids."));
                 }
             }
 
-            if (validationFailures.Count > 0)
+            if (validationFailures.Count() > 0)
             {
                 Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
                 return new ValidationResult(validationFailures);

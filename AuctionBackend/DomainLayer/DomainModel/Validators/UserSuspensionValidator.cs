@@ -23,16 +23,18 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .SetValidator(new UserValidator()));
 
             this.RuleFor(us => us.StartDate).NotEmpty().WithMessage("The start date must be a valid date.");
-            this.When(
-                us => us.StartDate != default,
-                () => this.RuleFor(us => us.StartDate)
-                .GreaterThan(System.DateTime.Now).WithMessage("The start time cannot be in the past"));
 
             this.RuleFor(us => us.EndDate).NotEmpty().WithMessage("The end date must be a valid date.");
             this.When(
                  us => us.EndDate != default && us.StartDate != default,
                  () => this.RuleFor(us => us.EndDate)
                  .GreaterThan(us => us.StartDate));
+
+            this.RuleSet("Add", () => this.When(
+                                us => us.StartDate != default,
+                                () => this.RuleFor(us => us.StartDate)
+                                .GreaterThan(System.DateTime.Now)
+                                .WithMessage("The start time cannot be in the past")));
         }
     }
 }

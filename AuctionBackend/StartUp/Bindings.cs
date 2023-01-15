@@ -6,7 +6,9 @@ namespace AuctionBackend.Startup
 {
     using AuctionBackend.DataLayer.DataAccessLayer.Impl;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
+    using AuctionBackend.DataMapper.RepositoryImpl;
     using AuctionBackend.DomainLayer.Config;
+    using AuctionBackend.DomainLayer.DomainModel.RepositoryInterfaces;
     using AuctionBackend.DomainLayer.ServiceLayer.Impl;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
     using Ninject.Modules;
@@ -38,6 +40,7 @@ namespace AuctionBackend.Startup
             this.Bind<IUserScoreService>().To<UserScoreService>();
             this.Bind<IAuctionService>().To<AuctionService>();
             this.Bind<IBidService>().To<BidService>();
+            this.Bind<IUserSuspensionService>().To<UserSuspensionService>();
 
             this.Bind<IConfiguration>().To<Configuration>();
         }
@@ -53,6 +56,7 @@ namespace AuctionBackend.Startup
             this.Bind<IUserScoreRepository>().To<UserScoreRepository>();
             this.Bind<IAuctionRepository>().To<AuctionRepository>();
             this.Bind<IBidRepository>().To<BidRepository>();
+            this.Bind<IUserSuspensionRepository>().To<UserSuspensionRepository>();
         }
     }
 }

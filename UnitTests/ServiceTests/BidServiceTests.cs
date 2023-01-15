@@ -420,6 +420,7 @@ namespace UnitTests.ServiceTests
         {
             using (this.mocks.Record())
             {
+                this.bidRepository.Expect(repo => repo.GetByID(this.bid.Id)).Return(this.bid);
                 this.bidRepository.Expect(repo => repo.Update(this.bid));
             }
 
@@ -437,6 +438,7 @@ namespace UnitTests.ServiceTests
             this.bid.Bidder = null;
             using (this.mocks.Record())
             {
+                this.bidRepository.Expect(repo => repo.GetByID(this.bid.Id)).Return(this.bid);
                 this.bidRepository.Expect(repo => repo.Update(this.bid));
             }
 
@@ -454,6 +456,7 @@ namespace UnitTests.ServiceTests
             this.bid.Bidder.Name = null;
             using (this.mocks.Record())
             {
+                this.bidRepository.Expect(repo => repo.GetByID(this.bid.Id)).Return(this.bid);
                 this.bidRepository.Expect(repo => repo.Update(this.bid));
             }
 
@@ -472,6 +475,46 @@ namespace UnitTests.ServiceTests
             this.bid.Auction.Currency = Currency.Dolar;
             using (this.mocks.Record())
             {
+                this.bidRepository.Expect(repo => repo.GetByID(this.bid.Id)).Return(this.bid);
+                this.bidRepository.Expect(repo => repo.Update(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Update(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update auction does not exist returns error for auction.
+        /// </summary>
+        [Test]
+        public void TestUpdate_NotTheLastBid_ReturnsErrorForId()
+        {
+            this.bid.Auction.BidHistory = new HashSet<Bid> 
+            {
+                this.bid,
+                new Bid(),
+            };
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.GetByID(this.bid.Id)).Return(this.bid);
+                this.bidRepository.Expect(repo => repo.Update(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Update(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the update bid does not exist returns error for identifier.
+        /// </summary>
+        [Test]
+        public void TestUpdate_BidDoesNotExist_ReturnsErrorForId()
+        {
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.GetByID(this.bid.Id)).Return(null);
                 this.bidRepository.Expect(repo => repo.Update(this.bid));
             }
 

@@ -57,10 +57,10 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 {
                     validationFailures.Add(new ValidationFailure("Product", "The product has a very similar description with another one used by the same user. The description must be changed in order to be added in an auction."));
                 }
-                else if (entity.StartTime < DateTime.Now)
-                {
-                    validationFailures.Add(new ValidationFailure("StartTime", "Start time cannot be in the past."));
-                }
+                //else if (entity.StartTime < DateTime.Now)
+                //{
+                //    validationFailures.Add(new ValidationFailure("StartTime", ));
+                //}
 
                 if (validationFailures.Count > 0)
                 {

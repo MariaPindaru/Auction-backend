@@ -66,7 +66,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         {
             Logger.Info($"Inserting object of type {typeof(T).Name}.");
 
-            var result = this.Validator.Validate(entity);
+            var result = this.Validator.Validate(entity, options => options.IncludeRuleSets("default", "Add"));
             if (result.IsValid)
             {
                 this.Repository.Insert(entity);
@@ -89,8 +89,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         public virtual ValidationResult Update(T entity)
         {
             Logger.Info($"Updating object of type {typeof(T).Name}.");
-
-            var result = this.Validator.Validate(entity);
+            var result = this.Validator.Validate(entity, options => options.IncludeRuleSets("default", "Update"));
             if (result.IsValid)
             {
                 this.Repository.Update(entity);

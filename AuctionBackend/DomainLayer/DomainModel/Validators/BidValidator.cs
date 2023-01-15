@@ -4,6 +4,7 @@
 
 namespace AuctionBackend.DomainLayer.DomainModel.Validators
 {
+    using System.Linq;
     using FluentValidation;
 
     /// <summary>
@@ -39,13 +40,39 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .IsInEnum()
                 .WithMessage("The currency must be within the defined enum.");
 
-            this.RuleFor(bid => bid.Price)
-                .InclusiveBetween(0.1m, decimal.MaxValue)
-                .WithMessage("The price must be in range 0 and decimal max value.");
-
-            this.When(bid => bid.Auction != null, () => this.RuleFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency })
+            this.When(
+                bid => bid.Auction != null,
+                () => this.RuleFor(bid => new { BidCurrency = bid.Currency, AuctionCurrency = bid.Auction.Currency })
                         .Must(x => x.BidCurrency == x.AuctionCurrency)
                         .WithMessage("The currency must be the same as it is defined in auction."));
+
+            this.When(
+                bid => bid.Auction != null && bid.Auction.BidHistory.Count > 0,
+                () => this.RuleFor(bid =>
+                        new { bidPrice = bid.Price, lastAuctionBidPrice = bid.Auction.BidHistory.Last().Price })
+                        .Must(prices => prices.bidPrice < prices.lastAuctionBidPrice * 3)
+                        .WithMessage("The bid price cannot be mode than 300% higher than the previous one."));
+
+            this.When(
+                bid => bid.Auction != null && bid.Auction.BidHistory.Count > 0,
+                () => this.RuleFor(bid =>
+                        new { bidPrice = bid.Price, lastAuctionBidPrice = bid.Auction.BidHistory.Last().Price })
+                        .Must(prices => prices.bidPrice > prices.lastAuctionBidPrice)
+                        .WithMessage("The bid price must be higher than the previous one."));
+
+            this.When(
+                bid => bid.Auction != null && bid.Auction.BidHistory.Count == 0,
+                () => this.RuleFor(bid =>
+                    new { bidPrice = bid.Price, lastAuctionBidPrice = bid.Auction.StartPrice })
+                    .Must(prices => prices.bidPrice < prices.lastAuctionBidPrice * 3)
+                    .WithMessage("The bid price cannot be mode than 300% higher than the previous one."));
+
+            this.When(
+                bid => bid.Auction != null && bid.Auction.BidHistory.Count == 0,
+                () => this.RuleFor(bid =>
+                        new { bidPrice = bid.Price, lastAuctionBidPrice = bid.Auction.StartPrice })
+                        .Must(prices => prices.bidPrice > prices.lastAuctionBidPrice)
+                        .WithMessage("The bid price must be higher than the previous one."));
         }
     }
 }

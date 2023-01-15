@@ -204,8 +204,9 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.auctionService.Insert(this.auction);
 
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(result.Errors.Count, 1);
-            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.StartTime));
+            Assert.AreEqual(result.Errors.Count, 2);
+            Assert.AreEqual(result.Errors.ElementAt(0).PropertyName, nameof(Auction.StartTime));
+            Assert.AreEqual(result.Errors.ElementAt(1).PropertyName, nameof(Auction.StartTime));
         }
 
         /// <summary>
@@ -285,7 +286,7 @@ namespace UnitTests.ServiceTests
         public void TestAdd_StartTimeIsInPast_And_EndTimeIsBeforeStartTime_ReturnsErrorForStartTime()
         {
             this.auction.StartTime = DateTime.Now.AddDays(-7);
-            this.auction.EndTime = DateTime.Now.AddDays(-3);
+            this.auction.EndTime = DateTime.Now.AddDays(-10);
             using (this.mocks.Record())
             {
                 this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
@@ -298,8 +299,9 @@ namespace UnitTests.ServiceTests
             ValidationResult result = this.auctionService.Insert(this.auction);
 
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(result.Errors.Count, 1);
-            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.StartTime));
+            Assert.AreEqual(result.Errors.Count, 2);
+            Assert.AreEqual(result.Errors.ElementAt(0).PropertyName, nameof(Auction.EndTime)); // End time is before start time
+            Assert.AreEqual(result.Errors.ElementAt(1).PropertyName, nameof(Auction.StartTime));  // Start time in the past
         }
 
         /// <summary>
@@ -475,7 +477,7 @@ namespace UnitTests.ServiceTests
         /// Tests the update not finished after end time returns no error.
         /// </summary>
         [Test]
-        public void TestUpdate_NotFinishedAfterEndTime_ReturnsNoError()
+        public void TestUpdate_NotFinishedAfterEndTime_ReturnsErrorForIsFinished()
         {
             this.auction.StartTime = DateTime.Now.AddDays(-10);
             this.auction.EndTime = DateTime.Now.AddDays(-3);
@@ -488,7 +490,7 @@ namespace UnitTests.ServiceTests
             }
 
             ValidationResult result = this.auctionService.Update(this.auction);
-            Assert.IsTrue(result.IsValid);
+            Assert.IsFalse(result.IsValid);
         }
 
         /// <summary>

@@ -161,7 +161,8 @@ namespace UnitTests.ModelTests
             this.auction.EndTime = DateTime.Now.AddDays(-1);
             this.auction.IsFinished = false;
             this.auction.Id = 12;
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            TestValidationResult<Auction> result = this.auctionValidator
+                .TestValidate(this.auction, options => options.IncludeRuleSets("default", "Update"));
             result.ShouldHaveValidationErrorFor(auction => auction.IsFinished);
         }
 
@@ -174,7 +175,8 @@ namespace UnitTests.ModelTests
             this.auction.StartTime = DateTime.Now.AddDays(2);
             this.auction.EndTime = DateTime.Now.AddDays(10);
             this.auction.IsFinished = true;
-            TestValidationResult<Auction> result = this.auctionValidator.TestValidate(this.auction);
+            TestValidationResult<Auction> result = this.auctionValidator
+                .TestValidate(this.auction, options => options.IncludeRuleSets("default", "Update"));
             result.ShouldHaveValidationErrorFor(auction => auction.IsFinished);
         }
     }

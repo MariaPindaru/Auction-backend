@@ -49,20 +49,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 {
                     validationFailures.Add(new ValidationFailure("Auction", "The auction doesn't exist, the bid cannot be added."));
                 }
-                else if (auction.BidHistory != null)
-                {
-                    var lastPrice = auction.BidHistory.Count() == 0 ?
-                        auction.StartPrice : auction.BidHistory.ElementAt(auction.BidHistory.Count - 1).Price;
-
-                    if (lastPrice == entity.Price)
-                    {
-                        validationFailures.Add(new ValidationFailure("Price", "The bid price must be higher than the previous one."));
-                    }
-                    else if (3 * lastPrice < entity.Price)
-                    {
-                        validationFailures.Add(new ValidationFailure("Price", "The bid price cannot be mode than 300% higher than the previous one."));
-                    }
-                }
             }
 
             if (validationFailures.Count > 0)
@@ -72,6 +58,42 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             }
 
             return base.Insert(entity);
+        }
+
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        /// The validation result.
+        /// </returns>
+        public override ValidationResult Update(Bid entity)
+        {
+            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+
+            Bid oldBid = this.Repository.GetByID(entity.Id);
+            if (oldBid == null)
+            {
+                validationFailures.Add(new ValidationFailure("Id", "The bid doesn't exist."));
+            }
+            else
+            {
+                var auction = oldBid.Auction;
+                var oldBidIndex = auction.BidHistory.ToList().IndexOf(oldBid);
+
+                if (oldBidIndex < auction.BidHistory.Count() - 1)
+                {
+                    validationFailures.Add(new ValidationFailure("Id", "The bid is not the last one for this auction so it cannot be updated."));
+                }
+            }
+
+            if (validationFailures.Count > 0)
+            {
+                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                return new ValidationResult(validationFailures);
+            }
+
+            return base.Update(entity);
         }
     }
 }

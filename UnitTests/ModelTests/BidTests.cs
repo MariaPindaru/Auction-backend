@@ -65,7 +65,7 @@ namespace UnitTests.ModelTests
             this.bid = new Bid
             {
                 Bidder = bidder,
-                Price = 10.3m,
+                Price = 20.3m,
                 Currency = Currency.Dolar,
                 Auction = auction,
             };
@@ -133,7 +133,7 @@ namespace UnitTests.ModelTests
         {
             this.bid.Price = -10.5m;
             TestValidationResult<Bid> result = this.bidValidator.TestValidate(this.bid);
-            result.ShouldHaveValidationErrorFor(bid => bid.Price);
+            result.ShouldHaveValidationErrorFor(bid => new { bidPrice = bid.Price, lastAuctionBidPrice = bid.Auction.StartPrice });
         }
 
         /// <summary>

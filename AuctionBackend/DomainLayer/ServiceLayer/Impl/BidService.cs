@@ -18,7 +18,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Bid, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IBidRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IBidService" />
-    public class BidService : BaseService<Bid, IBidRepository>, IBidService
+    internal class BidService : BaseService<Bid, IBidRepository>, IBidService
     {
         private IAuctionService auctionService;
 
@@ -40,19 +40,11 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         /// </returns>
         public override ValidationResult Insert(Bid entity)
         {
-            IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
-
             Auction auction = entity.Auction;
-            if (auction != null)
+            if (auction != null && this.auctionService.GetByID(auction.Id) == null)
             {
-                if (this.auctionService.GetByID(auction.Id) == null)
-                {
-                    validationFailures.Add(new ValidationFailure("Auction", "The auction doesn't exist, the bid cannot be added."));
-                }
-            }
-
-            if (validationFailures.Count > 0)
-            {
+                IList<ValidationFailure> validationFailures = new List<ValidationFailure>();
+                validationFailures.Add(new ValidationFailure("Auction", "The auction doesn't exist, the bid cannot be added."));
                 Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
                 return new ValidationResult(validationFailures);
             }

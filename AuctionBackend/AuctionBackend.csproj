@@ -226,6 +226,7 @@
     <Compile Include="DomainLayer\Config\Configuration.cs" />
     <Compile Include="DomainLayer\Config\IConfiguration.cs" />
     <Compile Include="DomainLayer\DomainModel\UserScore.cs" />
+    <Compile Include="DomainLayer\DomainModel\UserSuspension.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserScoreValidator.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\AuctionService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\BaseService.cs" />
@@ -255,6 +256,10 @@
     <Compile Include="Migrations\202301151030154_Initial.cs" />
     <Compile Include="Migrations\202301151030154_Initial.designer.cs">
       <DependentUpon>202301151030154_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301152123441_AddUserSuspension.cs" />
+    <Compile Include="Migrations\202301152123441_AddUserSuspension.designer.cs">
+      <DependentUpon>202301152123441_AddUserSuspension.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -287,6 +292,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202301151030154_Initial.resx">
       <DependentUpon>202301151030154_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301152123441_AddUserSuspension.resx">
+      <DependentUpon>202301152123441_AddUserSuspension.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

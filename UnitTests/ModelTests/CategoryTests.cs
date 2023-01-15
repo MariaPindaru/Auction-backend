@@ -149,5 +149,39 @@ namespace UnitTests.ModelTests
             TestValidationResult<Category> result = this.categoryValidator.TestValidate(this.category);
             result.ShouldHaveValidationErrorFor(category => category.Name);
         }
+
+        /// <summary>
+        /// Tests the validation has no products returns no error.
+        /// </summary>
+        [Test]
+        public void TestValidation_HasNoProducts_ReturnsNoError()
+        {
+            this.category.Products = null;
+            TestValidationResult<Category> result = this.categoryValidator.TestValidate(this.category);
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+
+        /// <summary>
+        /// Tests the validation has one product returns no error.
+        /// </summary>
+        [Test]
+        public void TestValidation_HasOneProduct_ReturnsNoError()
+        {
+            this.category.Products.Add(new Product());
+            TestValidationResult<Category> result = this.categoryValidator.TestValidate(this.category);
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+
+        /// <summary>
+        /// Tests the validation has two products returns no error.
+        /// </summary>
+        [Test]
+        public void TestValidation_HasTwoProducts_ReturnsNoError()
+        {
+            this.category.Products.Add(new Product());
+            this.category.Products.Add(new Product());
+            TestValidationResult<Category> result = this.categoryValidator.TestValidate(this.category);
+            result.ShouldNotHaveAnyValidationErrors();
+        }
     }
 }

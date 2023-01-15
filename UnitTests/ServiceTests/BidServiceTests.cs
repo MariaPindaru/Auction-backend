@@ -271,7 +271,7 @@ namespace UnitTests.ServiceTests
         {
             this.bid.Auction.StartPrice = 10.7m;
             this.bid.Auction.BidHistory.Add(new Bid { Price = 20.6m });
-            this.bid.Price = 40.8m;
+            this.bid.Price = 70.8m;
             using (this.mocks.Record())
             {
                 this.auctionService.Expect(service => service.GetByID(0)).Return(this.bid.Auction);
@@ -280,7 +280,7 @@ namespace UnitTests.ServiceTests
 
             ValidationResult result = this.bidService.Insert(this.bid);
 
-            Assert.IsTrue(result.IsValid);
+            Assert.IsFalse(result.IsValid);
         }
 
         /// <summary>

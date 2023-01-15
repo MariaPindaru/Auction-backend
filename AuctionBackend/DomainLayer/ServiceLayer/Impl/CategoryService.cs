@@ -15,7 +15,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Category, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.ICategoryRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.ICategoryService" />
-    public class CategoryService : BaseService<Category, ICategoryRepository>, ICategoryService
+    internal class CategoryService : BaseService<Category, ICategoryRepository>, ICategoryService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CategoryService"/> class.

@@ -26,18 +26,5 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             : base(Injector.Get<IUserScoreRepository>(), new UserScoreValidator())
         {
         }
-
-        /// <summary>
-        /// Inserts the specified entity.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns>
-        /// The validation result.
-        /// </returns>
-        public override ValidationResult Insert(UserScore entity)
-        {
-            entity.Date = DateTime.Now;
-            return base.Insert(entity);
-        }
     }
 }

@@ -18,7 +18,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Product, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IProductRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IProductService" />
-    public class ProductService : BaseService<Product, IProductRepository>, IProductService
+    internal class ProductService : BaseService<Product, IProductRepository>, IProductService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductService"/> class.

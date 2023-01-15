@@ -21,7 +21,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Auction, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IAuctionRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IAuctionService" />
-    public class AuctionService : BaseService<Auction, IAuctionRepository>, IAuctionService
+    internal class AuctionService : BaseService<Auction, IAuctionRepository>, IAuctionService
     {
         private IConfiguration appConfiguration;
 
@@ -53,14 +53,11 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 {
                     validationFailures.Add(new ValidationFailure("Offerer", "The offerer has reached the maximum limit of active auctions for the moment."));
                 }
-                else if (this.ProductHasDuplicateDescription(entity.Product, activeAuctionForOfferer))
+
+                if (this.ProductHasDuplicateDescription(entity.Product, activeAuctionForOfferer))
                 {
                     validationFailures.Add(new ValidationFailure("Product", "The product has a very similar description with another one used by the same user. The description must be changed in order to be added in an auction."));
                 }
-                //else if (entity.StartTime < DateTime.Now)
-                //{
-                //    validationFailures.Add(new ValidationFailure("StartTime", ));
-                //}
 
                 if (validationFailures.Count > 0)
                 {
@@ -93,11 +90,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 if (auction.IsFinished)
                 {
                     validationFailures.Add(new ValidationFailure(nameof(Auction.IsFinished), "The auction with has been finished so it cannot be updated."));
-                }
-                else if (auction.EndTime < DateTime.Now)
-                {
-                    Logger.Info("The end time for the auction has been past so only the 'IsFinished' field will be updated into the database.");
-                    entity.IsFinished = true;
                 }
                 else if (auction.BidHistory.Count > 0)
                 {

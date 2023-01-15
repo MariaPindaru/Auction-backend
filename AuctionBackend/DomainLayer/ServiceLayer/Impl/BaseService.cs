@@ -19,7 +19,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     /// <typeparam name="T"> Repository type. </typeparam>
     /// <typeparam name="TU"> Validator type. </typeparam>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;T&gt;" />
-    public abstract class BaseService<T, TU> : IService<T>
+    internal abstract class BaseService<T, TU> : IService<T>
         where T : class
         where TU : IRepository<T>
     {

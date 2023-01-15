@@ -14,6 +14,14 @@ namespace AuctionBackend.DomainLayer.DomainModel
     public class UserScore
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UserScore"/> class.
+        /// </summary>
+        public UserScore()
+        {
+            this.Date = DateTime.Now;
+        }
+
+        /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>

@@ -18,7 +18,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.User, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IUserRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IUserService" />
-    public class UserService : BaseService<User, IUserRepository>, IUserService
+    internal class UserService : BaseService<User, IUserRepository>, IUserService
     {
         private IConfiguration appConfiguration;
 

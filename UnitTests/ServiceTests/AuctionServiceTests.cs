@@ -598,7 +598,7 @@ namespace UnitTests.ServiceTests
                 this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
 
                 ICollection<Auction> activeAuctions = Enumerable.Range(0, 2)
-                    .Select(i => new Auction())
+                    .Select(i => new Auction { Product = new Product { Description = "blabla" } })
                     .ToList();
 
                 this.auctionRepository.Expect(repo => repo.Get())
@@ -741,6 +741,115 @@ namespace UnitTests.ServiceTests
             bool result = this.auctionService.ProductHasDuplicateDescription(this.auction.Product, auctions);
 
             Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Tests the add product has duplicate description returns error for product.
+        /// </summary>
+        [Test]
+        public void TestAdd_ProductHasDuplicateDescription_ReturnsErrorForProduct()
+        {
+            var auctions = new HashSet<Auction>
+            {
+                new Auction { Product = new Product { Description = this.auction.Product.Description } },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(auctions);
+                this.auctionRepository.Expect(repo => repo.Insert(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Insert(this.auction);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Product));
+        }
+
+        /// <summary>
+        /// Tests the add product has very similar description returns error for product.
+        /// </summary>
+        [Test]
+        public void TestAdd_ProductHasVerySimilarDescription_ReturnsErrorForProduct()
+        {
+            this.auction.Product.Description = "Product description.";
+            var auctions = new HashSet<Auction>
+            {
+                new Auction { Product = new Product { Description = "Product descript."} },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(auctions);
+                this.auctionRepository.Expect(repo => repo.Insert(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Insert(this.auction);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Product));
+        }
+
+        /// <summary>
+        /// Tests the add product has very similar description returns error for product.
+        /// </summary>
+        [Test]
+        public void TestAdd_ProductHasDuplicateDescription_Extracharacters_ReturnsErrorForProduct()
+        {
+            this.auction.Product.Description = ":) ???????? Product description. ?? :(";
+            var auctions = new HashSet<Auction>
+            {
+                new Auction { Product = new Product { Description = "Product description."} },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(auctions);
+                this.auctionRepository.Expect(repo => repo.Insert(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Insert(this.auction);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(Auction.Product));
+        }
+
+        /// <summary>
+        /// Tests the add product has somewhat similar description extracharacters returns error for product.
+        /// </summary>
+        [Test]
+        public void TestAdd_ProductHasSomewhatSimilarDescription_Extracharacters_ReturnsErrorForProduct()
+        {
+            this.auction.Product.Description = "Product something.";
+            var auctions = new HashSet<Auction>
+            {
+                new Auction { Product = new Product { Description = "Product description." } },
+            };
+
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(auctions);
+                this.auctionRepository.Expect(repo => repo.Insert(this.auction));
+            }
+
+            ValidationResult result = this.auctionService.Insert(this.auction);
+
+            Assert.IsTrue(result.IsValid);
         }
     }
 }

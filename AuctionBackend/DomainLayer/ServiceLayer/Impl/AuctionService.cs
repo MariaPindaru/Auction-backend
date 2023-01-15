@@ -24,7 +24,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     public class AuctionService : BaseService<Auction, IAuctionRepository>, IAuctionService
     {
         private IConfiguration appConfiguration;
-        private IProductService productService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuctionService"/> class.
@@ -33,7 +32,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         : base(Injector.Get<IAuctionRepository>(), new AuctionValidator())
         {
             this.appConfiguration = Injector.Get<IConfiguration>();
-            this.productService = Injector.Get<IProductService>();
         }
 
         /// <summary>
@@ -59,7 +57,6 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 {
                     validationFailures.Add(new ValidationFailure("Product", "The product has a very similar description with another one used by the same user. The description must be changed in order to be added in an auction."));
                 }
-
                 else if (entity.StartTime < DateTime.Now)
                 {
                     validationFailures.Add(new ValidationFailure("StartTime", "Start time cannot be in the past."));
@@ -97,13 +94,11 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 {
                     validationFailures.Add(new ValidationFailure(nameof(Auction.IsFinished), "The auction with has been finished so it cannot be updated."));
                 }
-
                 else if (auction.EndTime < DateTime.Now)
                 {
                     Logger.Info("The end time for the auction has been past so only the 'IsFinished' field will be updated into the database.");
                     entity.IsFinished = true;
                 }
-
                 else if (auction.BidHistory.Count > 0)
                 {
                     if (auction.BidHistory.ElementAt(0).Currency != entity.Currency)
@@ -139,6 +134,12 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 includeProperties: "Product, Product.Offerer");
         }
 
+        /// <summary>
+        /// Products the has duplicate description.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <param name="auctions">The auctions.</param>
+        /// <returns></returns>
         public bool ProductHasDuplicateDescription(Product entity, IEnumerable<Auction> auctions)
         {
             if (entity.Offerer != null && entity.Description != null)

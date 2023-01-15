@@ -463,6 +463,24 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
+        /// Tests the update change currency returns error for currency.
+        /// </summary>
+        [Test]
+        public void TestUpdate_ChangeCurrency_ReturnsErrorForCurrency()
+        {
+            this.bid.Currency = Currency.Euro;
+            this.bid.Auction.Currency = Currency.Dolar;
+            using (this.mocks.Record())
+            {
+                this.bidRepository.Expect(repo => repo.Update(this.bid));
+            }
+
+            ValidationResult result = this.bidService.Update(this.bid);
+
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
         /// Tests the get bids.
         /// </summary>
         [Test]

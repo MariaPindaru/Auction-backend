@@ -25,24 +25,26 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
             using (var ctx = new AppDbContext())
             {
                 Product product = ctx.Set<Product>().Find(entity.Product.Id);
+                Category category = ctx.Set<Category>().Find(entity.Product.Category.Id);
+                User user = ctx.Set<User>().Find(entity.Product.Offerer.Id);
+
+
                 if (product != null)
                 {
                     entity.Product = product;
                 }
 
-                Category category = ctx.Set<Category>().Find(entity.Product.Category.Id);
                 if (category != null)
                 {
                     entity.Product.Category = category;
                 }
 
-                User user = ctx.Set<User>().Find(entity.Product.Offerer.Id);
                 if (user != null)
                 {
                     entity.Product.Offerer = user;
                 }
 
-                ctx.Set<Auction>().Attach(entity);
+                ctx.Set<Auction>().Add(entity);
 
                 ctx.SaveChanges();
             }

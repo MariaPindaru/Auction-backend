@@ -4,7 +4,11 @@
 
 namespace AuctionBackend.DomainLayer.Config
 {
+    using System;
+    using System.Collections.Generic;
     using System.Configuration;
+    using System.IO;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Configuration.
@@ -23,7 +27,9 @@ namespace AuctionBackend.DomainLayer.Config
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings.Get("MaxActiveAuctions"));
+                string value;
+                this.GetFileContent().TryGetValue("MaxActiveAuctions", out value);
+                return int.Parse(value);
             }
         }
 
@@ -37,8 +43,20 @@ namespace AuctionBackend.DomainLayer.Config
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings.Get("DefaultScore"));
+                string value;
+                this.GetFileContent().TryGetValue("DefaultScore", out value);
+                return int.Parse(value);
+
             }
+        }
+
+        private Dictionary<string, string> GetFileContent()
+        {
+            string filePath = ConfigurationManager.AppSettings.Get("ConfigurationFilePath");
+            var text = File.ReadAllText(filePath);
+            var valueKeyDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+
+            return valueKeyDict;
         }
     }
 }

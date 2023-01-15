@@ -68,7 +68,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
         {
             using (var ctx = new AppDbContext())
             {
-                ctx.Set<T>().Attach(entity);
+                ctx.Set<T>().Add(entity);
 
                 ctx.SaveChanges();
             }
@@ -106,14 +106,12 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
         {
             using (var ctx = new AppDbContext())
             {
-                var dbSet = ctx.Set<T>();
-
                 if (ctx.Entry(entityToDelete).State == EntityState.Detached)
                 {
-                    dbSet.Attach(entityToDelete);
+                    ctx.Set<T>().Attach(entityToDelete);
                 }
 
-                dbSet.Remove(entityToDelete);
+                ctx.Set<T>().Remove(entityToDelete);
 
                 ctx.SaveChanges();
             }

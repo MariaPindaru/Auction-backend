@@ -163,7 +163,8 @@ namespace UnitTests.ServiceTests
         public void TestAdd_InvalidRole_ReturnsErrorForUserRole()
         {
             this.user.Name = "Username";
-            this.user.Role = (Role)200;
+            var invalidRoleValue = Enum.GetValues(typeof(Role)).Cast<int>().Max() + 1;
+            this.user.Role = (Role)invalidRoleValue;
 
             using (this.mocks.Record())
             {
@@ -201,6 +202,22 @@ namespace UnitTests.ServiceTests
         /// </summary>
         [Test]
         public void TestUpdat_NullName_ReturnsErrorForName()
+        {
+            this.user.Name = null;
+            using (this.mocks.Record())
+            {
+                this.userRepository.Expect(repo => repo.Update(this.user));
+            }
+
+            ValidationResult result = this.userService.Update(this.user);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Name));
+        }
+
+        [Test]
+        public void TestUpdate_NameIsTooShort_ReturnsErrorForName()
         {
             this.user.Name = null;
             using (this.mocks.Record())

@@ -40,7 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AuctionBackend.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -136,6 +136,9 @@
     </Reference>
     <Reference Include="Microsoft.Practices.ObjectBuilder, Version=1.0.51206.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\EntLib.Combined.3.1.0.2\lib\net20\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.3.6.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.6\lib\net45\Ninject.dll</HintPath>
@@ -249,17 +252,9 @@
     <Compile Include="DomainLayer\DomainModel\Validators\ProductValidator.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserValidator.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Utils\LevenshteinDistance.cs" />
-    <Compile Include="Migrations\202301141924409_Initial.cs" />
-    <Compile Include="Migrations\202301141924409_Initial.designer.cs">
-      <DependentUpon>202301141924409_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301141945291_UpdateProductAuctionRelationship.cs" />
-    <Compile Include="Migrations\202301141945291_UpdateProductAuctionRelationship.designer.cs">
-      <DependentUpon>202301141945291_UpdateProductAuctionRelationship.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301142316082_UpdateProductTable.cs" />
-    <Compile Include="Migrations\202301142316082_UpdateProductTable.designer.cs">
-      <DependentUpon>202301142316082_UpdateProductTable.cs</DependentUpon>
+    <Compile Include="Migrations\202301151030154_Initial.cs" />
+    <Compile Include="Migrations\202301151030154_Initial.designer.cs">
+      <DependentUpon>202301151030154_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -286,19 +281,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202301141924409_Initial.resx">
-      <DependentUpon>202301141924409_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301141945291_UpdateProductAuctionRelationship.resx">
-      <DependentUpon>202301141945291_UpdateProductAuctionRelationship.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301142316082_UpdateProductTable.resx">
-      <DependentUpon>202301142316082_UpdateProductTable.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.Unstable.1.2.0.435\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.Unstable.1.2.0.435\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202301151030154_Initial.resx">
+      <DependentUpon>202301151030154_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

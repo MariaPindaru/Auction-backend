@@ -51,7 +51,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
                 }
                 else if (auction.BidHistory != null)
                 {
-                    var lastPrice = auction.BidHistory.Count() == 0 ? 
+                    var lastPrice = auction.BidHistory.Count() == 0 ?
                         auction.StartPrice : auction.BidHistory.ElementAt(auction.BidHistory.Count - 1).Price;
 
                     if (lastPrice == entity.Price)

@@ -57,7 +57,6 @@ namespace AuctionBackend.DomainLayer.DomainModel
         /// <summary>Gets or sets the role.</summary>
         /// <value>The role.</value>
         [Required]
-        [Range(0, 1)]
         public Role Role { get; set; }
 
         /// <summary>

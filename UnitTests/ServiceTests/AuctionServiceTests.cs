@@ -18,7 +18,7 @@ namespace UnitTests.ServiceTests
     using Rhino.Mocks;
 
     /// <summary>
-    /// AuctionServiceTests.
+    /// Tests for AuctionService.
     /// </summary>
     internal class AuctionServiceTests
     {
@@ -31,6 +31,11 @@ namespace UnitTests.ServiceTests
         /// The auction service.
         /// </summary>
         private IAuctionService auctionService;
+
+        /// <summary>
+        /// The user suspension service.
+        /// </summary>
+        private IUserSuspensionService userSuspensionService;
 
         /// <summary>
         /// The auction repository.
@@ -62,8 +67,12 @@ namespace UnitTests.ServiceTests
             this.kernel = Injector.Kernel;
 
             this.mocks = new MockRepository();
+
             this.auctionRepository = this.mocks.StrictMock<IAuctionRepository>();
             this.kernel.Rebind<IAuctionRepository>().ToConstant(this.auctionRepository);
+
+            this.userSuspensionService = this.mocks.StrictMock<IUserSuspensionService>();
+            this.kernel.Rebind<IUserSuspensionService>().ToConstant(this.userSuspensionService);
 
             this.configuration = this.mocks.StrictMock<IConfiguration>();
             this.kernel.Rebind<IConfiguration>().ToConstant(this.configuration);
@@ -107,6 +116,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                    .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -129,6 +140,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -152,6 +165,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -175,6 +190,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -198,6 +215,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -222,6 +241,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -246,6 +267,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -269,6 +292,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -293,6 +318,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -320,6 +347,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -366,6 +395,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -374,6 +405,30 @@ namespace UnitTests.ServiceTests
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(result.Errors.Count, 1);
             Assert.AreEqual(result.Errors.First().PropertyName, "Product.Name");
+        }
+
+        /// <summary>
+        /// Tests the add user is suspended returns error for user.
+        /// </summary>
+        [Test]
+        public void TestAdd_UserIsSuspended_ReturnsErrorForUser()
+        {
+            this.auction.Product.Name = null;
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.MaxActiveAuctions).Return(2);
+                this.auctionRepository.Expect(repo => repo.Get())
+                    .IgnoreArguments()
+                    .Return(new HashSet<Auction>());
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(true);
+            }
+
+            ValidationResult result = this.auctionService.Insert(this.auction);
+
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, "Offerer");
         }
 
         /// <summary>
@@ -412,7 +467,7 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the update nonexisting auction.
+        /// Tests the update non existing auction.
         /// </summary>
         [Test]
         public void TestUpdate_AuctionDoesNotExist_ReturnsErrorforId()
@@ -588,7 +643,7 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the add auction maximum limit achived.
+        /// Tests the add user active auctions limit reached return error for offerer.
         /// </summary>
         [Test]
         public void TestAdd_UserActiveAuctionsLimitReached_ReturnErrorForOfferer()
@@ -604,6 +659,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(activeAuctions);
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
 
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
@@ -760,6 +817,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(auctions);
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -779,7 +838,7 @@ namespace UnitTests.ServiceTests
             this.auction.Product.Description = "Product description.";
             var auctions = new HashSet<Auction>
             {
-                new Auction { Product = new Product { Description = "Product descript."} },
+                new Auction { Product = new Product { Description = "Product descript." } },
             };
 
             using (this.mocks.Record())
@@ -788,6 +847,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(auctions);
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -807,7 +868,7 @@ namespace UnitTests.ServiceTests
             this.auction.Product.Description = ":) ???????? Product description. ?? :(";
             var auctions = new HashSet<Auction>
             {
-                new Auction { Product = new Product { Description = "Product description."} },
+                new Auction { Product = new Product { Description = "Product description." } },
             };
 
             using (this.mocks.Record())
@@ -816,6 +877,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(auctions);
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                              .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 
@@ -827,10 +890,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the add product has somewhat similar description extracharacters returns error for product.
+        /// Tests the add product has somewhat similar description extra characters returns error for product.
         /// </summary>
         [Test]
-        public void TestAdd_ProductHasSomewhatSimilarDescription_Extracharacters_ReturnsErrorForProduct()
+        public void TestAdd_ProductHasSomewhatSimilarDescription_ExtraCharacters_ReturnsErrorForProduct()
         {
             this.auction.Product.Description = "Product something.";
             var auctions = new HashSet<Auction>
@@ -844,6 +907,8 @@ namespace UnitTests.ServiceTests
                 this.auctionRepository.Expect(repo => repo.Get())
                     .IgnoreArguments()
                     .Return(auctions);
+                this.userSuspensionService.Expect(service => service.UserIsSuspended(this.auction.Product.Offerer))
+                .Return(false);
                 this.auctionRepository.Expect(repo => repo.Insert(this.auction));
             }
 

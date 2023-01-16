@@ -9,7 +9,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
-    /// AuctionRepository.
+    /// Class that implements the functionality for IAuctionRepository.
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IAuctionRepository" />
@@ -27,7 +27,6 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
                 Product product = ctx.Set<Product>().Find(entity.Product.Id);
                 Category category = ctx.Set<Category>().Find(entity.Product.Category.Id);
                 User user = ctx.Set<User>().Find(entity.Product.Offerer.Id);
-
 
                 if (product != null)
                 {

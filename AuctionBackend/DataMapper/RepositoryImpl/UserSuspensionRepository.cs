@@ -10,7 +10,7 @@ namespace AuctionBackend.DataMapper.RepositoryImpl
     using AuctionBackend.DomainLayer.DomainModel.RepositoryInterfaces;
 
     /// <summary>
-    /// UserSuspensionRepository.
+    /// Class that implements the functionality for IUserSuspensionRepository.
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.UserSuspension&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.DomainModel.RepositoryInterfaces.IUserSuspensionRepository" />

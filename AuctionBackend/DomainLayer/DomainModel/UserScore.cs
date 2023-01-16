@@ -9,7 +9,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
-    /// UserScore.
+    /// Class used to define an entity UserScore.
     /// </summary>
     public class UserScore
     {

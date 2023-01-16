@@ -8,7 +8,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
     using FluentValidation;
 
     /// <summary>
-    /// BidValidator.
+    /// Validator for entity of type Bid.
     /// </summary>
     /// <seealso cref="FluentValidation.AbstractValidator&lt;AuctionBackend.DomainLayer.DomainModel.Bid&gt;" />
     public class BidValidator : AbstractValidator<Bid>
@@ -22,17 +22,23 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("The auction cannot be null.");
 
-            this.When(bid => bid.Auction != null, () => this.RuleFor(bid => bid.Auction)
+            this.When(
+                bid => bid.Auction != null,
+                () => this.RuleFor(bid => bid.Auction)
                 .SetValidator(new AuctionValidator()));
 
             this.RuleFor(bid => bid.Bidder)
                 .NotEmpty()
                 .WithMessage("The bidder cannot be null.");
 
-            this.When(bid => bid.Bidder != null, () => this.RuleFor(bid => bid.Bidder)
+            this.When(
+                bid => bid.Bidder != null,
+                () => this.RuleFor(bid => bid.Bidder)
                 .SetValidator(new UserValidator()));
 
-            this.When(bid => bid.Bidder != null, () => this.RuleFor(bid => bid.Bidder)
+            this.When(
+                bid => bid.Bidder != null,
+                () => this.RuleFor(bid => bid.Bidder)
                 .Must(bidder => bidder.Role.HasFlag(Role.Bidder))
                 .WithMessage("The bidder must have the bidder role."));
 

@@ -11,7 +11,7 @@ namespace UnitTests.ModelTests
     using NUnit.Framework;
 
     /// <summary>
-    /// UserScoreTests.
+    /// Tests for entity UserScore.
     /// </summary>
     internal class UserScoreTests
     {

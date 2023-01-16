@@ -16,7 +16,7 @@ namespace UnitTests.ServiceTests
     using Rhino.Mocks;
 
     /// <summary>
-    /// Category service tests.
+    /// Tests for Category service.
     /// </summary>
     internal class CategoryServiceTests
     {

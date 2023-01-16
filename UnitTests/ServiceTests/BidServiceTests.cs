@@ -17,7 +17,7 @@ namespace UnitTests.ServiceTests
     using Rhino.Mocks;
 
     /// <summary>
-    /// AuctionServiceTests.
+    /// Tests for AuctionService.
     /// </summary>
     internal class BidServiceTests
     {
@@ -396,7 +396,7 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the add bid with nonexisting auction.
+        /// Tests the add bid with non existing auction.
         /// </summary>
         [Test]
         public void TestAdd_AuctionDoesNotExist_ReturnsErrorForAuction()
@@ -490,7 +490,7 @@ namespace UnitTests.ServiceTests
         [Test]
         public void TestUpdate_NotTheLastBid_ReturnsErrorForId()
         {
-            this.bid.Auction.BidHistory = new HashSet<Bid> 
+            this.bid.Auction.BidHistory = new HashSet<Bid>
             {
                 this.bid,
                 new Bid(),

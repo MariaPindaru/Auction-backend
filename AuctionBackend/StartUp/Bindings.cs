@@ -14,7 +14,7 @@ namespace AuctionBackend.Startup
     using Ninject.Modules;
 
     /// <summary>
-    /// Bindings.
+    /// Class that  defines the project's bindings.
     /// </summary>
     /// <seealso cref="Ninject.Modules.NinjectModule" />
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]

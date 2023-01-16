@@ -8,7 +8,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
-    /// UserRepository.
+    /// Class that implements the functionality for IUserRepository.
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.User&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IUserRepository" />

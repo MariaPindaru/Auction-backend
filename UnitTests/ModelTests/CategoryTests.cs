@@ -10,7 +10,7 @@ namespace UnitTests.ModelTests
     using NUnit.Framework;
 
     /// <summary>
-    /// CategoryTests.
+    /// Tests for entity Category.
     /// </summary>
     internal class CategoryTests
     {

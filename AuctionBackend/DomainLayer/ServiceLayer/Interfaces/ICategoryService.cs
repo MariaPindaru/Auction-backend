@@ -8,7 +8,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
-    /// ICategoryService.
+    /// Interface used for defining the functionalities for a service for the entity Category.
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;AuctionBackend.DomainLayer.DomainModel.Category&gt;" />
     public interface ICategoryService : IService<Category>

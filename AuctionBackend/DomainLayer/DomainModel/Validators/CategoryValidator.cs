@@ -7,7 +7,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
     using FluentValidation;
 
     /// <summary>
-    /// CategoryValidator.
+    /// Validator for entity of type Category.
     /// </summary>
     /// <seealso cref="FluentValidation.AbstractValidator&lt;AuctionBackend.DomainLayer.DomainModel.Category&gt;" />
     public class CategoryValidator : AbstractValidator<Category>
@@ -18,7 +18,9 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         public CategoryValidator()
         {
             this.RuleFor(category => category.Name).NotEmpty().WithMessage("Catgeory name cannot be null");
-            this.When(category => category.Name != null, () => this.RuleFor(category => category.Name)
+            this.When(
+                category => category.Name != null,
+                () => this.RuleFor(category => category.Name)
                 .Length(2, 30)
                 .WithMessage("The category name must have between 2 and 30 chars"));
         }

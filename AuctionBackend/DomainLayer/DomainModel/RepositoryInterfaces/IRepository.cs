@@ -10,9 +10,9 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
     using System.Linq.Expressions;
 
     /// <summary>
-    /// IRepository.
+    /// The main interface for a repository.
     /// </summary>
-    /// <typeparam name="T">Generic.</typeparam>
+    /// <typeparam name="T">The entity type.</typeparam>
     public interface IRepository<T>
     {
         /// <summary>

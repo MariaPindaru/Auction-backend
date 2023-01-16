@@ -5,7 +5,7 @@
 namespace AuctionBackend.DomainLayer.Config
 {
     /// <summary>
-    /// IConfiguration.
+    /// Defines the interface for the application dynamic configuration.
     /// </summary>
     public interface IConfiguration
     {
@@ -24,5 +24,21 @@ namespace AuctionBackend.DomainLayer.Config
         /// The default score.
         /// </value>
         int DefaultScore { get; }
+
+        /// <summary>
+        /// Gets the minimum score.
+        /// </summary>
+        /// <value>
+        /// The minimum score.
+        /// </value>
+        int MinimumScore { get; }
+
+        /// <summary>
+        /// Gets the suspension days.
+        /// </summary>
+        /// <value>
+        /// The suspension days.
+        /// </value>
+        int SuspensionDays { get; }
     }
 }

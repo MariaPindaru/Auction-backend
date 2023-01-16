@@ -107,7 +107,6 @@ namespace AuctionBackend.DataLayer
                 .WithRequired(c => c.ScoredUser)
                 .WillCascadeOnDelete(false);
 
-
             modelBuilder.Entity<User>()
                 .HasMany(c => c.GivenUserScores)
                 .WithRequired(c => c.ScoringUser)

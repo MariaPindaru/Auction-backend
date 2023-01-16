@@ -14,12 +14,15 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     using AuctionBackend.Startup;
 
     /// <summary>
-    /// UserService.
+    /// Class that implements the functionalities for IUserService.
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.User, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IUserRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IUserService" />
     internal class UserService : BaseService<User, IUserRepository>, IUserService
     {
+        /// <summary>
+        /// The application configuration.
+        /// </summary>
         private IConfiguration appConfiguration;
 
         /// <summary>
@@ -32,13 +35,13 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
         }
 
         /// <summary>
-        /// Gets the seriosity score.
+        /// Gets the seriousness score.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>
-        /// User's seriosity score.
+        /// User's seriousness score.
         /// </returns>
-        public int? GetSeriosityScore(int userId)
+        public int? GetSeriousnessScore(int userId)
         {
             var user = this.Repository.Get(
                 filter: u => u.Id == userId,

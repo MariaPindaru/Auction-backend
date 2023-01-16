@@ -7,7 +7,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    /// <summary>Class used to define a poduct.</summary>
+    /// <summary>Class used to define a product.</summary>
     public class Product
     {
         /// <summary>Gets or sets the identifier.</summary>

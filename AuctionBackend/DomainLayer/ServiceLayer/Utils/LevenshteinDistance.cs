@@ -7,7 +7,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Utils
     using System;
 
     /// <summary>
-    /// LevenshteinDistance.
+    /// Class that contains the algorithm for the levenshtein distance.
     /// </summary>
     public class LevenshteinDistance
     {

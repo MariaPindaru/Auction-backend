@@ -9,7 +9,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
     using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
-    /// UserSuspension.
+    /// Class used to define an entity UserSuspension.
     /// </summary>
     public class UserSuspension
     {

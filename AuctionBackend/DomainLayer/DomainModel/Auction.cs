@@ -30,7 +30,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
         Ron,
     }
 
-    /// <summary>Class used to define an auction.</summary>
+    /// <summary> Class used to define an entity Auction.</summary>
     public class Auction
     {
         /// <summary>
@@ -85,7 +85,7 @@ namespace AuctionBackend.DomainLayer.DomainModel
 
         /// <summary>Gets or sets a value indicating whether this instance is finished.</summary>
         /// <value>
-        ///   <c>true</c> if this instance is finished; otherwise, <c>false</c>.</value>
+        /// true if this instance is finished; otherwise, false.</value>
         public bool IsFinished { get; set; }
 
         /// <summary>

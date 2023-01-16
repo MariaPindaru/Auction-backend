@@ -8,7 +8,7 @@ namespace UnitTests
     using NUnit.Framework;
 
     /// <summary>
-    /// LevenshteinDistanceTests.
+    /// Tests for LevenshteinDistance.
     /// </summary>
     internal class LevenshteinDistanceTests
     {

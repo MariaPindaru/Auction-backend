@@ -8,7 +8,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
     using FluentValidation;
 
     /// <summary>
-    /// AuctionValidator.
+    /// Validator for entity of type Auction.
     /// </summary>
     /// <seealso cref="FluentValidation.AbstractValidator&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
     public class AuctionValidator : AbstractValidator<Auction>
@@ -22,8 +22,10 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("The product cannot be null.");
 
-            this.When(auction => auction.Product != null, () => this.RuleFor(auction => auction.Product)
-                .SetValidator(new ProductValidator()));
+            this.When(
+                auction => auction.Product != null,
+                () => this.RuleFor(auction => auction.Product)
+                      .SetValidator(new ProductValidator()));
 
             this.RuleFor(auction => auction.StartPrice)
                 .ExclusiveBetween(0.0m, decimal.MaxValue)
@@ -41,30 +43,40 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
                 .NotEmpty()
                 .WithMessage("End time must be specified.");
 
-            this.When(auction => auction.EndTime != default, () => this.RuleFor(auction => auction.EndTime)
-                .GreaterThan(auction => auction.StartTime)
-                .WithMessage("End time cannot be lower than start time."));
+            this.When(
+                auction => auction.EndTime != default,
+                () => this.RuleFor(auction => auction.EndTime)
+                      .GreaterThan(auction => auction.StartTime)
+                      .WithMessage("End time cannot be lower than start time."));
 
-            this.RuleSet("Add", () =>
-            {
-                this.RuleFor(auction => auction.StartTime).GreaterThan(DateTime.Now).WithMessage("Start time cannot be in the past.");
-                this.RuleFor(auction => auction.IsFinished).Equal(false).WithMessage("A new added auction cannot be already finished.");
-            });
+            this.RuleSet(
+                "Add",
+                () =>
+                    {
+                        this.RuleFor(auction => auction.StartTime).GreaterThan(DateTime.Now).WithMessage("Start time cannot be in the past.");
+                        this.RuleFor(auction => auction.IsFinished).Equal(false).WithMessage("A new added auction cannot be already finished.");
+                    });
 
-            this.RuleSet("Update", () =>
-            {
-                this.RuleFor(auction => auction.IsFinished).Equal(false).WithMessage("A new added auction cannot be already finished.");
+            this.RuleSet(
+                "Update",
+                () =>
+                    {
+                        this.RuleFor(auction => auction.IsFinished).Equal(false).WithMessage("A new added auction cannot be already finished.");
 
-                this.When(auction => auction.StartTime != default, () => this.RuleFor(auction => auction.IsFinished)
-                    .Equal(false)
-                    .When(auction => auction.StartTime > System.DateTime.Now)
-                    .WithMessage("Auction can't be finished if it hadn't started yet."));
+                        this.When(
+                            auction => auction.StartTime != default,
+                            () => this.RuleFor(auction => auction.IsFinished)
+                                  .Equal(false)
+                                  .When(auction => auction.StartTime > System.DateTime.Now)
+                                  .WithMessage("Auction can't be finished if it hadn't started yet."));
 
-                this.When(auction => auction.EndTime != default, () => this.RuleFor(auction => auction.IsFinished)
-                    .Equal(true)
-                    .When(auction => auction.EndTime < System.DateTime.Now)
-                    .WithMessage("Auction must be finished if it is past its end time."));
-            });
+                        this.When(
+                            auction => auction.EndTime != default,
+                            () => this.RuleFor(auction => auction.IsFinished)
+                                 .Equal(true)
+                                 .When(auction => auction.EndTime < System.DateTime.Now)
+                                 .WithMessage("Auction must be finished if it is past its end time."));
+                    });
         }
     }
 }

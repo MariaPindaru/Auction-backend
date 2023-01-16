@@ -8,7 +8,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
-    /// UserScoreRepository.
+    /// Class that implements the functionality for IUserScoreRepository.
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.UserScore&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IUserScoreRepository" />

@@ -4,6 +4,9 @@
 
 namespace UnitTests.ServiceTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using AuctionBackend.DomainLayer.Config;
     using AuctionBackend.DomainLayer.DomainModel;
     using AuctionBackend.DomainLayer.DomainModel.RepositoryInterfaces;
@@ -13,10 +16,9 @@ namespace UnitTests.ServiceTests
     using Ninject;
     using NUnit.Framework;
     using Rhino.Mocks;
-    using System.Linq;
 
     /// <summary>
-    /// UserSuspensionServiceTests.
+    /// Tests for UserSuspensionService.
     /// </summary>
     internal class UserSuspensionServiceTests
     {
@@ -45,6 +47,9 @@ namespace UnitTests.ServiceTests
         /// </summary>
         private MockRepository mocks;
 
+        /// <summary>
+        /// The user suspension.
+        /// </summary>
         private UserSuspension userSuspension;
 
         /// <summary>
@@ -67,6 +72,7 @@ namespace UnitTests.ServiceTests
 
             this.userSuspension = new UserSuspension
             {
+                Id = 10,
                 User = new User
                 {
                     Name = "name",
@@ -206,6 +212,98 @@ namespace UnitTests.ServiceTests
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(result.Errors.Count, 1);
             Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserSuspension.EndDate));
+        }
+
+        /// <summary>
+        /// Tests the add suspension for user user is valid returns no error.
+        /// </summary>
+        [Test]
+        public void TestAddSuspensionForUser_UserIsValid_ReturnsNoError()
+        {
+            var suspension = new UserSuspension
+            {
+                User = this.userSuspension.User,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+            };
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.SuspensionDays).Return(1);
+                this.userSuspensionRepository.Expect(repo => repo.Insert(suspension)).IgnoreArguments();
+            }
+
+            ValidationResult result = this.userSuspensionService.AddSuspensionForUser(this.userSuspension.User);
+
+            Assert.IsTrue(result.IsValid);
+        }
+
+        /// <summary>
+        /// Tests the add suspension for user user is null returns error for user.
+        /// </summary>
+        [Test]
+        public void TestAddSuspensionForUser_UserIsNull_ReturnsErrorForUser()
+        {
+            var suspension = new UserSuspension
+            {
+                User = null,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+            };
+            using (this.mocks.Record())
+            {
+                this.configuration.Expect(config => config.SuspensionDays).Return(1);
+                this.userSuspensionRepository.Expect(repo => repo.Insert(suspension)).IgnoreArguments();
+            }
+
+            ValidationResult result = this.userSuspensionService.AddSuspensionForUser(null);
+
+            Assert.False(result.IsValid);
+            Assert.AreEqual(result.Errors.Count, 1);
+            Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserSuspension.User));
+        }
+
+        /// <summary>
+        /// Tests the is user suspended user is null returns error for user.
+        /// </summary>
+        [Test]
+        public void TestIsUserSuspended_UserIsNull_ReturnsFalse()
+        {
+            bool result = this.userSuspensionService.UserIsSuspended(null);
+            Assert.False(result);
+        }
+
+        /// <summary>
+        /// Tests the is user suspended user has no suspension returns false.
+        /// </summary>
+        [Test]
+        public void TestIsUserSuspended_UserHasNoSuspension_ReturnsFalse()
+        {
+            using (this.mocks.Record())
+            {
+                this.userSuspensionRepository.Expect(repo => repo.Get()).IgnoreArguments()
+                    .Return(new HashSet<UserSuspension>());
+            }
+
+            bool result = this.userSuspensionService.UserIsSuspended(this.userSuspension.User);
+
+            Assert.False(result);
+        }
+
+        /// <summary>
+        /// Tests the is user suspended user suspension returns true.
+        /// </summary>
+        [Test]
+        public void TestIsUserSuspended_UserSuspension_ReturnsTrue()
+        {
+            using (this.mocks.Record())
+            {
+                this.userSuspensionRepository.Expect(repo => repo.Get()).IgnoreArguments()
+                    .Return(new HashSet<UserSuspension> { this.userSuspension });
+            }
+
+            bool result = this.userSuspensionService.UserIsSuspended(this.userSuspension.User);
+
+            Assert.True(result);
         }
     }
 }

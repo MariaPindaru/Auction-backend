@@ -7,7 +7,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Interfaces
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
-    /// IAuctionRepository.
+    /// Interface used for defining the functionalities of a repository for the entity Auction.
     /// </summary>
     /// <seealso cref="IRepository&lt;AuctionBackend.DomainLayer.DomainModel.Auction&gt;" />
     public interface IAuctionRepository : IRepository<Auction>

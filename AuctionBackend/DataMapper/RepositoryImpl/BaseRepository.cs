@@ -12,7 +12,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
 
     /// <summary>
-    /// BaseRepository.
+    /// Class that implements the base functionalities of a repository.
     /// </summary>
     /// <typeparam name="T">Entity type.</typeparam>
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IRepository&lt;T&gt;" />

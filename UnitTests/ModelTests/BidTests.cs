@@ -12,7 +12,7 @@ namespace UnitTests.ModelTests
     using NUnit.Framework;
 
     /// <summary>
-    /// BidTests.
+    /// Tests for entity Bid.
     /// </summary>
     internal class BidTests
     {

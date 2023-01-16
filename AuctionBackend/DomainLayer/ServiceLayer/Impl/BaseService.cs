@@ -14,7 +14,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     using log4net;
 
     /// <summary>
-    /// BaseService.
+    /// Class that implements the base functionalities of a service.
     /// </summary>
     /// <typeparam name="T"> Repository type. </typeparam>
     /// <typeparam name="TU"> Validator type. </typeparam>

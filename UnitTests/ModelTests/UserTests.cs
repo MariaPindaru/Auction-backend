@@ -12,7 +12,7 @@ namespace UnitTests.ModelTests
     using NUnit.Framework;
 
     /// <summary>
-    /// UserTests.
+    /// Tests for entity User.
     /// </summary>
     internal class UserTests
     {

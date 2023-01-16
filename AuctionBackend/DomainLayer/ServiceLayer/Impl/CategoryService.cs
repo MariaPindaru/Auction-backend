@@ -11,7 +11,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     using AuctionBackend.Startup;
 
     /// <summary>
-    /// CategoryService.
+    /// Class that implements the functionalities for ICategoryService.
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Category, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.ICategoryRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.ICategoryService" />

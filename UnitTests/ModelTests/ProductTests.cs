@@ -12,7 +12,7 @@ namespace UnitTests.ModelTests
     using NUnit.Framework;
 
     /// <summary>
-    /// ProductTests.
+    /// Tests for entity Product.
     /// </summary>
     internal class ProductTests
     {
@@ -206,6 +206,5 @@ namespace UnitTests.ModelTests
             TestValidationResult<Product> result = this.productValidator.TestValidate(this.product);
             result.ShouldHaveValidationErrorFor(product => product.Offerer.Role);
         }
-
     }
 }

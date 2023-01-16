@@ -11,7 +11,7 @@ namespace UnitTests.ModelTests
     using NUnit.Framework;
 
     /// <summary>
-    /// AuctionTests.
+    /// Tests for entity Auction.
     /// </summary>
     internal class AuctionTests
     {

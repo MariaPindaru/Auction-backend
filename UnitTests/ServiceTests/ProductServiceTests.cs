@@ -16,7 +16,7 @@ namespace UnitTests.ServiceTests
     using Rhino.Mocks;
 
     /// <summary>
-    /// ProductServiceTests.
+    /// Tests for ProductService.
     /// </summary>
     internal class ProductServiceTests
     {

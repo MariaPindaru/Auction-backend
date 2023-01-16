@@ -7,7 +7,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
     using FluentValidation;
 
     /// <summary>
-    /// UserSuspensionValidator.
+    /// Validator for entity of type UserSuspension.
     /// </summary>
     public class UserSuspensionValidator : AbstractValidator<UserSuspension>
     {
@@ -16,7 +16,7 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
         /// </summary>
         public UserSuspensionValidator()
         {
-            this.RuleFor(us => us.User).NotNull().WithMessage("The user cannot be null");
+            this.RuleFor(us => us.User).NotEmpty().WithMessage("The user cannot be null");
             this.When(
                 us => us.User != null,
                 () => this.RuleFor(us => us.User)
@@ -26,13 +26,15 @@ namespace AuctionBackend.DomainLayer.DomainModel.Validators
 
             this.RuleFor(us => us.EndDate).NotEmpty().WithMessage("The end date must be a valid date.");
             this.When(
-                 us => us.EndDate != default && us.StartDate != default,
-                 () => this.RuleFor(us => us.EndDate)
-                 .GreaterThan(us => us.StartDate));
+                       us => us.EndDate != default && us.StartDate != default,
+                       () => this.RuleFor(us => us.EndDate)
+                       .GreaterThan(us => us.StartDate));
 
-            this.RuleSet("Add", () => this.When(
-                                us => us.StartDate != default,
-                                () => this.RuleFor(us => us.StartDate)
+            this.RuleSet(
+                "Add",
+                () => this.When(
+                    us => us.StartDate != default,
+                    () => this.RuleFor(us => us.StartDate)
                                 .GreaterThan(System.DateTime.Now)
                                 .WithMessage("The start time cannot be in the past")));
         }

@@ -14,12 +14,15 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
     using FluentValidation.Results;
 
     /// <summary>
-    /// BidService.
+    /// Class that implements the functionalities for IBidService.
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Impl.BaseService&lt;AuctionBackend.DomainLayer.DomainModel.Bid, AuctionBackend.DataLayer.DataAccessLayer.Interfaces.IBidRepository&gt;" />
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IBidService" />
     internal class BidService : BaseService<Bid, IBidRepository>, IBidService
     {
+        /// <summary>
+        /// The auction service.
+        /// </summary>
         private IAuctionService auctionService;
 
         /// <summary>

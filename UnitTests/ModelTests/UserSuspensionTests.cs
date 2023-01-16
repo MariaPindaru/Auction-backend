@@ -11,7 +11,7 @@ namespace UnitTests.ModelTests
     using NUnit.Framework;
 
     /// <summary>
-    /// UserSuspensionTests.
+    /// Tests for entity UserSuspension.
     /// </summary>
     internal class UserSuspensionTests
     {
@@ -124,10 +124,10 @@ namespace UnitTests.ModelTests
         }
 
         /// <summary>
-        /// Tests the validation end date eqauls start date returns error for end date.
+        /// Tests the validation end date equals start date returns error for end date.
         /// </summary>
         [Test]
-        public void TestValidation_EndDateEqaulsStartDate_ReturnsErrorForEndDate()
+        public void TestValidation_EndDateEqualsStartDate_ReturnsErrorForEndDate()
         {
             this.userSuspension.StartDate = DateTime.Now.AddDays(1);
             this.userSuspension.EndDate = DateTime.Now.AddDays(1);

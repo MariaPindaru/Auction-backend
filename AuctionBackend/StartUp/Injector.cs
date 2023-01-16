@@ -8,11 +8,14 @@ namespace AuctionBackend.Startup
     using Ninject;
 
     /// <summary>
-    /// Injector.
+    /// Class that created the dependency injection for the project.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class Injector
     {
+        /// <summary>
+        /// The kernel.
+        /// </summary>
         private static IKernel kernel;
 
         /// <summary>

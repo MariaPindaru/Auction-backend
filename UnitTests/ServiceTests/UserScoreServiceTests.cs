@@ -18,7 +18,7 @@ namespace UnitTests.ServiceTests
     using Rhino.Mocks;
 
     /// <summary>
-    /// UserScoreServiceTests.
+    /// Tests for UserScoreService.
     /// </summary>
     internal class UserScoreServiceTests
     {
@@ -31,6 +31,16 @@ namespace UnitTests.ServiceTests
         /// The user score service.
         /// </summary>
         private IUserScoreService userScoreService;
+
+        /// <summary>
+        /// The user service.
+        /// </summary>
+        private IUserService userService;
+
+        /// <summary>
+        /// The user suspension service.
+        /// </summary>
+        private IUserSuspensionService userSuspensionService;
 
         /// <summary>
         /// The user score repository.
@@ -63,11 +73,17 @@ namespace UnitTests.ServiceTests
             this.mocks = new MockRepository();
             this.kernel = Injector.Kernel;
 
-            this.userScoreRepository = this.mocks.StrictMock<IUserScoreRepository>();
-            this.kernel.Rebind<IUserScoreRepository>().ToConstant(this.userScoreRepository);
+            this.userSuspensionService = this.mocks.StrictMock<IUserSuspensionService>();
+            this.kernel.Rebind<IUserSuspensionService>().ToConstant(this.userSuspensionService);
+
+            this.userService = this.mocks.StrictMock<IUserService>();
+            this.kernel.Rebind<IUserService>().ToConstant(this.userService);
 
             this.configuration = this.mocks.StrictMock<IConfiguration>();
             this.kernel.Rebind<IConfiguration>().ToConstant(this.configuration);
+
+            this.userScoreRepository = this.mocks.StrictMock<IUserScoreRepository>();
+            this.kernel.Rebind<IUserScoreRepository>().ToConstant(this.userScoreRepository);
 
             this.userScoreService = this.kernel.Get<IUserScoreService>();
 
@@ -99,6 +115,8 @@ namespace UnitTests.ServiceTests
             using (this.mocks.Record())
             {
                 this.userScoreRepository.Expect(repo => repo.Insert(this.userScore));
+                this.userService.Expect(service => service.GetSeriousnessScore(this.userScore.ScoredUser.Id)).Return(10);
+                this.configuration.Expect(config => config.MinimumScore).Return(7);
             }
 
             ValidationResult result = this.userScoreService.Insert(this.userScore);
@@ -239,6 +257,25 @@ namespace UnitTests.ServiceTests
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(result.Errors.Count, 1);
             Assert.AreEqual(result.Errors.First().PropertyName, nameof(UserScore.Score));
+        }
+
+        /// <summary>
+        /// Tests the add users score is below minimum score returns no error.
+        /// </summary>
+        [Test]
+        public void TestAdd_UsersScoreIsBelowMinimumScore_ReturnsNoError()
+        {
+            using (this.mocks.Record())
+            {
+                this.userScoreRepository.Expect(repo => repo.Insert(this.userScore));
+                this.userService.Expect(service => service.GetSeriousnessScore(this.userScore.ScoredUser.Id)).Return(6);
+                this.configuration.Expect(config => config.MinimumScore).Return(7);
+                this.userSuspensionService.Expect(service => service.AddSuspensionForUser(this.userScore.ScoredUser));
+            }
+
+            ValidationResult result = this.userScoreService.Insert(this.userScore);
+
+            Assert.IsTrue(result.IsValid);
         }
 
         /// <summary>

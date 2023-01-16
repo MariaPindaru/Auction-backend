@@ -1,4 +1,6 @@
 {
   "MaxActiveAuctions": 11,
-  "DefaultScore": 7
+  "DefaultScore": 7,
+  "MinimumScore": 5,
+  "SuspensionDays": 3
 }

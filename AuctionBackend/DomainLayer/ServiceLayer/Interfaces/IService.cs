@@ -8,7 +8,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
     using FluentValidation.Results;
 
     /// <summary>
-    /// IService.
+    /// Interface used for defining the functionalities for a service.
     /// </summary>
     /// <typeparam name="T"> Entity type. </typeparam>
     public interface IService<T>
@@ -18,14 +18,14 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
         /// Inserts the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns> ValidationResult. </returns>
+        /// <returns> The validation result. </returns>
         ValidationResult Insert(T entity);
 
         /// <summary>
         /// Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns> ValidationResult. </returns>
+        /// <returns> The validation result. </returns>
         ValidationResult Update(T entity);
 
         /// <summary>

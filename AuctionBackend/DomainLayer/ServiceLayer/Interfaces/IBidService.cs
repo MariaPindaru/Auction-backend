@@ -7,7 +7,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Interfaces
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
-    /// IBidService.
+    /// Interface used for defining the functionalities for a service for the entity Bid.
     /// </summary>
     /// <seealso cref="AuctionBackend.DomainLayer.ServiceLayer.Interfaces.IService&lt;AuctionBackend.DomainLayer.DomainModel.Bid&gt;" />
     public interface IBidService : IService<Bid>

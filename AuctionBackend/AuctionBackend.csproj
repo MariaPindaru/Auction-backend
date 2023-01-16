@@ -230,8 +230,12 @@
     <Compile Include="DomainLayer\DomainModel\UserScore.cs" />
     <Compile Include="DomainLayer\DomainModel\UserSuspension.cs" />
     <Compile Include="DomainLayer\DomainModel\Validators\UserScoreValidator.cs" />
-    <Compile Include="DomainLayer\DomainModel\Validators\UserSuspensionValidator.cs" />
-    <Compile Include="DomainLayer\ServiceLayer\Impl\AuctionService.cs" />
+    <Compile Include="DomainLayer\DomainModel\Validators\UserSuspensionValidator.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="DomainLayer\ServiceLayer\Impl\AuctionService.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="DomainLayer\ServiceLayer\Impl\BaseService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\BidService.cs" />
     <Compile Include="DomainLayer\ServiceLayer\Impl\CategoryService.cs" />
@@ -289,10 +293,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.Unstable.1.2.0.435\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.Unstable.1.2.0.435\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202301151030154_Initial.resx">

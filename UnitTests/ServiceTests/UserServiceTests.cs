@@ -18,7 +18,7 @@ namespace UnitTests.ServiceTests
     using Rhino.Mocks;
 
     /// <summary>
-    /// User service tests.
+    /// Tests for User service.
     /// </summary>
     internal class UserServiceTests
     {
@@ -216,6 +216,9 @@ namespace UnitTests.ServiceTests
             Assert.AreEqual(result.Errors.First().PropertyName, nameof(User.Name));
         }
 
+        /// <summary>
+        /// Tests the name of the update name is too short returns error for.
+        /// </summary>
         [Test]
         public void TestUpdate_NameIsTooShort_ReturnsErrorForName()
         {
@@ -282,10 +285,10 @@ namespace UnitTests.ServiceTests
         }
 
         /// <summary>
-        /// Tests the get user seriosity score.
+        /// Tests the get user seriousness score.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScore_HasZeroScores_ReturnsDefaultScore()
+        public void TestGetUserSeriousnessScore_HasZeroScores_ReturnsDefaultScore()
         {
             using (this.mocks.Record())
             {
@@ -296,16 +299,16 @@ namespace UnitTests.ServiceTests
                 this.configuration.Expect(config => config.DefaultScore).Return(9);
             }
 
-            var score = this.userService.GetSeriosityScore(this.user.Id);
+            var score = this.userService.GetSeriousnessScore(this.user.Id);
 
             Assert.AreEqual(score, 9);
         }
 
         /// <summary>
-        /// Tests the get user seriosity score median odd.
+        /// Tests the get user seriousness score median odd.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScore_HasOddNumberOfScores_ReturnsMedianForOddCount()
+        public void TestGetUserSeriousnessScore_HasOddNumberOfScores_ReturnsMedianForOddCount()
         {
             this.user.ReceivedUserScores = new HashSet<UserScore>
             {
@@ -341,16 +344,16 @@ namespace UnitTests.ServiceTests
                                    .Return(new HashSet<User> { this.user });
             }
 
-            var score = this.userService.GetSeriosityScore(this.user.Id);
+            var score = this.userService.GetSeriousnessScore(this.user.Id);
 
             Assert.AreEqual(score, 7);
         }
 
         /// <summary>
-        /// Tests the get user seriosity score median even.
+        /// Tests the get user seriousness score median even.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScore_HasEvenNumberOfScores_ReutnrsMedianForEvenCount()
+        public void TestGetUserSeriousnessScore_HasEvenNumberOfScores_ReutnrsMedianForEvenCount()
         {
             this.user.ReceivedUserScores = new HashSet<UserScore>
             {
@@ -391,16 +394,16 @@ namespace UnitTests.ServiceTests
                                    .Return(new HashSet<User> { this.user });
             }
 
-            var score = this.userService.GetSeriosityScore(this.user.Id);
+            var score = this.userService.GetSeriousnessScore(this.user.Id);
 
             Assert.AreEqual(score, 7);
         }
 
         /// <summary>
-        /// Tests the get user seriosity score no score in last three months.
+        /// Tests the get user seriousness score no score in last three months.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScore_HasNoScoresInTheLastThreeMonths_ReturnsDefaultScore()
+        public void TestGetUserSeriousnessScore_HasNoScoresInTheLastThreeMonths_ReturnsDefaultScore()
         {
             this.user.ReceivedUserScores = new HashSet<UserScore>
             {
@@ -422,16 +425,16 @@ namespace UnitTests.ServiceTests
                 this.configuration.Expect(config => config.DefaultScore).Return(5);
             }
 
-            var score = this.userService.GetSeriosityScore(this.user.Id);
+            var score = this.userService.GetSeriousnessScore(this.user.Id);
 
             Assert.AreEqual(score, 5);
         }
 
         /// <summary>
-        /// Tests the get user seriosity score null.
+        /// Tests the get user seriousness score null.
         /// </summary>
         [Test]
-        public void TestGetUserSeriosityScore_UserDoesNotExist_ReturnsNull()
+        public void TestGetUserSeriousnessScore_UserDoesNotExist_ReturnsNull()
         {
             using (this.mocks.Record())
             {
@@ -440,7 +443,7 @@ namespace UnitTests.ServiceTests
                                    .Return(new HashSet<User>());
             }
 
-            var score = this.userService.GetSeriosityScore(this.user.Id);
+            var score = this.userService.GetSeriousnessScore(this.user.Id);
 
             Assert.AreEqual(score, null);
         }

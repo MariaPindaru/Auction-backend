@@ -8,7 +8,7 @@ namespace AuctionBackend.DataLayer.DataAccessLayer.Impl
     using AuctionBackend.DomainLayer.DomainModel;
 
     /// <summary>
-    /// ProductRepository.
+    /// Class that implements the functionality for IProductRepository.
     /// </summary>
     /// <seealso cref="AuctionBackend.DataLayer.DataAccessLayer.Impl.BaseRepository&lt;AuctionBackend.DomainLayer.DomainModel.Product&gt;" />
     /// <seealso cref="AuctionBackend.DataLayer.DAL.Interfaces.IProductRepository" />

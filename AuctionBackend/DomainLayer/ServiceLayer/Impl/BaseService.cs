@@ -5,8 +5,8 @@
 namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 {
     using System.Collections.Generic;
+    using System.Linq;
     using AuctionBackend.DataLayer.DataAccessLayer.Interfaces;
-    using AuctionBackend.DomainLayer.Config;
     using AuctionBackend.DomainLayer.ServiceLayer.Interfaces;
 
     using FluentValidation;
@@ -38,7 +38,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             this.Repository = repository;
             this.Validator = validator;
 
-            Logger.Info("Service created.");
+            Logger.Info($"{typeof(T).Name}Service created.");
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             else
             {
                 IList<ValidationFailure> failures = result.Errors;
-                Logger.Error($"The object is not valid. The following errors occurred: {failures}");
+                Logger.Error($"The object is not valid. The following errors occurred: {string.Join("\n", failures.Select(f => f.ErrorMessage).ToArray())}");
             }
 
             return result;
@@ -98,7 +98,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
             else
             {
                 IList<ValidationFailure> failures = result.Errors;
-                Logger.Error($"The object is not valid. The following errors occurred: {failures}");
+                Logger.Error($"The object is not valid. The following errors occurred: {string.Join("\n", failures.Select(f => f.ErrorMessage).ToArray())}");
             }
 
             return result;

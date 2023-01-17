@@ -73,7 +73,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 
                 if (validationFailures.Count > 0)
                 {
-                    Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                    Logger.Error($"The object is not valid. The following errors occurred: {string.Join("\n", validationFailures.Select(f => f.ErrorMessage).ToArray())}");
                     return new ValidationResult(validationFailures);
                 }
             }
@@ -111,7 +111,7 @@ namespace AuctionBackend.DomainLayer.ServiceLayer.Impl
 
             if (validationFailures.Count > 0)
             {
-                Logger.Error($"The object is not valid. The following errors occurred: {validationFailures}");
+                Logger.Error($"The object is not valid. The following errors occurred: {string.Join("\n", validationFailures.Select(f => f.ErrorMessage).ToArray())}");
                 return new ValidationResult(validationFailures);
             }
 

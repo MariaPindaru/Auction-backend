@@ -17,7 +17,7 @@ This project implements the core service logic and business rules for an auction
   - Enforcing user restrictions based on reliability scores and managing configurable auction limits per user.
   - Detecting duplicate product listings based on description similarity.
 
-- **Data Layer**: Implements data access to the SQL database using the Data Mapper pattern. It handles CRUD operations on entities, including auctions, bids, users, and configuration settings. The Data Layer separates database logic from business rules, enabling flexible persistence and easier maintenance. The configuration settings are stored here as well, allowing adjustments without recompilation.
+- **Data Layer**: Implements data access to the SQL database using the Data Mapper pattern. It handles CRUD operations on entities, including auctions, bids, users, and configuration settings. The Data Layer separates database logic from business rules, enabling flexible persistence and easier maintenance.
 
 - **Configuration Settings**: Critical settings (e.g., maximum active auctions per user, reliability thresholds, penalty duration) are managed in a configuration file or database, allowing adjustments without recompiling the application.
 
